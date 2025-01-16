@@ -18,8 +18,8 @@ class CreateAktivsTable extends Migration
             $table->unsignedBigInteger('sub_street_id')->nullable();
             $table->foreign('sub_street_id')->references('id')->on('sub_streets')->onDelete('cascade');
 
-            $table->unsignedBigInteger('street_id')->nullable(); // Add the street_id column
-            $table->foreign('street_id')->references('id')->on('streets')->onDelete('cascade'); // Add foreign key constraint
+            $table->unsignedBigInteger('street_id')->nullable();
+            $table->foreign('street_id')->references('id')->on('streets')->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('action', ['created', 'updated', 'deleted'])->nullable();
@@ -35,14 +35,14 @@ class CreateAktivsTable extends Migration
             $table->string('water');
             $table->string('electricity');
             $table->text('additional_info')->nullable();
-            $table->string('geolokatsiya');
-            $table->decimal('latitude', 10, 7);
-            $table->decimal('longitude', 10, 7);
+            $table->string('geolokatsiya')->nullable(); // Allow NULL values
+            $table->decimal('latitude', 10, 7)->nullable(); // Allow NULL values
+            $table->decimal('longitude', 10, 7)->nullable(); // Allow NULL values
             $table->string('kadastr_raqami')->nullable();
 
-            $table->string('kadastr_pdf')->nullable(); // For Kadastr file
-            $table->string('hokim_qarori_pdf')->nullable(); // For Hokim qarori file
-            $table->string('transfer_basis_pdf')->nullable(); // For transfer basis file
+            $table->string('kadastr_pdf')->nullable();
+            $table->string('hokim_qarori_pdf')->nullable();
+            $table->string('transfer_basis_pdf')->nullable();
 
             $table->enum('building_type', ['yer', 'TurarBino', 'NoturarBino'])->nullable();
 

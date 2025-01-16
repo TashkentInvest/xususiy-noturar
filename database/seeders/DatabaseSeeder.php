@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             KoSeeder::class,
             KtSeeder::class,
             KzSeeder::class,
+            AktivSeeder::class,
             // ExcelToDatabaseSeeder::class,
             // ClientDataSeeder::class,
 

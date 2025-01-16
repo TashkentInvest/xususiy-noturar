@@ -115,10 +115,11 @@ class AktivController extends Controller
         }
 
         // Finally, paginate the results
-        $aktivs = $query->orderBy('created_at', 'desc')
+        $aktivs = $query->orderBy('created_at', 'asc')
             ->with('files')
-            ->paginate(10)
+            ->paginate(20)
             ->appends($request->query());
+
 
         return view('pages.aktiv.index', compact('aktivs', 'yerCount', 'noturarBinoCount', 'turarBinoCount'));
     }
@@ -332,17 +333,20 @@ class AktivController extends Controller
             // Eager load relationships
             $aktiv->load('subStreet.district.region');
 
-            // Log the Aktiv and related data for debugging
-            \Log::info('Aktiv: ' . $aktiv->toJson());
-            \Log::info('SubStreet: ' . optional($aktiv->subStreet)->toJson());
-            \Log::info('District: ' . optional($aktiv->subStreet->district)->toJson());
-            \Log::info('Region: ' . optional($aktiv->subStreet->district->region)->toJson());
-
-            // Get regions, districts, streets, and substreets
+            // Get regions
             $regions = Regions::get();
-            $districts = optional($aktiv->subStreet->district->region)->districts ?? collect();
-            $streets = optional($aktiv->subStreet->district)->streets ?? collect();
-            $substreets = optional($aktiv->subStreet->district)->subStreets ?? collect();
+
+            // Safely access subStreet, district, and region
+            $districts = null;
+            $streets = null;
+            $substreets = null;
+
+            // Check if subStreet exists and then proceed
+            if ($aktiv->subStreet) {
+                $districts = optional($aktiv->subStreet->district->region)->districts ?? null;
+                $streets = optional($aktiv->subStreet->district)->streets ?? null;
+                $substreets = optional($aktiv->subStreet->district)->subStreets ?? null;
+            }
 
             return view('pages.aktiv.edit', compact('aktiv', 'regions', 'districts', 'streets', 'substreets'));
         } catch (\Exception $e) {
@@ -351,6 +355,7 @@ class AktivController extends Controller
             return redirect()->back()->with('error', 'Error loading Aktiv data. Please try again.');
         }
     }
+
 
     public function getDistricts(Request $request)
     {

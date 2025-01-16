@@ -33,10 +33,10 @@
                             <!-- Общая информация -->
                             <h6 class="text-primary mb-3">Общая информация</h6>
                             @foreach ([
-            'object_name' => 'Объект номи (Название объекта)',
-            'balance_keeper' => 'Балансда сақловчи (Балансодержатель)',
-            'location' => 'Мўлжал (Местоположение)',
-        ] as $field => $label)
+        'object_name' => 'Объект номи (Название объекта)',
+        'balance_keeper' => 'Балансда сақловчи (Балансодержатель)',
+        'location' => 'Мўлжал (Местоположение)',
+    ] as $field => $label)
                                 <div class="form-group row align-items-center my-2">
                                     <div class="col-3">
                                         <label for="{{ $field }}">{{ $label }}</label>
@@ -68,10 +68,10 @@
                             <!-- Расположение -->
                             <h6 class="text-primary my-3">Расположение</h6>
                             @foreach ([
-            'sub_street_id' => 'Кўча номи (Sub Street Name)',
-            'latitude' => 'Кенглик (Latitude)',
-            'longitude' => 'Узунлик (Longitude)',
-        ] as $field => $label)
+        'sub_street_id' => 'Кўча номи (Sub Street Name)',
+        'latitude' => 'Кенглик (Latitude)',
+        'longitude' => 'Узунлик (Longitude)',
+    ] as $field => $label)
                                 <div class="form-group row align-items-center my-2">
                                     <div class="col-3">
                                         <label for="{{ $field }}">{{ $label }}</label>
@@ -103,14 +103,14 @@
                             <!-- Техническая информация -->
                             <h6 class="text-primary my-3">Техническая информация</h6>
                             @foreach ([
-            'land_area' => 'Ер майдони (Площадь земли) (кв.м)',
-            'building_area' => 'Бино майдони (Площадь здания) (кв.м)',
-            'gas' => 'Газ (Газ)',
-            'water' => 'Сув (Вода)',
-            'electricity' => 'Электр (Электричество)',
-            'additional_info' => 'Қўшимча маълумот (Дополнительная информация)',
-            'kadastr_raqami' => 'Кадастр рақами (Кадастровый номер)',
-        ] as $field => $label)
+        'land_area' => 'Ер майдони (Площадь земли) (кв.м)',
+        'building_area' => 'Бино майдони (Площадь здания) (кв.м)',
+        'gas' => 'Газ (Газ)',
+        'water' => 'Сув (Вода)',
+        'electricity' => 'Электр (Электричество)',
+        'additional_info' => 'Қўшимча маълумот (Дополнительная информация)',
+        'kadastr_raqami' => 'Кадастр рақами (Кадастровый номер)',
+    ] as $field => $label)
                                 <div class="form-group row align-items-center my-2">
                                     <div class="col-3">
                                         <label for="{{ $field }}">{{ $label }}</label>
@@ -151,7 +151,7 @@
     </div> --}}
 
 
-    
+
 
     @if ($aktivs->count())
         <div class="table-responsive rounded shadow-sm">
@@ -159,27 +159,32 @@
                 <thead class="table-primary">
                     <tr>
                         <th scope="col"><i class="fas fa-user"></i> №</th>
-                        <th scope="col"><i class="fas fa-user"></i> Фойдаланувчи</th>
+                        <th scope="col"><i class="fas fa-user"></i> Кадастр рақами</th>
                         <th scope="col" width="50"><i class="fas fa-building"></i> Объект номи</th>
-                        <th scope="col"><i class="fas fa-balance-scale"></i> Балансда сақловчи</th>
-                        <th scope="col" width="100" style="width: 100px"><i class="fas fa-map-marker-alt"></i> Мфй
+                        {{-- <th scope="col" width="100" style="width: 100px"><i class="fas fa-map-marker-alt"></i> Мфй
                             /
-                            Коча</th>
+                            Коча</th> --}}
+
+                        <th scope="col" width="100" style="width: 100px"><i class="fas fa-map-marker-alt"></i>Мўлжал
+                        </th>
+
+
                         <th scope="col"><i class="fas fa-calendar-alt"></i> Сана</th>
                         <th scope="col" class="text-center"><i class="fas fa-cogs"></i> Ҳаракатлар</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($aktivs as $aktiv)
+                        {{-- @dd($aktiv) --}}
                         <tr>
                             <td class="fw-bold">
                                 {{ $aktiv->id ?? 'No Name' }}<br>
                             </td>
                             <td class="fw-bold">
-                                {{ $aktiv->user->name ?? 'No Name' }}<br>
+                                {{ $aktiv->kadastr_raqami ?? 'No Name' }}<br>
                                 <small class="text-muted">{{ $aktiv->user->email ?? 'No Email' }}</small>
                             </td>
-                            <td style="max-width: 200px" class="text-truncate" title="{{ $aktiv->object_name }}">
+                            <td style="max-width: 400px" class="text-truncate" title="{{ $aktiv->object_name }}">
 
                                 {{ $aktiv->object_name }}
 
@@ -191,12 +196,11 @@
                                     }
                                 </style>
                             </td>
-                            <td style="max-width: 200px" class="text-truncate" title="{{ $aktiv->balance_keeper }}">
-                                {{ $aktiv->balance_keeper }}</td>
-                            <td style="width: 100px" class="text-truncate"
-                                title="{{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}">
-                                {{ $aktiv->street->name ?? 'Маълумот йўқ' }},
-                                {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}</td>
+                     
+                            <td style="max-width: 400px" class="text-truncate"
+                                title="{{ $aktiv->location ?? 'Маълумот йўқ' }}">
+                                {{ $aktiv->location ?? 'Маълумот йўқ' }}
+                            </td>
                             <td>{{ $aktiv->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-1">
@@ -206,10 +210,10 @@
                                     </a>
 
                                     {{-- @if (auth()->user()->roles[0]->name == 'Super Admin') --}}
-                                        <a href="{{ route('aktivs.edit', $aktiv) }}" class="btn btn-warning btn-sm"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Таҳрирлаш">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                    <a href="{{ route('aktivs.edit', $aktiv) }}" class="btn btn-warning btn-sm"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Таҳрирлаш">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     {{-- @endif --}}
                                     @if (auth()->user()->roles[0]->name == 'Manager')
                                         <form action="{{ route('aktivs.destroy', $aktiv) }}" method="POST"
