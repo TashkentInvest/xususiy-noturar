@@ -4,10 +4,10 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Активлар сони: {{ $aktivs->total() ?? '' }}
 
-            @if (auth()->user()->roles[0]->name == 'Super Admin' || auth()->user()->roles[0]->name == 'Manager')
+            {{-- @if (auth()->user()->roles[0]->name == 'Super Admin' || auth()->user()->roles[0]->name == 'Manager')
                 (Ер: {{ $yerCount ?? '' }} | Нотурар Бино: {{ $noturarBinoCount ?? '' }} | Турар Бино:
                 {{ $turarBinoCount ?? '' }})
-            @endif
+            @endif --}}
         </h2>
 
         <a href="{{ route('aktivs.create') }}" class="btn btn-primary">
@@ -167,6 +167,7 @@
 
                         <th scope="col" width="100" style="width: 100px"><i class="fas fa-map-marker-alt"></i>Мўлжал
                         </th>
+                        <th scope="col"><i class="fas fa-clock"></i>24/7</th>
 
 
                         <th scope="col"><i class="fas fa-calendar-alt"></i> Сана</th>
@@ -196,10 +197,18 @@
                                     }
                                 </style>
                             </td>
-                     
-                            <td style="max-width: 400px" class="text-truncate"
+
+                            <td style="max-width: 300px" class="text-truncate"
                                 title="{{ $aktiv->location ?? 'Маълумот йўқ' }}">
                                 {{ $aktiv->location ?? 'Маълумот йўқ' }}
+                            </td>
+                            <td>
+                                @if ($aktiv->working_24_7 == true)
+                                    {{ 'Ха' }}
+                                @else
+                                {{ 'Йўқ' }}
+
+                                @endif
                             </td>
                             <td>{{ $aktiv->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center">

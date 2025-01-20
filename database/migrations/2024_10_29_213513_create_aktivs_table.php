@@ -57,7 +57,7 @@ class CreateAktivsTable extends Migration
             $table->string('provided_assistance')->nullable(); // Берилган амалий ёрдам
             $table->date('start_date')->nullable(); // Фаолият юритишни бошлаган сана
             $table->text('additional_notes')->nullable(); // Изоҳ киритилган маълумотлардаги
-            $table->boolean('working_24_7')->nullable(); // 24/7 режимда ишлайдими (справочник)
+            $table->boolean('working_24_7')->default(false); // 24/7 режимда ишлайдими (справочник)
         
             $table->string('owner')->nullable(); // Мулкдор
             $table->string('STIR')->nullable(); // СТИР
