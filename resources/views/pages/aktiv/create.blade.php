@@ -44,7 +44,7 @@
                 <div class="mb-3">
                     <label for="balance_keeper">Балансда сақловчи</label>
                     <input class="form-control" type="text" name="balance_keeper" id="balance_keeper"
-                        value="{{ old('balance_keeper') }}">
+                        value="{{ old('balance_keeper') }}" placeholder="Хокимият">
                     @error('balance_keeper')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
