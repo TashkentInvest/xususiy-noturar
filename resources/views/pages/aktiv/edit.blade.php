@@ -192,17 +192,62 @@
                 </select>
 
                 <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
-                <input type="text" name="rental_agreement_status" class="form-control"
-                    value="{{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') }}">
+                <select name="rental_agreement_status" class="form-control">
+                    <option value="энди тузилади"
+                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'энди тузилади' ? 'selected' : '' }}>
+                        энди тузилади</option>
+                    <option value="хозир топполмаяпман"
+                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'хозир топполмаяпман' ? 'selected' : '' }}>
+                        хозир топполмаяпман</option>
+
+                    <option value="бор"
+                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
+                        бор</option>
+
+                    <option value="йўқ"
+                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
+                        йўқ</option>
+                </select>
+
 
                 <label for="unused_duration">Фойдаланилмаган муддат:</label>
-                <input type="text" name="unused_duration" class="form-control"
-                    value="{{ old('unused_duration', $aktiv->unused_duration ?? '') }}">
+                <select name="unused_duration" class="form-control">
+                    <option value="1 ой бўлди"
+                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1 ой
+                        бўлди</option>
+                    <option value="3 ой бўлди"
+                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>3 ой
+                        бўлди</option>
+
+                    <option value="6 ой бўлди"
+                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>6 ой
+                        бўлди</option>
+
+                    <option value="1 йил бўлди"
+                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>1
+                        йил бўлди</option>
+
+                    <option value="1 йил Ундан кўп"
+                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
+                        1 йил Ундан кўп</option>
+                </select>
+
 
                 <label for="provided_assistance">Берилган амалий ёрдам:</label>
-                <input type="text" name="provided_assistance" class="form-control"
-                    value="{{ old('provided_assistance', $aktiv->provided_assistance ?? '') }}">
+                <select name="provided_assistance" class="form-control">
+                    <option value="кредит берилди"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
+                        кредит берилди</option>
+                    <option value="маслахат берилди"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
+                        маслахат берилди</option>
 
+                    <option value="ижарачи топиб берилди"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
+                        ижарачи топиб берилди</option>
+                </select>
+
+              
                 <label for="start_date">Фаолият юритишни бошлаган сана:</label>
                 <input type="date" name="start_date" class="form-control"
                     value="{{ old('start_date', $aktiv->start_date ?? '') }}">
