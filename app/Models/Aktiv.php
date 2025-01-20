@@ -132,7 +132,19 @@ class Aktiv extends Model
         'hokim_qarori_pdf',
         'transfer_basis_pdf',
         'apartment_number',
-        'home_number'
+        'home_number',
+
+        'document_type', // Ҳужжат тури
+        'reason_not_active', // Фаолият юритмаётганлиги сабаби
+        'ready_for_rent', // Ижарага беришга тайёрлиги
+        'rental_agreement_status', // Ижара шартномасини туздириш ҳолати
+        'unused_duration', // Қанча вақтдан буён фойдаланилмайди
+        'provided_assistance', // Берилган амалий ёрдам
+        'start_date', // Фаолият юритишни бошлаган сана
+        'additional_notes', // Изоҳ киритилган маълумотлардаги
+        'working_24_7', // 24/7 режимда ишлайдими
+        'owner', // Мулкдор
+        'STIR', // СТИР
     ];
 
     public function files()

@@ -246,6 +246,18 @@ class AktivController extends Controller
             'kadastr_pdf'      => 'nullable|file',
             'hokim_qarori_pdf' => 'nullable|file',
             'transfer_basis_pdf' => 'nullable|file',
+
+            'document_type' => 'nullable',
+            'reason_not_active' => 'nullable',
+            'ready_for_rent' => 'nullable',
+            'rental_agreement_status' => 'nullable',
+            'unused_duration' => 'nullable',
+            'provided_assistance' => 'nullable',
+            'start_date' => 'nullable',
+            'additional_notes' => 'nullable',
+            'working_24_7' => 'nullable',
+            'owner' => 'nullable',
+            'STIR' => 'nullable',
         ]);
         // $request->validate([
         //     'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -413,6 +425,18 @@ class AktivController extends Controller
             'kadastr_pdf'      => 'nullable|file',
             'hokim_qarori_pdf' => 'nullable|file',
             'transfer_basis_pdf' => 'nullable|file',
+
+            'document_type' => 'nullable',
+            'reason_not_active' => 'nullable',
+            'ready_for_rent' => 'nullable',
+            'rental_agreement_status' => 'nullable',
+            'unused_duration' => 'nullable',
+            'provided_assistance' => 'nullable',
+            'start_date' => 'nullable',
+            'additional_notes' => 'nullable',
+            'working_24_7' => 'nullable',
+            'owner' => 'nullable',
+            'STIR' => 'nullable',
         ]);
 
         // $totalFiles = $aktiv->files()->count() - count($request->delete_files ?? []) + count($request->file('files') ?? []);

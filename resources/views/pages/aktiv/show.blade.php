@@ -59,6 +59,60 @@
         </div>
     </div>
 
+    <!-- -------------------------- -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h5 class="card-title text-primary">Ҳужжат маълумотлари</h5>
+        <div class="card-body">
+            <div class="mb-3">
+                <strong>Ҳужжат тури:</strong> {{ $aktiv->document_type ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Фаолият юритмаётганлиги сабаби:</strong> {{ $aktiv->reason_not_active ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Ижарага беришга тайёрлиги:</strong> {{ $aktiv->ready_for_rent ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Ижара шартномасини туздириш ҳолати:</strong>
+                {{ $aktiv->rental_agreement_status ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Қанча вақтдан буён фойдаланилмайди:</strong> {{ $aktiv->unused_duration ?? 'Маълумот йўқ' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h5 class="card-title text-primary">Қўшимча маълумотлар</h5>
+        <div class="card-body">
+            <div class="mb-3">
+                <strong>Берилган амалий ёрдам:</strong> {{ $aktiv->provided_assistance ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Фаолият юритишни бошлаган сана:</strong> {{ $aktiv->start_date ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>Изоҳ киритилган маълумотлар:</strong> {{ $aktiv->additional_notes ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>24/7 режимда ишлайдими:</strong> {{ $aktiv->working_24_7 ? 'Ҳа' : 'Йўқ' }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+        <h5 class="card-title text-primary">Мулкдор маълумотлари</h5>
+        <div class="card-body">
+            <div class="mb-3">
+                <strong>Мулкдор:</strong> {{ $aktiv->owner ?? 'Маълумот йўқ' }}
+            </div>
+            <div class="mb-3">
+                <strong>СТИР:</strong> {{ $aktiv->STIR ?? 'Маълумот йўқ' }}
+            </div>
+        </div>
+    </div>
+
+
     <!-- Technical Information -->
     <div class="card shadow-sm p-4 mb-4">
         <h5 class="card-title text-primary">Техническая информация</h5>

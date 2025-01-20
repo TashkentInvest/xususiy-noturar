@@ -48,6 +48,20 @@ class CreateAktivsTable extends Migration
 
             $table->enum('building_type', ['yer', 'kopQavatliUy', 'AlohidaSavdoDokoni'])->nullable();
 
+            $table->string('document_type')->nullable(); // Бошқа ҳужжатлар (ҳоким қарори, ордер, ижара шартнома)
+            $table->string('reason_not_active')->nullable(); // Фаолият юритмаётганлиги сабаби
+            $table->string('ready_for_rent')->nullable(); // Ижарага беришга тайёрлиги (справочник)
+            $table->string('rental_agreement_status')->nullable(); // Ижара шартномасини туздириш (справочник)
+            $table->string('unused_duration')->nullable(); // Қанча вақтдан буён фойдаланилмайди (справочник)
+        
+            $table->string('provided_assistance')->nullable(); // Берилган амалий ёрдам
+            $table->date('start_date')->nullable(); // Фаолият юритишни бошлаган сана
+            $table->text('additional_notes')->nullable(); // Изоҳ киритилган маълумотлардаги
+            $table->boolean('working_24_7')->nullable(); // 24/7 режимда ишлайдими (справочник)
+        
+            $table->string('owner')->nullable(); // Мулкдор
+            $table->string('STIR')->nullable(); // СТИР
+
             $table->timestamps();
         });
     }

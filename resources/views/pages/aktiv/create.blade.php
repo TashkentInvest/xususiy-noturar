@@ -35,8 +35,8 @@
                 <!-- Form Inputs -->
                 <div class="mb-3">
                     <label for="object_name">Объект номи</label>
-                    <input class="form-control" type="text" name="object_name" id="object_name" placeholder="футбол майдони | 4 қаватли уйнинг 1-қавати"
-                        value="{{ old('object_name') }}">
+                    <input class="form-control" type="text" name="object_name" id="object_name"
+                        placeholder="футбол майдони | 4 қаватли уйнинг 1-қавати" value="{{ old('object_name') }}">
                     @error('object_name')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -51,7 +51,7 @@
                 </div>
 
                 @include('inc.__address')
-                
+
                 <div class="mb-3">
                     <label for="location">Мўлжал</label>
                     <input class="form-control" type="text" name="location" id="location" value="{{ old('location') }}">
@@ -105,89 +105,152 @@
                 <label for="building_type">Бино тури</label>
                 <select name="building_type" id="building_type" class="form-control" required>
                     <option value="" disabled selected>Выберите тип недвижимости</option>
-                    <option value="kopQavatliUy" {{ old('building_type') == 'kopQavatliUy' ? 'selected' : '' }}>Кўп қаватли уй
+                    <option value="kopQavatliUy" {{ old('building_type') == 'kopQavatliUy' ? 'selected' : '' }}>Кўп
+                        қаватли уй
                     </option>
-                    <option value="AlohidaSavdoDokoni" {{ old('building_type') == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>Алоҳида савдо дўкони
+                    <option value="AlohidaSavdoDokoni"
+                        {{ old('building_type') == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>Алоҳида савдо дўкони
                     </option>
                 </select>
-                
+
                 @error('building_type')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-                
+
                 <div class="mb-3">
                     <label for="additional_info">Қўшимча маълумот</label>
-                    <input class="form-control" type="text" name="additional_info" id="additional_info" value="{{ old('additional_info') }}">
+                    <input class="form-control" type="text" name="additional_info" id="additional_info"
+                        value="{{ old('additional_info') }}">
                     @error('additional_info')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="kadastr_raqami">Кадастр рақами</label>
                     <input class="form-control" type="text" name="kadastr_raqami" id="kadastr_raqami"
-                    value="{{ old('kadastr_raqami') }}"
-                    {{-- pattern="\d{2}:\d{2}:\d{2}:\d{2}:\d{2}:\d{4}:\d{4}:\d{3}" --}}
-                    title="Format: 11:04:42:01:03:0136:0001:045"
-                    placeholder="10:06:03:01:02:5038:0001:045">
-                
+                        value="{{ old('kadastr_raqami') }}" {{-- pattern="\d{2}:\d{2}:\d{2}:\d{2}:\d{2}:\d{4}:\d{4}:\d{3}" --}}
+                        title="Format: 11:04:42:01:03:0136:0001:045" placeholder="10:06:03:01:02:5038:0001:045">
+
                     <small id="kadastrHelp" class="form-text text-muted">
                         Please enter the cadastral number in the format: 10:06:03:01:02:5038:0001:045
                     </small>
                 </div>
 
-                <div class="form-group" >
+                <div class="form-group">
                     <label for="kadastr_pdf">Кадастр файл</label>
                     <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
                 </div>
-            
+
                 <div class="form-group">
                     <label for="hokim_qarori_pdf">Балансга қабул қилиш учун асос болган хужжат</label>
                     <input type="file" id="hokim_qarori_pdf" name="hokim_qarori_pdf" class="form-control">
                 </div>
-            
+
                 <div class="form-group mb-4">
                     <label for="transfer_basis_pdf">3-шахсга йоки бошқа шахсга бериш учун асос болган хужжат</label>
                     <input type="file" id="transfer_basis_pdf" name="transfer_basis_pdf" class="form-control">
                 </div>
-                
+
+                {{-- ---------------------------------- --}}
+                {{-- ------------------------------------------- --}}
+                <label for="document_type">Ҳужжат тури:</label>
+                <select name="document_type" class="form-control">
+                    <option value="ҳоким қарори"
+                        {{ old('document_type', $aktiv->document_type ?? '') == 'ҳоким қарори' ? 'selected' : '' }}>Ҳоким
+                        қарори</option>
+                    <option value="ордер"
+                        {{ old('document_type', $aktiv->document_type ?? '') == 'ордер' ? 'selected' : '' }}>Ордер</option>
+                    <option value="ижара шартнома"
+                        {{ old('document_type', $aktiv->document_type ?? '') == 'ижара шартнома' ? 'selected' : '' }}>Ижара
+                        шартнома</option>
+                </select>
+
+                <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
+                <input type="text" name="reason_not_active" class="form-control"
+                    value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
+
+                <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
+                <select name="ready_for_rent" class="form-control">
+                    <option value="ха"
+                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа</option>
+                    <option value="йўқ"
+                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>Йўқ</option>
+                </select>
+
+                <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
+                <input type="text" name="rental_agreement_status" class="form-control"
+                    value="{{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') }}">
+
+                <label for="unused_duration">Фойдаланилмаган муддат:</label>
+                <input type="text" name="unused_duration" class="form-control"
+                    value="{{ old('unused_duration', $aktiv->unused_duration ?? '') }}">
+
+                <label for="provided_assistance">Берилган амалий ёрдам:</label>
+                <input type="text" name="provided_assistance" class="form-control"
+                    value="{{ old('provided_assistance', $aktiv->provided_assistance ?? '') }}">
+
+                <label for="start_date">Фаолият юритишни бошлаган сана:</label>
+                <input type="date" name="start_date" class="form-control"
+                    value="{{ old('start_date', $aktiv->start_date ?? '') }}">
+
+                <label for="additional_notes">Изоҳ:</label>
+                <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
+
+                <label for="working_24_7">24/7 режимда ишлайдими?</label>
+                <select name="working_24_7" class="form-control">
+                    <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
+                        Ҳа</option>
+                    <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
+                        Йўқ</option>
+                </select>
+
+                <label for="owner">Мулкдор:</label>
+                <input type="text" name="owner" class="form-control"
+                    value="{{ old('owner', $aktiv->owner ?? '') }}">
+
+                <label for="STIR">СТИР:</label>
+                <input type="text" name="STIR" class="form-control"
+                    value="{{ old('STIR', $aktiv->STIR ?? '') }}">
+
+
                 <script>
                     // Function to toggle the required attribute on the kadastr_raqami input
                     function toggleKadastrRequired() {
                         var buildingType = document.getElementById('building_type').value;
                         var kadastrInput = document.getElementById('kadastr_raqami');
-                
+
                         if (buildingType !== 'yer') {
                             kadastrInput.setAttribute('required', 'required');
                         } else {
                             kadastrInput.removeAttribute('required');
                         }
                     }
-                
+
                     // Listen for changes in the building_type dropdown
                     document.getElementById('building_type').addEventListener('change', toggleKadastrRequired);
-                
+
                     // Call the function once to set the initial state based on the current selection
                     toggleKadastrRequired();
-                
+
                     // Kadastr formatting script
                     // document.getElementById('kadastr_raqami').addEventListener('input', function(e) {
                     //     let value = e.target.value.replace(/[^0-9]/g, '');
                     //     let formattedValue = '';
-                
+
                     //     if (value.length > 0) formattedValue += value.substring(0, 2);
                     //     if (value.length > 2) formattedValue += ':' + value.substring(2, 4);
                     //     if (value.length > 4) formattedValue += ':' + value.substring(4, 6);
                     //     if (value.length > 6) formattedValue += ':' + value.substring(6, 8);
                     //     if (value.length > 8) formattedValue += ':' + value.substring(8, 10);
                     //     if (value.length > 10) formattedValue += ':' + value.substring(10, 14);
-                
+
                     //     e.target.value = formattedValue;
                     // });
                 </script>
-                
 
-                
+
+
             </div>
             <!-- Right Column -->
             <div class="col-md-6">
