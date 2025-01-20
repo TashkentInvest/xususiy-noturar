@@ -35,7 +35,7 @@
                 <!-- Form Inputs -->
                 <div class="mb-3">
                     <label for="object_name">Объект номи</label>
-                    <input class="form-control" type="text" name="object_name" id="object_name"
+                    <input class="form-control" type="text" name="object_name" id="object_name" placeholder="футбол майдони | 4 қаватли уйнинг 1-қавати"
                         value="{{ old('object_name') }}">
                     @error('object_name')
                         <div class="text-danger">{{ $message }}</div>
@@ -102,12 +102,13 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
 
-                <label for="building_type">Мулк Тури</label>
+                <label for="building_type">Бино тури</label>
                 <select name="building_type" id="building_type" class="form-control" required>
                     <option value="" disabled selected>Выберите тип недвижимости</option>
-                    <option value="yer" {{ old('building_type') == 'yer' ? 'selected' : '' }}>Yer</option>
-                    <option value="TurarBino" {{ old('building_type') == 'TurarBino' ? 'selected' : '' }}>TurarBino</option>
-                    <option value="NoturarBino" {{ old('building_type') == 'NoturarBino' ? 'selected' : '' }}>NoturarBino</option>
+                    <option value="kopQavatliUy" {{ old('building_type') == 'kopQavatliUy' ? 'selected' : '' }}>Кўп қаватли уй
+                    </option>
+                    <option value="AlohidaSavdoDokoni" {{ old('building_type') == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>Алоҳида савдо дўкони
+                    </option>
                 </select>
                 
                 @error('building_type')

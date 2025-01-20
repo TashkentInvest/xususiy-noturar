@@ -33,6 +33,8 @@ class CreateAktivsTable extends Migration
             $table->decimal('building_area', 10, 2)->nullable();
             $table->string('gas');
             $table->string('water');
+            $table->string('home_number')->nullable();
+            $table->string('apartment_number')->nullable();
             $table->string('electricity');
             $table->text('additional_info')->nullable();
             $table->string('geolokatsiya')->nullable(); // Allow NULL values
@@ -44,7 +46,7 @@ class CreateAktivsTable extends Migration
             $table->string('hokim_qarori_pdf')->nullable();
             $table->string('transfer_basis_pdf')->nullable();
 
-            $table->enum('building_type', ['yer', 'TurarBino', 'NoturarBino'])->nullable();
+            $table->enum('building_type', ['yer', 'kopQavatliUy', 'AlohidaSavdoDokoni'])->nullable();
 
             $table->timestamps();
         });

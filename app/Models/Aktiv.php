@@ -130,7 +130,9 @@ class Aktiv extends Model
         'building_type',
         'kadastr_pdf',
         'hokim_qarori_pdf',
-        'transfer_basis_pdf'
+        'transfer_basis_pdf',
+        'apartment_number',
+        'home_number'
     ];
 
     public function files()

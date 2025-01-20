@@ -355,9 +355,9 @@
                                     border-radius: 50%;
                                     box-shadow: 0 0 3px rgba(0,0,0,0.3);
                                 "
-                                title="TurarBino"
+                                title="kopQavatliUy"
                             ></span>
-                            <span class="legend-text" style="font-size: 14px; color: #333;">TurarBino (Yellow Marker)</span>
+                            <span class="legend-text" style="font-size: 14px; color: #333;">kopQavatliUy (Yellow Marker)</span>
                         </div>
                     </li>
                     <li class="pc-item">
@@ -372,9 +372,9 @@
                                     border-radius: 50%;
                                     box-shadow: 0 0 3px rgba(0,0,0,0.3);
                                 "
-                                title="NoturarBino"
+                                title="AlohidaSavdoDokoni"
                             ></span>
-                            <span class="legend-text" style="font-size: 14px; color: #333;">NoturarBino (Green Marker)</span>
+                            <span class="legend-text" style="font-size: 14px; color: #333;">AlohidaSavdoDokoni (Green Marker)</span>
                         </div>
                     </li>
                 </ul>
@@ -555,10 +555,10 @@
                             if (markerData.building_type == 'yer') {
                                 // Red icon
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-                            } else if (markerData.building_type == 'TurarBino') {
+                            } else if (markerData.building_type == 'kopQavatliUy') {
                                 // Yellow icon
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
-                            } else if (markerData.building_type == 'NoturarBino') {
+                            } else if (markerData.building_type == 'AlohidaSavdoDokoni') {
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
                                 
                             } else {

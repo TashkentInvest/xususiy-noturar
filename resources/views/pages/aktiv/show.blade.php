@@ -15,7 +15,7 @@
             </div>
 
             <div class="mb-3">
-                <strong>Мулк Тури :</strong> {{ $aktiv->building_type ?? 'Мавжуд Эмас' }}
+                <strong>Бино тури :</strong> {{ $aktiv->building_type ?? 'Мавжуд Эмас' }}
             </div>
 
             <div class="mb-3">

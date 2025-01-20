@@ -94,18 +94,18 @@
                 @error('electricity')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-                <label for="building_type">Мулк Тури</label>
+                <label for="building_type">Бино тури</label>
                 <select name="building_type" id="building_type" class="form-control" required>
                     <option value="" disabled
                         {{ old('building_type', $aktiv->building_type) == '' ? 'selected' : '' }}>Выберите тип недвижимости
                     </option>
                     <option value="yer" {{ old('building_type', $aktiv->building_type) == 'yer' ? 'selected' : '' }}>Yer
                     </option>
-                    <option value="TurarBino"
-                        {{ old('building_type', $aktiv->building_type) == 'TurarBino' ? 'selected' : '' }}>TurarBino
+                    <option value="kopQavatliUy"
+                        {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>kopQavatliUy
                     </option>
-                    <option value="NoturarBino"
-                        {{ old('building_type', $aktiv->building_type) == 'NoturarBino' ? 'selected' : '' }}>NoturarBino
+                    <option value="AlohidaSavdoDokoni"
+                        {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>AlohidaSavdoDokoni
                     </option>
                 </select>
 

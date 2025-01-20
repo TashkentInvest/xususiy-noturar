@@ -49,8 +49,8 @@ class AktivController extends Controller
 
             // Counts for Super Admin (no restrictions)
             $yerCount = Aktiv::where('building_type', 'yer')->count();
-            $noturarBinoCount = Aktiv::where('building_type', 'NoturarBino')->count();
-            $turarBinoCount = Aktiv::where('building_type', 'TurarBino')->count();
+            $noturarBinoCount = Aktiv::where('building_type', 'AlohidaSavdoDokoni')->count();
+            $turarBinoCount = Aktiv::where('building_type', 'kopQavatliUy')->count();
         } elseif ($userRole == 'Manager') {
             // For a Manager:
             // - If the requested district_id matches manager's own district, filter by that district.
@@ -67,13 +67,13 @@ class AktivController extends Controller
                     })
                     ->count();
 
-                $noturarBinoCount = Aktiv::where('building_type', 'NoturarBino')
+                $noturarBinoCount = Aktiv::where('building_type', 'AlohidaSavdoDokoni')
                     ->whereHas('user', function ($q) use ($userDistrictId) {
                         $q->where('district_id', $userDistrictId);
                     })
                     ->count();
 
-                $turarBinoCount = Aktiv::where('building_type', 'TurarBino')
+                $turarBinoCount = Aktiv::where('building_type', 'kopQavatliUy')
                     ->whereHas('user', function ($q) use ($userDistrictId) {
                         $q->where('district_id', $userDistrictId);
                     })
@@ -88,11 +88,11 @@ class AktivController extends Controller
                     ->where('user_id', auth()->id())
                     ->count();
 
-                $noturarBinoCount = Aktiv::where('building_type', 'NoturarBino')
+                $noturarBinoCount = Aktiv::where('building_type', 'AlohidaSavdoDokoni')
                     ->where('user_id', auth()->id())
                     ->count();
 
-                $turarBinoCount = Aktiv::where('building_type', 'TurarBino')
+                $turarBinoCount = Aktiv::where('building_type', 'kopQavatliUy')
                     ->where('user_id', auth()->id())
                     ->count();
             }
@@ -105,11 +105,11 @@ class AktivController extends Controller
                 ->where('user_id', auth()->id())
                 ->count();
 
-            $noturarBinoCount = Aktiv::where('building_type', 'NoturarBino')
+            $noturarBinoCount = Aktiv::where('building_type', 'AlohidaSavdoDokoni')
                 ->where('user_id', auth()->id())
                 ->count();
 
-            $turarBinoCount = Aktiv::where('building_type', 'TurarBino')
+            $turarBinoCount = Aktiv::where('building_type', 'kopQavatliUy')
                 ->where('user_id', auth()->id())
                 ->count();
         }
@@ -241,7 +241,7 @@ class AktivController extends Controller
             'apartment_number'          => 'nullable',
 
             'user_id'          => 'nullable',
-            'building_type' => 'nullable|in:yer,TurarBino,NoturarBino',
+            'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
 
             'kadastr_pdf'      => 'nullable|file',
             'hokim_qarori_pdf' => 'nullable|file',
@@ -408,7 +408,7 @@ class AktivController extends Controller
             'apartment_number'          => 'nullable',
 
             'user_id'          => 'nullable',
-            'building_type' => 'nullable|in:yer,TurarBino,NoturarBino',
+            'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
 
             'kadastr_pdf'      => 'nullable|file',
             'hokim_qarori_pdf' => 'nullable|file',
