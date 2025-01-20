@@ -198,6 +198,7 @@
 
                 <label for="unused_duration">Фойдаланилмаган муддат:</label>
                 <select name="unused_duration" class="form-control">
+                    
                     <option value="1 ой бўлди"
                         {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1 ой
                         бўлди</option>
@@ -232,7 +233,7 @@
                         {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
                         ижарачи топиб берилди</option>
                 </select>
-                
+
                 <label for="start_date">Фаолият юритишни бошлаган сана:</label>
                 <input type="date" name="start_date" class="form-control"
                     value="{{ old('start_date', $aktiv->start_date ?? '') }}">
