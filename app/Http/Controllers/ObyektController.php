@@ -79,32 +79,7 @@ class ObyektController extends Controller
         return view('pages.obyekt.add', compact('clients', 'selectedClientId', 'branches', 'kts', 'kzs', 'kos', 'kjs', 'regions', 'bank', 'subyektShakli', 'ruxsatnoma_turi', 'ruxsatnoma_kim_tamonidan', 'ruxsatnoma_berilgan_ish_turi'));
     }
 
-    public function getDistricts(Request $request)
-    {
-        $regionId = $request->region_id;
-        $districts = District::where('region_id', $regionId)->pluck('name_uz', 'id')->toArray();
-
-        return response()->json($districts);
-    }
-
-    public function getStreets(Request $request)
-    {
-        $districtId = $request->district_id;
-        $streets = Street::where('district_id', $districtId)->pluck('name', 'id')->toArray();
-
-        return response()->json($streets);
-    }
-
-    public function getSubStreets(Request $request)
-    {
-        $districtId = $request->input('district_id');
-        if ($districtId) {
-            $substreets = SubStreet::where('district_id', $districtId)->pluck('name', 'id');
-            return response()->json($substreets);
-        }
-        return response()->json([]);
-    }
-
+ 
     public function searchClient(Request $request)
     {
         try {

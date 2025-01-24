@@ -286,10 +286,6 @@ Route::post('/obyekt/create/yuridik', [ObyektController::class, 'create_yuridik_
 Route::get('/search-client', [ObyektController::class, 'searchClient'])->name('search-client');
 Route::get('/get-client-details/{client_id}', [ObyektController::class, 'getClientDetails'])->name('get-client-details');
 Route::post('/obyekt/obyekt_create', [ObyektController::class, 'obyekt_create'])->name('obyekt_create');
-Route::get('/get-districts', [ObyektController::class, 'getDistricts'])->name('get.Obdistricts');
-Route::get('/get-streets', [ObyektController::class, 'getStreets'])->name('get.Obstreets');
-Route::get('/get-substreets', [ObyektController::class, 'getSubstreets'])->name('get.Obsubstreets');
-
 
 // product 
 

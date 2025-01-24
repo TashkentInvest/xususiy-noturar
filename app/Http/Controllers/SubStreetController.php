@@ -36,15 +36,7 @@ class SubStreetController extends Controller
     }
 
 
-    public function getDistricts($district_id)
-    {
-        try {
-            $streets = SubStreet::where('district_id', $district_id)->get();
-            return response()->json($streets);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Error fetching streets'], 500);
-        }
-    }
+  
 
     public function add()   
     { 
