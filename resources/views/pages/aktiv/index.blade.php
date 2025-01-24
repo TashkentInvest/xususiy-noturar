@@ -154,9 +154,9 @@
 
 
     @if ($aktivs->count())
-        <div class="table-responsive rounded shadow-sm">
-            <table class="table table-hover table-bordered align-middle">
-                <thead class="table-primary">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
                     <tr>
                         <th scope="col"><i class="fas fa-user"></i> №</th>
                         <th scope="col"><i class="fas fa-user"></i> Кадастр рақами</th>
@@ -206,8 +206,7 @@
                                 @if ($aktiv->working_24_7 == true)
                                     {{ 'Ха' }}
                                 @else
-                                {{ 'Йўқ' }}
-
+                                    {{ 'Йўқ' }}
                                 @endif
                             </td>
                             <td>{{ $aktiv->created_at->format('d-m-Y H:i') }}</td>
@@ -215,13 +214,17 @@
                                 <div class="d-flex justify-content-center gap-1">
                                     <a href="{{ route('aktivs.show', $aktiv) }}" class="btn btn-info btn-sm"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Кўриш">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="btn-icon-prepend" data-feather="eye"></i>
+
+                                        {{-- <i class="fas fa-eye"></i> --}}
                                     </a>
 
                                     {{-- @if (auth()->user()->roles[0]->name == 'Super Admin') --}}
                                     <a href="{{ route('aktivs.edit', $aktiv) }}" class="btn btn-warning btn-sm"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Таҳрирлаш">
-                                        <i class="fas fa-edit"></i>
+                                        {{-- <i class="fas fa-edit"></i> --}}
+                                        <i class="btn-icon-prepend" data-feather="edit"></i>
+
                                     </a>
                                     {{-- @endif --}}
                                     @if (auth()->user()->roles[0]->name == 'Manager')
@@ -232,7 +235,9 @@
                                             <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="Ўчириш"
                                                 onclick="return confirm('Сиз ростдан ҳам бу объектни ўчиришни истайсизми?');">
-                                                <i class="fas fa-trash-alt"></i>
+                                                {{-- <i class="fas fa-trash-alt"></i> --}}
+                                                <i class="btn-icon-prepend" data-feather="delete"></i>
+
                                             </button>
                                         </form>
                                     @endif
