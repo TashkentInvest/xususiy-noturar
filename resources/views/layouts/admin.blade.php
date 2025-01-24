@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NobleUI Responsive Bootstrap 4 Dashboard Template</title>
+    <title>Xususiy Noturar</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{{ asset('edo_template/assets/vendors/core/core.css') }}">
     <!-- endinject -->
@@ -20,7 +20,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('edo_template/assets/css/demo_1/style.css') }}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('edo_template/assets/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/logo_blue_tic.png') }}" />
 
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
