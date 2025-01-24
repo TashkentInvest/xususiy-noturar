@@ -20,19 +20,19 @@
             <li class="nav-item">
                 <a href="{{ route('aktivs.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Бошқарув панели</span>
+                    <span class="link-title">Компаниялар</span>
                 </a>
             </li>
 
 
-            <li class="nav-item nav-category">Main</li>
+            {{-- <li class="nav-item nav-category">Main</li>
 
             <li class="nav-item">
                 <a href="{{ route('calendar.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">Тақвим</span>
                 </a>
-            </li>
+            </li> --}}
 
 
             {{-- @if (auth()->user()->roles->first()->name == 'Super Admin') --}}

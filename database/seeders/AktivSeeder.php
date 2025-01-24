@@ -31,6 +31,7 @@ class AktivSeeder extends Seeder
                         'object_name' => $row[6],
                         'balance_keeper' => $row[1],
                         'location' => "{$row[2]}, {$row[3]}, {$row[4]}, {$row[5]}",
+                         // '    ' => "{district,  street,   sub_street, home_number}",
                         'land_area' => $row[8],
                         'building_area' => $row[9],
                         'gas' => 'yes', // Default value, adjust as needed
@@ -41,8 +42,8 @@ class AktivSeeder extends Seeder
                         'latitude' => 0.0, // Default value, adjust as needed
                         'longitude' => 0.0, // Default value, adjust as needed
                         'kadastr_raqami' => $row[10],
-                        'sub_street_id' => null, // Default value, adjust as needed
                         'street_id' => null, // Default value, adjust as needed
+                        'sub_street_id' => null, // Default value, adjust as needed
                         'building_type' => null, // Default value, adjust as needed
                         'kadastr_pdf' => null, // Default value, adjust as needed
                         'hokim_qarori_pdf' => null, // Default value, adjust as needed
