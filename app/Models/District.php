@@ -6,7 +6,7 @@ use App\Services\HistoryService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Districts extends Model
+class District extends Model
 {
     use HasFactory;
 

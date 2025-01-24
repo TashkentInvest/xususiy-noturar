@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\AktivsExport;
 use App\Models\Aktiv;
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\Regions;
 use App\Models\Street;
 use App\Models\SubStreet;
@@ -159,7 +159,7 @@ class AktivController extends Controller
         }
 
         // Get distinct districts by joining with users and selecting the distinct district_id
-        $districts = Districts::select('districts.id', 'districts.name_uz') // select relevant columns
+        $districts = District::select('districts.id', 'districts.name_uz') // select relevant columns
             ->distinct()
             ->join('users', 'districts.id', '=', 'users.district_id') // join with users table
             ->join('aktivs', 'users.id', '=', 'aktivs.user_id') // join with aktivs table
@@ -372,7 +372,7 @@ class AktivController extends Controller
     public function getDistricts(Request $request)
     {
         $regionId = $request->region_id;
-        $districts = Districts::where('region_id', $regionId)->pluck('name_uz', 'id')->toArray();
+        $districts = District::where('region_id', $regionId)->pluck('name_uz', 'id')->toArray();
 
         return response()->json($districts);
     }
@@ -562,7 +562,7 @@ class AktivController extends Controller
         }
 
         // Get distinct districts by joining with users and selecting the distinct district_id
-        $districts = Districts::select('districts.id', 'districts.name_uz') // select relevant columns
+        $districts = District::select('districts.id', 'districts.name_uz') // select relevant columns
             ->distinct()
             ->join('users', 'districts.id', '=', 'users.district_id') // join with users table
             ->join('aktivs', 'users.id', '=', 'aktivs.user_id') // join with aktivs table
@@ -613,7 +613,7 @@ class AktivController extends Controller
     public function kadastrByDistrict($district_id)
     {
         // Fetch the district along with its associated Aktiv records (through Street)
-        $district = Districts::with(['aktives' => function ($query) {
+        $district = District::with(['aktives' => function ($query) {
             $query->where('kadastr_raqami', '!=', '')
                 ->where('kadastr_raqami', '!=', '00:00:00:00:00:0000')
                 ->where('kadastr_raqami', 'not like', '00%')

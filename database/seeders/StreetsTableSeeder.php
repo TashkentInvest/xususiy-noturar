@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\Street;
 class StreetsTableSeeder extends Seeder
 
@@ -28,7 +28,7 @@ class StreetsTableSeeder extends Seeder
                 foreach ($rows as $row) 
                 {
                     // Find the district ID based on the district_code
-                    $district = Districts::where('code', $row['district_code'])->first();
+                    $district = District::where('code', $row['district_code'])->first();
 
                     if ($district) {
                         // Create new Street entry

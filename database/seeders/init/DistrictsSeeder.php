@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
-use App\Models\Districts;
+use App\Models\District;
 
 class DistrictsSeeder extends Seeder
 {
@@ -23,7 +23,7 @@ class DistrictsSeeder extends Seeder
             {
                 foreach ($rows as $row) 
                 {
-                    Districts::create([
+                    District::create([
                         'code' => $row['code'],
                         'region_id' => 1, 
                         'name_ru' => $row['name_ru'],

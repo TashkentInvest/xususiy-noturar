@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\User;
 use App\Services\LogWriter;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class UserController extends Controller
             ? Role::all()
             : Role::where('name', '!=', 'Super Admin')->get();
 
-        $districts = Districts::all(); // Fetch all districts
+        $districts = District::all(); // Fetch all districts
 
         return view('pages.user.add', compact('roles', 'districts'));
     }
@@ -88,7 +88,7 @@ class UserController extends Controller
             ? Role::all()
             : Role::where('name', '!=', 'Super Admin')->get();
 
-        $districts = Districts::all(); // Fetch all districts
+        $districts = District::all(); // Fetch all districts
 
         return view('pages.user.edit', compact('user', 'roles', 'districts'));
     }

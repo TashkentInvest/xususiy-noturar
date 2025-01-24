@@ -122,7 +122,7 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching districts:', error);
+                        console.error('Error fetching District:', error);
                     }
                 });
             }

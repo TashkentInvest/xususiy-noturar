@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\Products;
 use App\Models\Regions;
 use App\Models\Street;
@@ -55,7 +55,7 @@ class StreetController extends Controller
         
         if ($product && $street) {
             // Fetch district data based on the district_id of the street
-            $district = Districts::find($street->district_id);
+            $district = District::find($street->district_id);
 
             if ($district) {
                 $response = [
@@ -88,7 +88,7 @@ class StreetController extends Controller
     
     public function add()   
     { 
-        $districts = Districts::get()->all();
+        $districts = District::get()->all();
         return view('pages.streets.add', compact('districts'));
     }
 
@@ -108,7 +108,7 @@ class StreetController extends Controller
     public function edit($id)
     {
         $street = Street::findOrFail($id); // Adjust this query based on your needs
-        $districts = Districts::all(); // Or use a more specific query if needed
+        $districts = District::all(); // Or use a more specific query if needed
         return view('pages.streets.edit', compact('districts', 'street'));
     }
     

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank;
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\Regions;
 use App\Models\Street;
 use App\Models\SubStreet;

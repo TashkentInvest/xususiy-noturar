@@ -10,7 +10,7 @@ use App\Models\Shartnoma;
 use App\Models\TolovGrafigi;
 use App\Models\Branch;
 use App\Models\Company;
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\LoyihaHajmiMalumotnoma;
 use App\Models\Ruxsatnoma;
 use Carbon\Carbon;
@@ -218,7 +218,7 @@ class ExcelController extends Controller
     private function getOrCreateDistrict($code, $name)
     {
         if ($code && is_numeric($code)) {
-            return Districts::firstOrCreate(
+            return District::firstOrCreate(
                 ['code' => $code],
                 ['name_uz' => $name, 'region_id' => 1]
             );

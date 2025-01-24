@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\Products;
 use App\Models\Regions;
 use App\Models\Street;
@@ -48,7 +48,7 @@ class SubStreetController extends Controller
 
     public function add()   
     { 
-        $districts = Districts::get()->all();
+        $districts = District::get()->all();
         return view('pages.substreets.add', compact('districts'));
     }
 
@@ -69,7 +69,7 @@ class SubStreetController extends Controller
     public function edit($id)
     {
         $substreet = SubStreet::findOrFail($id);
-        $districts = Districts::all(); 
+        $districts = District::all(); 
         return view('pages.substreets.edit', compact('districts', 'substreet'));
     }
     

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Districts;
+use App\Models\District;
 use App\Models\SubStreet;
 use Illuminate\Database\Seeder;
 use Maatwebsite\Excel\Facades\Excel;
@@ -25,7 +25,7 @@ class SubStreetSeeder extends Seeder
             {
                 foreach ($rows as $row) 
                 {
-                    $district = Districts::where('code', $row['district_code'])->first();
+                    $district = District::where('code', $row['district_code'])->first();
 
                     if ($district) {
                         SubStreet::create([
