@@ -117,7 +117,7 @@ class AktivController extends Controller
         // Finally, paginate the results
         $aktivs = $query->orderBy('created_at', 'asc')
             ->with('files')
-            ->paginate(20)
+            ->paginate(15)
             ->appends($request->query());
 
 
@@ -305,9 +305,8 @@ class AktivController extends Controller
         // Check if the user can view this Aktiv (for authorization)
         $this->authorizeView($aktiv);
 
-        // Load necessary relationships including the street to district relationship
-        // It's crucial that subStreet is correctly mapped to district in your Aktiv model
-        $aktiv->load('subStreet.district.region', 'files');
+        // Load necessary relationships using eager loading
+        $aktiv->load(['subStreet.district.region', 'files:id,aktiv_id,path']);
 
         $defaultImage = 'https://cdn.dribbble.com/users/1651691/screenshots/5336717/404_v2.png';
 
@@ -315,17 +314,18 @@ class AktivController extends Controller
         $aktiv->main_image = $aktiv->files->first() ? asset('storage/' . $aktiv->files->first()->path) : $defaultImage;
 
         // Retrieve user district ID from the authenticated user's associated street
-        $userDistrictId = auth()->user()->district_id;  // Get the district ID of the authenticated user
+        $userDistrictId = auth()->user()->district_id;
 
         if (auth()->id() === 1) {
-            // Super Admin can see all aktivs
-            $aktivs = Aktiv::with('files')->get();
+            // Super Admin can see all aktivs, limit for better performance
+            $aktivs = Aktiv::with('files:id,aktiv_id,path')->limit(10)->get();
         } else {
-            // Regular users see only aktivs from their district and not created by Super Admin
-            $aktivs = Aktiv::with('files')
-                ->join('streets', 'aktivs.street_id', '=', 'streets.id')  // Ensure street is joined correctly
-                ->where('streets.district_id', $userDistrictId)  // Filter by user's district from street relationship
-                ->where('user_id', '!=', 1)  // Exclude aktivs created by Super Admin
+            // Regular users see only aktivs from their district and not created by Super Admin, limit for better performance
+            $aktivs = Aktiv::with('files:id,aktiv_id,path')
+                ->join('streets', 'aktivs.street_id', '=', 'streets.id')
+                ->where('streets.district_id', $userDistrictId)
+                ->where('user_id', '!=', 1)
+                ->limit(10)
                 ->get();
         }
 

@@ -271,6 +271,43 @@
                 <input type="text" name="STIR" class="form-control"
                     value="{{ old('STIR', $aktiv->STIR ?? '') }}">
 
+                <script>
+                    // Function to toggle the required attribute on the kadastr_raqami input
+                    function toggleKadastrRequired() {
+                        var buildingType = document.getElementById('building_type').value;
+                        var kadastrInput = document.getElementById('kadastr_raqami');
+
+                        if (buildingType !== 'yer') {
+                            kadastrInput.setAttribute('required', 'required');
+                        } else {
+                            kadastrInput.removeAttribute('required');
+                        }
+                    }
+
+                    // Listen for changes in the building_type dropdown
+                    document.getElementById('building_type').addEventListener('change', toggleKadastrRequired);
+
+                    // Call the function once to set the initial state based on the current selection
+                    toggleKadastrRequired();
+
+                    // Kadastr formatting script
+                    // document.getElementById('kadastr_raqami').addEventListener('input', function(e) {
+                    //     let value = e.target.value.replace(/[^0-9]/g, '');
+                    //     let formattedValue = '';
+
+                    //     if (value.length > 0) formattedValue += value.substring(0, 2);
+                    //     if (value.length > 2) formattedValue += ':' + value.substring(2, 4);
+                    //     if (value.length > 4) formattedValue += ':' + value.substring(4, 6);
+                    //     if (value.length > 6) formattedValue += ':' + value.substring(6, 8);
+                    //     if (value.length > 8) formattedValue += ':' + value.substring(8, 10);
+                    //     if (value.length > 10) formattedValue += ':' + value.substring(10, 14);
+
+                    //     e.target.value = formattedValue;
+                    // });
+                </script>
+
+                <!-- Include Address Partial -->
+                {{-- @include('inc.__address') --}}
 
             </div>
             <!-- Right Column -->
@@ -353,218 +390,9 @@
         <!-- Submit Button -->
         <button type="submit" class="btn btn-success" id="submit-btn">Сақлаш</button>
     </form>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-
-            function fetchDistricts(regionId, selectedDistrictId = null) {
-                // console.log('Fetching districts for region ID:', regionId);
-                $.ajax({
-                    url: "{{ route('getDistricts') }}",
-                    type: "GET",
-                    data: {
-                        region_id: regionId
-                    },
-                    success: function(data) {
-                        // console.log('Districts fetched:', data);
-                        $('.district_id').empty().append('<option value="">Туманни танланг</option>');
-                        $.each(data, function(key, value) {
-                            $('.district_id').append('<option value="' + key + '">' + value +
-                                '</option>');
-                        });
-                        if (selectedDistrictId) {
-                            console.log('Setting selected district:', selectedDistrictId);
-                            $('.district_id').val(selectedDistrictId).trigger('change');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching District:', error);
-                    }
-                });
-            }
-
-            function fetchStreets(districtId, selectedStreetId = null) {
-                // console.log('Fetching streets for district ID:', districtId);
-                $.ajax({
-                    url: "{{ route('getStreets') }}",
-                    type: "GET",
-                    data: {
-                        district_id: districtId
-                    },
-                    success: function(data) {
-                        // console.log('Streets fetched:', data);
-                        $('.street_id').empty().append('<option value="">Мфй ни танланг</option>');
-                        $.each(data, function(key, value) {
-                            $('.street_id').append('<option value="' + key + '">' + value +
-                                '</option>');
-                        });
-                        if (selectedStreetId) {
-                            console.log('Setting selected street:', selectedStreetId);
-                            setTimeout(function() {
-                                $('.street_id').val(selectedStreetId).trigger('change');
-                            }, 500); // Adding a delay to ensure the data is fully loaded
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching streets:', error);
-                    }
-                });
-            }
-
-            function fetchSubStreets(districtId, selectedSubStreetId = null) {
-                // console.log('Fetching substreets for district ID:', districtId);
-                $.ajax({
-                    url: "{{ route('getSubStreets') }}",
-                    type: "GET",
-                    data: {
-                        district_id: districtId
-                    },
-                    success: function(data) {
-                        // console.log('Substreets fetched:', data);
-                        $('.sub_street_id').empty().append('<option value="">Кўчани танланг</option>');
-                        $.each(data, function(key, value) {
-                            $('.sub_street_id').append('<option value="' + key + '">' + value +
-                                '</option>');
-                        });
-                        if (selectedSubStreetId) {
-                            console.log('Setting selected substreet:', selectedSubStreetId);
-                            setTimeout(function() {
-                                $('.sub_street_id').val(selectedSubStreetId).trigger('change');
-                            }, 500); // Adding a delay to ensure the data is fully loaded
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching substreets:', error);
-                    }
-                });
-            }
-
-            // Initialize selections if data exists
-            var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
-            var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
-            var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
-            var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
-
-            if (selectedRegionId) {
-                fetchDistricts(selectedRegionId, selectedDistrictId);
-            }
-            if (selectedDistrictId) {
-                fetchStreets(selectedDistrictId, selectedStreetId);
-            }
-            if (selectedDistrictId) {
-                fetchSubStreets(selectedDistrictId, selectedSubStreetId);
-            }
-
-            // Update Districts based on Region change
-            $('.region_id').change(function() {
-                var regionId = $(this).val();
-                fetchDistricts(regionId);
-            });
-
-            // Update Streets and SubStreets based on District change
-            $('.district_id').change(function() {
-                var districtId = $(this).val();
-                fetchStreets(districtId);
-                fetchSubStreets(districtId);
-            });
-
-            // Add Street Button Click Event
-            $('#add_street_btn').click(function() {
-                var districtId = $('#district_id').val();
-                if (!districtId) {
-                    alert('Выберите район сначала');
-                    return;
-                }
-                var newStreetName = prompt('Введите название новой улицы:');
-                if (newStreetName) {
-                    $.ajax({
-                        url: "{{ route('create.streets') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            district_id: districtId,
-                            street_name: newStreetName
-                        },
-                        success: function(response) {
-                            // console.log('Street added:', response);
-                            $('.street_id').append('<option value="' + response.id + '">' +
-                                response.name + '</option>');
-                            $('.street_id').val(response.id).trigger('change');
-                            alert('Улица успешно добавлена: ' + response.name);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error adding street:', error);
-                            alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
-                        }
-                    });
-                }
-            });
-
-            // Add SubStreet Button Click Event
-            $('#add_substreet_btn').click(function() {
-                var districtId = $('#district_id').val();
-                if (!districtId) {
-                    alert('Выберите район сначала');
-                    return;
-                }
-                var newSubStreetName = prompt('Введите название новой подулицы:');
-                if (newSubStreetName) {
-                    $.ajax({
-                        url: "{{ route('create.substreets') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            district_id: districtId,
-                            sub_street_name: newSubStreetName
-                        },
-                        success: function(response) {
-                            // console.log('SubStreet added:', response);
-                            $('.sub_street_id').append('<option value="' + response.id + '">' +
-                                response.name + '</option>');
-                            $('.sub_street_id').val(response.id);
-                            alert('Подулица успешно добавлена: ' + response.name);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error adding substreet:', error);
-                            alert(
-                                'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
-                            );
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
 @endsection
 
 @section('scripts')
-
-
-    <script>
-        // Function to toggle the required attribute on the kadastr_raqami input
-        function toggleKadastrRequired() {
-            var buildingType = document.getElementById('building_type').value;
-            var kadastrInput = document.getElementById('kadastr_raqami');
-
-            if (buildingType !== 'yer') {
-                kadastrInput.setAttribute('required', 'required');
-            } else {
-                kadastrInput.removeAttribute('required');
-            }
-        }
-
-        // Listen for changes in the building_type dropdown
-        document.getElementById('building_type').addEventListener('change', toggleKadastrRequired);
-
-        // Call the function once to set the initial state based on the current selection
-        toggleKadastrRequired();
-    </script>
-
     <!-- Include Google Maps script and initialization code -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAnUwWTguBMsDU8UrQ7Re-caVeYCmcHQY&libraries=geometry">
     </script>
