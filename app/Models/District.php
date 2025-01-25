@@ -39,9 +39,14 @@ class District extends Model
         'region_id',     // Add this line
         // Add other fillable fields here as necessary
     ];
+    // public function region()
+    // {
+    //     return $this->hasOne(Regions::class, 'id', 'region_id');
+    // }
+
     public function region()
     {
-        return $this->hasOne(Regions::class, 'id', 'region_id');
+        return $this->belongsTo(Regions::class,'region_id');
     }
 
     public function street()
@@ -55,6 +60,10 @@ class District extends Model
     }
 
     public function substreet()
+    {
+        return $this->hasOne(SubStreet::class, 'district_id');
+    }
+    public function substreets()
     {
         return $this->hasMany(SubStreet::class, 'district_id');
     }

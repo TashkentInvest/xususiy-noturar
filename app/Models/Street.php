@@ -10,7 +10,7 @@ class Street extends Model
     use HasFactory;
 
     protected $table = 'streets';
-    protected $fillable = ['name', 'name_ru', 'type', 'comment', 'code', 'district_id'];
+    protected $fillable = ['name', 'name_ru', 'type', 'comment', 'code', 'district_id','user_id','created_from_outside'];
 
     public function aktivs()
     {

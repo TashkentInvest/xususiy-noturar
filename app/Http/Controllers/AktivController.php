@@ -346,19 +346,12 @@ class AktivController extends Controller
             $aktiv->load('subStreet.district.region');
 
             // Get regions
-            $regions = Regions::get();
+            $regions = Regions::all();
 
             // Safely access subStreet, district, and region
-            $districts = null;
-            $streets = null;
-            $substreets = null;
-
-            // Check if subStreet exists and then proceed
-            if ($aktiv->subStreet) {
-                $districts = optional($aktiv->subStreet->district->region)->districts ?? null;
-                $streets = optional($aktiv->subStreet->district)->streets ?? null;
-                $substreets = optional($aktiv->subStreet->district)->subStreets ?? null;
-            }
+            $districts = optional($aktiv->subStreet->district->region)->districts ?? collect();
+            $streets = optional($aktiv->subStreet->district)->streets ?? collect();
+            $substreets = optional($aktiv->subStreet->district)->subStreets ?? collect();
 
             return view('pages.aktiv.edit', compact('aktiv', 'regions', 'districts', 'streets', 'substreets'));
         } catch (\Exception $e) {
@@ -368,12 +361,12 @@ class AktivController extends Controller
         }
     }
 
-
     public function getDistricts(Request $request)
     {
         $regionId = $request->region_id;
         $districts = District::where('region_id', $regionId)->pluck('name_uz', 'id')->toArray();
 
+        \Log::info('' . count($districts) . '');
         return response()->json($districts);
     }
 
@@ -381,7 +374,7 @@ class AktivController extends Controller
     {
         $districtId = $request->district_id;
         $streets = Street::where('district_id', $districtId)->pluck('name', 'id')->toArray();
-
+        \Log::info('' . count($streets) . '');
         return response()->json($streets);
     }
 
@@ -390,9 +383,44 @@ class AktivController extends Controller
         $districtId = $request->input('district_id');
         if ($districtId) {
             $substreets = SubStreet::where('district_id', $districtId)->pluck('name', 'id')->toArray();
+            \Log::info('substreets' . count($substreets) . '');
             return response()->json($substreets);
         }
         return response()->json([]);
+    }
+
+    public function createStreet(Request $request)
+    {
+        $request->validate([
+            'district_id' => 'required|exists:districts,id',
+            'street_name' => 'required|string|max:255',
+        ]);
+
+        $street = Street::create([
+            'district_id' => $request->district_id,
+            'name' => $request->street_name,
+            'user_id' => auth()->id() ?? null,
+            'created_from_outside' => true,
+        ]);
+
+        return response()->json(['id' => $street->id, 'name' => $street->name]);
+    }
+
+    public function createSubStreet(Request $request)
+    {
+        $request->validate([
+            'district_id' => 'required|exists:districts,id',
+            'sub_street_name' => 'required|string|max:255',
+        ]);
+
+        $subStreet = SubStreet::create([
+            'district_id' => $request->district_id,
+            'name' => $request->sub_street_name,
+            'user_id' => auth()->id() ?? null,
+            'created_from_outside' => true,
+        ]);
+
+        return response()->json(['id' => $subStreet->id, 'name' => $subStreet->name]);
     }
     public function update(Request $request, Aktiv $aktiv)
     {

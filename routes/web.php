@@ -101,7 +101,6 @@ Route::group(['middleware' => ['auth', 'checkUserRole']], function () {
     Route::get('/getSubStreets', [AktivController::class, 'getSubStreets'])->name('getSubStreets');
     Route::post('/create/streets', [AktivController::class, 'createStreet'])->name('create.streets');
     Route::post('/create/substreets', [AktivController::class, 'createSubStreet'])->name('create.substreets');
-
     // Route::get('maps/aktivs', [AktivController::class, 'getLots']);
 
 

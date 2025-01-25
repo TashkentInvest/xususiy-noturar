@@ -14,4 +14,9 @@ class Regions extends Model
     {
         return $this->hasMany(District::class, 'region_id', 'id');
     }
+
+    public function district()
+    {
+        return $this->hasOne(District::class, 'region_id', 'id');
+    }
 }
