@@ -232,20 +232,20 @@
                         }
 
                         // Initialize selections if data exists
-                        var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
-                        var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
-                        var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
-                        var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
+                        // var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
+                        // var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
+                        // var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
+                        // var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
 
-                        if (selectedRegionId) {
-                            fetchDistricts(selectedRegionId, selectedDistrictId);
-                        }
-                        if (selectedDistrictId) {
-                            fetchStreets(selectedDistrictId, selectedStreetId);
-                        }
-                        if (selectedDistrictId) {
-                            fetchSubStreets(selectedDistrictId, selectedSubStreetId);
-                        }
+                        // if (selectedRegionId) {
+                        //     fetchDistricts(selectedRegionId, selectedDistrictId);
+                        // }
+                        // if (selectedDistrictId) {
+                        //     fetchStreets(selectedDistrictId, selectedStreetId);
+                        // }
+                        // if (selectedDistrictId) {
+                        //     fetchSubStreets(selectedDistrictId, selectedSubStreetId);
+                        // }
 
                         // Update Districts based on Region change
                         $('.region_id').change(function() {
