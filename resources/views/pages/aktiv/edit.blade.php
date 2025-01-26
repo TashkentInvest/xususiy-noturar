@@ -151,6 +151,12 @@
                     </div>
                 </div>
 
+                <style>
+                    .select2{
+                        width: 100% !important;
+                    }
+                </style>
+
                 <script>
                     $(document).ready(function() {
                         $('.select2').select2();
