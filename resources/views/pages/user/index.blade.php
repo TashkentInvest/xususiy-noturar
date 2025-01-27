@@ -69,7 +69,7 @@
                                                 <div class="btn-group">
                                                     @can('user.edit')
                                                         <a href="{{ route('userEdit', $user->id) }}" type="button"
-                                                            class="btn btn-sm btn-info waves-effect waves-light">
+                                                            class="btn btn-sm btn-primary waves-effect waves-light">
                                                             @lang('global.edit')</a>
                                                     @endcan
                                                     <input name="_method" type="hidden" value="DELETE">

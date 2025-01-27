@@ -62,7 +62,7 @@
                                     @csrf
                                     <div class="btn-group">
                                         @can('permission.edit')
-                                        <a href="{{ route('permissionEdit',$permission->id) }}" type="button" class="btn btn-sm btn-info waves-effect waves-light"> @lang('global.edit')</a>
+                                        <a href="{{ route('permissionEdit',$permission->id) }}" type="button" class="btn btn-sm btn-primary waves-effect waves-light"> @lang('global.edit')</a>
                                         @endcan
                                         <input name="_method" type="hidden" value="DELETE">
                                         <button type="button" class="btn btn-danger waves-effect btn-sm waves-light" onclick="if (confirm('Вы уверены?')) {this.form.submit()}"> @lang('global.delete')</button>
