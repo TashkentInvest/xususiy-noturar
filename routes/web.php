@@ -104,6 +104,11 @@ Route::group(['middleware' => ['auth', 'checkUserRole']], function () {
     // Route::get('maps/aktivs', [AktivController::class, 'getLots']);
 
 
+    Route::get('/get-districts', [AktivController::class, 'getObDistricts'])->name('get.Obdistricts');
+    Route::get('/get-streets', [AktivController::class, 'getObStreets'])->name('get.Obstreets');
+    Route::get('/get-substreets', [AktivController::class, 'getObSubstreets'])->name('get.Obsubstreets');
+
+
     Route::get('/optimize-cache', [HomeController::class, 'optimize'])->name('optimize.command');
 
     // Regions  

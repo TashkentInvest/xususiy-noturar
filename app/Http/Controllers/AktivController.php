@@ -389,6 +389,33 @@ class AktivController extends Controller
         return response()->json([]);
     }
 
+
+    public function getObDistricts(Request $request)
+    {
+        $regionId = $request->region_id;
+        $districts = District::where('region_id', $regionId)->pluck('name_uz', 'id')->toArray();
+
+        return response()->json($districts);
+    }
+
+    public function getObStreets(Request $request)
+    {
+        $districtId = $request->district_id;
+        $streets = Street::where('district_id', $districtId)->pluck('name', 'id')->toArray();
+
+        return response()->json($streets);
+    }
+
+    public function getObSubStreets(Request $request)
+    {
+        $districtId = $request->input('district_id');
+        if ($districtId) {
+            $substreets = SubStreet::where('district_id', $districtId)->pluck('name', 'id');
+            return response()->json($substreets);
+        }
+        return response()->json([]);
+    }
+
     public function createStreet(Request $request)
     {
         $request->validate([
