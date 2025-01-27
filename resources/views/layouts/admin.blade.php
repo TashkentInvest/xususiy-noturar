@@ -45,7 +45,7 @@
                     <i data-feather="menu"></i>
                 </a>
                 <div class="navbar-content">
-                    <form class="search-form">
+                    {{-- <form class="search-form">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
@@ -54,7 +54,7 @@
                             </div>
                             <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
                         </div>
-                    </form>
+                    </form> --}}
                     <ul class="navbar-nav">
 
                         <li class="nav-item dropdown nav-profile">

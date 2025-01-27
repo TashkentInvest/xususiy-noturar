@@ -83,7 +83,7 @@
                         <tr>
                             <td>{{ $aktiv->id ?? 'Маълумот йўқ' }}</td>
                             <td>{{ $aktiv->stir ?? 'Маълумот йўқ' }}</td>
-                            <td style="max-width: 150px; white-space: pre-wrap; word-wrap: break-word; text-align: center;">
+                            <td style="max-width: 150px; white-space: pre-wrap; word-wrap: break-word; text-align: start;">
                                 @if ($aktiv->balance_keeper)
                                     {!! nl2br(e($aktiv->balance_keeper)) !!}
                                 @else
