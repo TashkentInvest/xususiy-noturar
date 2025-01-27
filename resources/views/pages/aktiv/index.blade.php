@@ -8,6 +8,26 @@
         </a>
     </div>
 
+    <form action="{{ route('aktivs.index') }}" method="get">
+
+
+        <div class="row my-2">
+            <div class="d-flex justify-content-start">
+                <label for="kadastr_raqami"></label>
+                <input type="text" class="form-control form-control-sm" name="kadastr_raqami"
+                    placeholder="Кадастр рақами" id="kadastr_raqami" value="{{ request()->input('kadastr_raqami') }}">
+            </div>
+
+            <div class="d-flex justify-content-start">
+                <label for="stir"></label>
+                <input type="text" class="form-control form-control-sm" name="stir" placeholder="stir" id="stir"
+                    value="{{ request()->input('stir') }}">
+                <button type="submit" name="filter" class="btn btn-primary">Филтрлаш</button>
+            </div>
+        </div>
+
+    </form>
+
     <style>
         .cusom_icon {
             width: 18px !important;
@@ -22,32 +42,56 @@
                     <tr>
                         <th scope="col text-bold">№</th>
                         <th scope="col text-bold">Кадастр рақами</th>
+                        <th scope="col text-bold">STIR</th>
                         <th scope="col text-bold">Объект номи</th>
-                        <th scope="col text-bold">Мўлжал</th>
+                        <th scope="col text-bold">Туман</th>
+                        <th scope="col text-bold">Мфй</th>
+                        <th scope="col text-bold">Кўча</th>
+                        <th scope="col text-bold">Уй</th>
                         <th scope="col text-bold">24/7</th>
-                        <th scope="col text-bold">Сана</th>
+                        {{-- <th scope="col text-bold">Сана</th> --}}
                         <th scope="col text-bold">Ҳаракатлар</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($aktivs as $aktiv)
+                        {{-- @dd($aktiv) --}}
                         <tr>
-                            <td class="fw-bold small">{{ $aktiv->id ?? 'No Name' }}</td>
+                            <td class="fw-bold small">{{ $aktiv->id ?? 'No Name' }}
+
+                                {{-- <small class="text-muted">{{ $aktiv->user->email ?? 'No Email' }}</small> --}}
+                            </td>
                             <td class="fw-bold small">
-                                {{ $aktiv->kadastr_raqami ?? 'No Name' }}<br>
-                                <small class="text-muted">{{ $aktiv->user->email ?? 'No Email' }}</small>
+                                {{ $aktiv->kadastr_raqami ?? 'No kadastr' }}<br>
+                            </td>
+                            <td class="fw-bold small">
+                                {{ $aktiv->stir ?? 'No Stir' }}<br>
                             </td>
                             <td style="max-width: 400px" class="text-truncate small" title="{{ $aktiv->object_name }}">
                                 {{ $aktiv->object_name }}
                             </td>
-                            <td style="max-width: 300px" class="text-truncate small"
-                                title="{{ $aktiv->location ?? 'Маълумот йўқ' }}">
-                                {{ $aktiv->location ?? 'Маълумот йўқ' }}
+                            <td class="text-truncate small"
+                                title="{{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}">
+                                {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
+                            </td>
+                            <td class="text-truncate small"
+                                title="{{ $aktiv->street->name ?? 'Маълумот йўқ' }}">
+                                {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
+                            </td>
+
+                            <td class="text-truncate small"
+                                title="{{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}">
+                                {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
+                            </td>
+                            
+                            <td class="text-truncate small"
+                                title="{{ $aktiv->home_number ?? 'Маълумот йўқ' }}">
+                                {{ $aktiv->home_number ?? 'Маълумот йўқ' }}
                             </td>
                             <td class="small">
                                 {{ $aktiv->working_24_7 ? 'Ха' : 'Йўқ' }}
                             </td>
-                            <td class="small">{{ $aktiv->created_at->format('d-m-Y H:i') }}</td>
+                            {{-- <td class="small">{{ $aktiv->created_at->format('d-m-Y H:i') }}</td> --}}
                             <td class="text-center">
                                 <div class="mx-2">
                                     <a href="{{ route('aktivs.show', $aktiv) }}" class="btn btn-secondary btn-sm"

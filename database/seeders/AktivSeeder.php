@@ -138,6 +138,7 @@ class AktivSeeder extends Seeder
                         'object_name' => $row[1],
                         'balance_keeper' => $row[6],
                         'location' => "{$districtName}, {$row[3]}, {$row[4]}, {$row[5]}",
+                        'stir' => $row[7],
                         'land_area' => $row[8],
                         'building_area' => $row[9],
                         'gas' => 'Бор', // Default value, adjust as needed

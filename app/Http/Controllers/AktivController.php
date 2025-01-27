@@ -31,7 +31,7 @@ class AktivController extends Controller
         }
 
         // Build the query
-        $query = Aktiv::query();
+        $query = Aktiv::deepFilters();
 
         // Apply filters based on role
         if ($userRole == 'Super Admin') {
@@ -257,7 +257,7 @@ class AktivController extends Controller
             'additional_notes' => 'nullable',
             'working_24_7' => 'nullable',
             'owner' => 'nullable',
-            'STIR' => 'nullable',
+            'stir' => 'nullable',
         ]);
         // $request->validate([
         //     'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -464,7 +464,7 @@ class AktivController extends Controller
             'additional_notes' => 'nullable',
             'working_24_7' => 'nullable',
             'owner' => 'nullable',
-            'STIR' => 'nullable',
+            'stir' => 'nullable',
         ]);
 
         // $totalFiles = $aktiv->files()->count() - count($request->delete_files ?? []) + count($request->file('files') ?? []);

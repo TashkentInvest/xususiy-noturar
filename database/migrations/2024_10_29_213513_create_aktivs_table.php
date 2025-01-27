@@ -60,7 +60,7 @@ class CreateAktivsTable extends Migration
             $table->boolean('working_24_7')->default(false); // 24/7 режимда ишлайдими (справочник)
         
             $table->string('owner')->nullable(); // Мулкдор
-            $table->string('STIR')->nullable(); // СТИР
+            $table->string('stir')->nullable(); // СТИР
 
             $table->timestamps();
         });
