@@ -17,7 +17,7 @@ class SubStreet extends Model
         return $this->belongsTo(District::class, 'district_id');
     }
 
-    public function street()
+    public function street(): BelongsTo
     {
         return $this->belongsTo(Street::class, 'street_id');
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\District;
+use App\Models\Districts;
 use App\Models\Products;
 use App\Models\Regions;
 use App\Models\Street;
@@ -36,11 +36,19 @@ class SubStreetController extends Controller
     }
 
 
-  
+    public function getDistricts($district_id)
+    {
+        try {
+            $streets = SubStreet::where('district_id', $district_id)->get();
+            return response()->json($streets);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error fetching streets'], 500);
+        }
+    }
 
     public function add()   
     { 
-        $districts = District::get()->all();
+        $districts = Districts::get()->all();
         return view('pages.substreets.add', compact('districts'));
     }
 
@@ -61,7 +69,7 @@ class SubStreetController extends Controller
     public function edit($id)
     {
         $substreet = SubStreet::findOrFail($id);
-        $districts = District::all(); 
+        $districts = Districts::all(); 
         return view('pages.substreets.edit', compact('districts', 'substreet'));
     }
     
