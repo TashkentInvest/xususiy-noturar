@@ -37,7 +37,6 @@
                         <thead>
                             <tr>
                                 <th>@lang('cruds.user.fields.id')</th>
-                                <th>@lang('cruds.user.fields.district')</th>
                                 <th>@lang('cruds.user.fields.name')</th>
                                 <th>@lang('cruds.user.fields.email')</th>
                                 <th>@lang('cruds.user.fields.roles')</th>
@@ -49,7 +48,7 @@
                             @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td>{{ $user->district ? $user->district->name : '' }}</td>
+                                    {{-- <td>{{ $user->district ? $user->district->name : '' }}</td> --}}
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>

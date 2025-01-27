@@ -24,6 +24,45 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('userIndex') }}" class="nav-link">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Фойдаланувчилар</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item nav-category">web apps</li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
+                    aria-controls="emails">
+                    <i class="link-icon" data-feather="map"></i>
+                    <span class="link-title">Манзиллар</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="emails">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ route('regionIndex') }}" class="nav-link">Худуд</a>
+                        </li>
+                
+                        <li class="nav-item">
+                            <a href="{{route('districtIndex')}}" class="nav-link">Туман</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('streetIndex')}}" class="nav-link">Мфй</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('substreetIndex')}}" class="nav-link">Кўча</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>  
+
+
+
 
             {{-- <li class="nav-item nav-category">Main</li>
 
@@ -56,26 +95,7 @@
 
 
 
-                {{-- <li class="nav-item nav-category">web apps</li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
-                    aria-controls="emails">
-                    <i class="link-icon" data-feather="mail"></i>
-                    <span class="link-title">Email</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="emails">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{route('ijro.index')}}" class="nav-link">Inbox</a>
-                        </li>
-                
-                        <li class="nav-item">
-                            <a href="{{route('ijro.compose')}}" class="nav-link">Compose</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>  --}}
+          
                 {{-- <li class="nav-item">
                 <a href="pages/apps/chat.html" class="nav-link">
                     <i class="link-icon" data-feather="message-square"></i>
