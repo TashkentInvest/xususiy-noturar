@@ -18,34 +18,46 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="mb-4">
-                                <h6>Жами активлар сони</h6>
-                                <h3>{{ $totalAktivs }}</h3>
+                            <div class="card text-center shadow-sm p-3 mb-4">
+                                <div class="card-body">
+                                    <i class="text-primary mb-2" data-feather="database" style="width: 32px; height: 32px;"></i>
+                                    <h6 class="text-muted">Жами активлар сони</h6>
+                                    <h3 class="font-weight-bold">{{ $totalAktivs }}</h3>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-4">
-                                <h6>24/7 ишлайдиган активлар</h6>
-                                <h3>{{ $working247Aktivs }}</h3>
+                            <div class="card text-center shadow-sm p-3 mb-4">
+                                <div class="card-body">
+                                    <i class="text-success mb-2" data-feather="clock" style="width: 32px; height: 32px;"></i>
+                                    <h6 class="text-muted">24/7 ишлайдиган активлар</h6>
+                                    <h3 class="font-weight-bold">{{ $working247Aktivs }}</h3>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-4">
-                                <h6>Бино турлари бўйича активлар</h6>
-                                <ul>
-                                    <li>Кўп қаватли уйлар: {{ $buildingTypeCounts['kopQavatliUy'] ?? 0 }}</li>
-                                    <li>Алоҳида савдо дўконлари: {{ $buildingTypeCounts['AlohidaSavdoDokoni'] ?? 0 }}</li>
-                                </ul>
+                            <div class="card shadow-sm p-3 mb-4">
+                                <div class="card-body">
+                                    <i class="text-warning m-auto d-flex justify-content-center" data-feather="home" style="width: 32px; height: 32px;"></i>
+                                    <ul class="list-unstyled mt-1">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <span>Кўп қаватли уйлар:</span>
+                                            <span class="font-weight-bold">{{ $buildingTypeCounts['kopQavatliUy'] ?? 0 }}</span>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <span>Алоҳида савдо дўконлари:</span>
+                                            <span class="font-weight-bold">{{ $buildingTypeCounts['AlohidaSavdoDokoni'] ?? 0 }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-
-                        <div id="buildingTypeChart"></div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
+        
 
         <div class="col-xl-12 grid-margin stretch-card">
             <div class="card">
@@ -93,24 +105,7 @@
             districtChart.render();
 
             // Chart for building types
-            const buildingTypeCounts = @json($buildingTypeCounts);
-
-            const buildingTypeOptions = {
-                chart: {
-                    type: 'pie',
-                    height: 200
-                },
-                series: Object.values(buildingTypeCounts),
-                labels: Object.keys(buildingTypeCounts),
-                title: {
-                    text: 'Бино турлари бўйича активлар',
-                    align: 'center'
-                },
-                colors: ['#008ffb', '#feb019']
-            };
-
-            const buildingTypeChart = new ApexCharts(document.querySelector("#buildingTypeChart"), buildingTypeOptions);
-            buildingTypeChart.render();
+           
         });
     </script>
 
