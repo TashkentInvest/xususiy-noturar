@@ -31,7 +31,7 @@
                 </a>
             </li>
 
-         
+
 
             <li class="nav-item nav-category">Бошқариш</li>
             <li class="nav-item">
@@ -43,14 +43,14 @@
                 </a>
                 <div class="collapse" id="emails">
                     <ul class="nav sub-menu">
-                        
+
 
                         <li class="nav-item">
-                            <a href="{{ route('roleIndex') }}" class="nav-link">Role</a>
+                            <a href="{{ route('roleIndex') }}" class="nav-link">Роль</a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('permissionIndex') }}" class="nav-link">Permmision</a>
+                            <a href="{{ route('permissionIndex') }}" class="nav-link">Рухсат бериш</a>
                         </li>
 
                         <li class="nav-item">
