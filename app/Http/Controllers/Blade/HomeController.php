@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aktiv;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\District;
@@ -33,8 +34,16 @@ class HomeController extends Controller
 
     public function statistics()
     {
-        $districts = District::withCount('aktives')->get(['name_uz', 'aktives_count']);
-        return view('pages.statistics.index', compact('districts'));
+        $districts = District::withCount('aktives')->get();
+
+        $totalAktivs = $districts->sum('aktives_count');
+        $working247Aktivs = Aktiv::where('working_24_7', true)->count();
+
+        $buildingTypeCounts = Aktiv::select('building_type', DB::raw('count(*) as count'))
+            ->groupBy('building_type')
+            ->pluck('count', 'building_type');
+
+        return view('pages.statistics.index', compact('districts', 'totalAktivs', 'working247Aktivs', 'buildingTypeCounts'));
     }
 
 
