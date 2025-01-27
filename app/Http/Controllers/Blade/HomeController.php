@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Blade;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\District;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
@@ -32,9 +33,10 @@ class HomeController extends Controller
 
     public function statistics()
     {
-
-        return view('pages.statistics.index');
+        $districts = District::withCount('aktives')->get(['name_uz', 'aktives_count']);
+        return view('pages.statistics.index', compact('districts'));
     }
+
 
     public function optimize()
     {
