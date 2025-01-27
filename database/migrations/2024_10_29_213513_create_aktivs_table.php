@@ -26,9 +26,10 @@ class CreateAktivsTable extends Migration
             $table->timestamp('action_timestamp')->nullable();
             $table->softDeletes();
 
-            $table->string('object_name');
-            $table->string('balance_keeper');
-            $table->string('location');
+            $table->string('object_name')->nullable();
+            $table->string('object_type')->nullable();
+            $table->string('balance_keeper')->nullable();
+            $table->string('location')->nullable();
             $table->decimal('land_area', 10, 2);
             $table->decimal('building_area', 10, 2)->nullable();
             $table->string('gas');

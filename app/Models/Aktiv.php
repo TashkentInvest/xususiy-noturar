@@ -87,6 +87,7 @@ class Aktiv extends Model
         'action',
         'action_timestamp',
         'object_name',
+        'object_type',
         'balance_keeper',
         'location',
         'land_area',
