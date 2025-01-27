@@ -18,8 +18,15 @@
 
 
             <li class="nav-item">
+                <a href="{{ route('statistics.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="home"></i>
+                    <span class="link-title">Статистика</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{ route('aktivs.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
+                    <i class="link-icon" data-feather="layout"></i>
                     <span class="link-title">Компаниялар</span>
                 </a>
             </li>

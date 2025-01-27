@@ -33,7 +33,7 @@ Route::get('/', function () {
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/statistics', [HomeController::class, 'statistics'])->name('statistics.show');
+Route::get('/statistics', [HomeController::class, 'statistics'])->name('statistics.index');
 // Web pages
 Route::group(['middleware' => ['auth', 'checkUserRole']], function () {
 
@@ -162,8 +162,6 @@ Route::get('/language/{lang}', function ($lang) {
 
 // new -----------------------
 
-Route::get('analytics/index', [AnalyticsController::class, 'index'])->name('analytics.index');
-Route::get('analytics/statistic', [AnalyticsController::class, 'statistic'])->name('analytics.statistic');
 
 Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
 Route::get('search', [SearchController::class, 'search'])->name('search');

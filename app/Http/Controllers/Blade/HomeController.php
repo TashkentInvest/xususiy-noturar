@@ -27,21 +27,14 @@ class HomeController extends Controller
         } else {
             // dd($hasRoles);
             return view('welcome');
-        }   
+        }
     }
 
     public function statistics()
-{
-    $messages = Message::with('user')->orderBy('created_at', 'asc')->get();
-    $categories = ['Ruxsatnoma', 'Apz', 'Kengash'];
+    {
 
-    $categoryCounts = Category::whereIn('name', $categories)
-        ->withCount('clients')
-        ->get();
-    
-
-    return view('pages.statistics', compact('messages', 'categoryCounts'));
-}
+        return view('pages.statistics.index');
+    }
 
     public function optimize()
     {
