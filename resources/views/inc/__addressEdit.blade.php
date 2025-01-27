@@ -1,23 +1,23 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h5>Манзил маълумотлари (Address Information)</h5>
+            <h5>Манзил маълумотлари</h5>
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Вилоят номи (Region Name):</strong>
+                <strong>Худуд номи (Region Name):</strong>
                 {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Туман номи (District Name):</strong>
+                <strong>Туман номи :</strong>
                 {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Мфй номи (MFY Name):</strong>
+                <strong>Мфй номи:</strong>
                 {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Кўча номи (Sub Street Name):</strong>
+                <strong>Кўча номи:</strong>
                 {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
             </div>
         </div>
@@ -25,7 +25,7 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h5>Манзилни озгартириш (Edit Address)</h5>
+            <h5>Манзилни озгартириш)</h5>
         </div>
         <div class="card-body">
             <div class="mb-3">

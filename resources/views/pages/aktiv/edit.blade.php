@@ -37,23 +37,23 @@
 
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5>Манзил маълумотлари (Address Information)</h5>
+                        <h5>Манзил маълумотлари</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <strong>Вилоят номи (Region Name):</strong>
+                            <strong>Худуд номи:</strong>
                             {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
                         </div>
                         <div class="mb-3">
-                            <strong>Туман номи (District Name):</strong>
+                            <strong>Туман номи:</strong>
                             {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
                         </div>
                         <div class="mb-3">
-                            <strong>Мфй номи (MFY Name):</strong>
+                            <strong>Мфй номи:</strong>
                             {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
                         </div>
                         <div class="mb-3">
-                            <strong>Кўча номи (Sub Street Name):</strong>
+                            <strong>Кўча номи:</strong>
                             {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
                         </div>
                     </div>
@@ -61,7 +61,7 @@
 
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5>Манзилни озгартириш (Edit Address)</h5>
+                        <h5>Манзилни озгартириш)</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -78,7 +78,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="district_id">Район</label>
+                            <label for="district_id">Туман</label>
                             <select class="form-control district_id select2" name="district_id" id="district_id" required>
                                 <option value="" disabled selected>Туманни танланг</option>
                                 @foreach ($districts as $district)
@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="street_id" class="me-2">Мфй <span
+                            <label for="street_id" class="me-2">Мфй<span
                                     style="color: red;font-weight: bold;">MAJBURIY</span></label>
                             <div class="d-flex align-items-end">
                                 <select class="form-control street_id select2" name="street_id" id="street_id" required>
@@ -109,7 +109,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="substreet_id" class="me-2">Кўча <span
+                            <label for="substreet_id" class="me-2">Кўча<span
                                     style="color: red;font-weight: bold;">MAJBURIЙ</span></label>
                             <div class="d-flex align-items-end">
                                 <select class="form-control sub_street_id select2" name="sub_street_id" id="substreet_id"
@@ -422,19 +422,19 @@
 
                 <!-- Region Information -->
                 <div class="mb-3">
-                    <strong>Вилоят номи (Region Name):</strong>
+                    <strong>Худуд номи (Region Name):</strong>
                     {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
                 </div>
 
                 <!-- District Information -->
                 <div class="mb-3">
-                    <strong>Туман номи (District Name):</strong>
+                    <strong>Туман номи :</strong>
                     {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
                 </div>
 
                 <!-- SubStreet Information -->
                 <div class="mb-3">
-                    <strong>Кўча номи (Sub Street Name):</strong>
+                    <strong>Кўча номи:</strong>
                     {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
                 </div>
 

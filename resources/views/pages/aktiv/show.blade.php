@@ -44,17 +44,17 @@
         <h5 class="card-title text-primary">Расположение</h5>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Вилоят номи (Region Name):</strong>
+                <strong>Худуд номи (Region Name):</strong>
                 {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Туман номи (District Name):</strong> {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
+                <strong>Туман номи :</strong> {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Мфй номи (MFY Name):</strong> {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
+                <strong>Мфй номи:</strong> {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Кўча номи (Sub Street Name):</strong> {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
+                <strong>Кўча номи:</strong> {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
             </div>
         </div>
     </div>
