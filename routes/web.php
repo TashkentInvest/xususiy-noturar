@@ -212,19 +212,4 @@ Route::post('/create/substreet', [SubStreetController::class, 'create_new'])->na
 Route::get('/generate/doc', [FileController::class, 'index'])->name('generate_doc');
 
 
-
-
-// clean routes start -----------------------------------------------------------------------------------------------------
-
-// custom routes
-// Route::get('/', function () {
-//     return redirect()->route('aktivs.index');
-// });
-
-// Route::resource('aktivs', AktivController::class);
-// Import the controller at the top
-
-// Define routes individually
-
-
 Route::post('/import-users', [AddNewUsersController::class, 'importUsers'])->name('import.users');
