@@ -712,26 +712,26 @@
                 <div id="file-error" class="text-danger mb-3"></div>
 
                 <!-- Container to hold new file inputs -->
-                <div id="file-upload-container">
-                    <div class="mb-3">
+                <div id="file-upload-container" class="row">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
                         <label for="file1">Биринчи файл</label>
                         <input type="file" class="form-control" name="files[]" id="file1">
                     </div>
-                    <div class="mb-3">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
                         <label for="file2">Иккинчи файл</label>
                         <input type="file" class="form-control" name="files[]" id="file2">
                     </div>
-                    <div class="mb-3">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
                         <label for="file3">Учинчи файл</label>
                         <input type="file" class="form-control" name="files[]" id="file3">
                     </div>
-                    <div class="mb-3">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
                         <label for="file4">Тўртинчи файл</label>
                         <input type="file" class="form-control" name="files[]" id="file4">
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-secondary mb-3" onclick="addFileInput()">Янги файл қўшиш</button>
+                {{-- <button type="button" class="btn btn-secondary mb-3" onclick="addFileInput()">Янги файл қўшиш</button> --}}
 
                 <!-- Map Section -->
                 <div class="mb-3">
