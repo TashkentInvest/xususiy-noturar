@@ -30,6 +30,10 @@
             </div>
 
             <div class="mb-3">
+                <strong>Объект тури:</strong> {{ $aktiv->object_type ?? ''}}
+            </div>
+
+            <div class="mb-3">
                 <strong>Яратилган сана:</strong> {{ $aktiv->created_at }}
             </div>
 

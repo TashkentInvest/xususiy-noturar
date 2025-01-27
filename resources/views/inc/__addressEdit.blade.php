@@ -25,7 +25,7 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h5>Манзилни озгартириш)</h5>
+            <h5>Манзилни озгартириш</h5>
         </div>
         <div class="card-body">
             <div class="mb-3">

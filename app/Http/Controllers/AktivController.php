@@ -258,6 +258,7 @@ class AktivController extends Controller
             'working_24_7' => 'nullable',
             'owner' => 'nullable',
             'stir' => 'nullable',
+            'object_type' => 'nullable',
         ]);
         // $request->validate([
         //     'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -492,6 +493,7 @@ class AktivController extends Controller
             'working_24_7' => 'nullable',
             'owner' => 'nullable',
             'stir' => 'nullable',
+            'object_type' => 'nullable',
         ]);
 
         // $totalFiles = $aktiv->files()->count() - count($request->delete_files ?? []) + count($request->file('files') ?? []);

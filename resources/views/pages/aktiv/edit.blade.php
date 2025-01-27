@@ -61,10 +61,10 @@
 
                 <div class="card mb-3">
                     <div class="card-header">
-                        <h5>Манзилни озгартириш)</h5>
+                        <h5>Манзилни озгартириш</h5>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
+                    <div class="card-body row">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="region_id">Худуд</label>
                             <select class="form-control region_id select2" name="region_id" id="region_id" required>
                                 <option value="" disabled selected>Худудни танланг</option>
@@ -77,7 +77,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="district_id">Туман</label>
                             <select class="form-control district_id select2" name="district_id" id="district_id" required>
                                 <option value="" disabled selected>Туманни танланг</option>
@@ -90,7 +90,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="street_id" class="me-2">Мфй<span
                                     style="color: red;font-weight: bold;">MAJBURIY</span></label>
                             <div class="d-flex align-items-end">
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="substreet_id" class="me-2">Кўча<span
                                     style="color: red;font-weight: bold;">MAJBURIЙ</span></label>
                             <div class="d-flex align-items-end">
@@ -152,7 +152,7 @@
                 </div>
 
                 <style>
-                    .select2{
+                    .select2 {
                         width: 100% !important;
                     }
                 </style>
@@ -323,7 +323,8 @@
                                     error: function(xhr, status, error) {
                                         console.error('Error adding substreet:', error);
                                         alert(
-                                            'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.');
+                                            'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
+                                        );
                                     }
                                 });
                             }
@@ -332,243 +333,358 @@
                 </script>
 
 
-                <div class="mb-3">
-                    <label for="location">Мўлжал</label>
-                    <input class="form-control" type="text" name="location" id="location"
-                        value="{{ old('location', $aktiv->location) }}">
-                    @error('location')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                <div class="test">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="location">Мўлжал</label>
+                            <input class="form-control" type="text" name="location" id="location"
+                                value="{{ old('location', $aktiv->location) }}">
+                            @error('location')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="land_area">Ер майдони (кв.м)</label>
+                            <input class="form-control" type="number" name="land_area" id="land_area"
+                                value="{{ old('land_area', $aktiv->land_area) }}">
+                            @error('land_area')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="building_area">Бино майдони (кв.м)</label>
+                            <input class="form-control" type="number" name="building_area" id="building_area"
+                                value="{{ old('building_area', $aktiv->building_area) }}">
+                            @error('building_area')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="gas">Газ</label>
+                            <select class="form-control form-select mb-3" name="gas" id="gas">
+                                <option value="Мавжуд" {{ old('gas', $aktiv->gas) == 'Мавжуд' ? 'selected' : '' }}>Мавжуд
+                                </option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('gas', $aktiv->gas) == 'Мавжуд эмас' ? 'selected' : '' }}>
+                                    Мавжуд
+                                    эмас</option>
+                            </select>
+                            @error('gas')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="water">Сув</label>
+                            <select class="form-control form-select mb-3" name="water" id="water">
+                                <option value="Мавжуд" {{ old('water', $aktiv->water) == 'Мавжуд' ? 'selected' : '' }}>
+                                    Мавжуд
+                                </option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('water', $aktiv->water) == 'Мавжуд эмас' ? 'selected' : '' }}>
+                                    Мавжуд
+                                    эмас</option>
+                            </select>
+                            @error('water')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="electricity">Электр</label>
+                            <select class="form-control form-select mb-3" name="electricity" id="electricity">
+                                <option value="Мавжуд"
+                                    {{ old('electricity', $aktiv->electricity) == 'Мавжуд' ? 'selected' : '' }}>
+                                    Мавжуд</option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('electricity', $aktiv->electricity) == 'Мавжуд эмас' ? 'selected' : '' }}>Мавжуд
+                                    эмас
+                                </option>
+                            </select>
+                            @error('electricity')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="building_type">Бино тури</label>
+                            <select name="building_type" id="building_type" class="form-control" required>
+                                <option value="" disabled
+                                    {{ old('building_type', $aktiv->building_type) == '' ? 'selected' : '' }}>Выберите тип
+                                    недвижимости
+                                </option>
+
+                                <option value="kopQavatliUy"
+                                    {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>
+                                    kopQavatliUy
+                                </option>
+                                <option value="AlohidaSavdoDokoni"
+                                    {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>
+                                    AlohidaSavdoDokoni
+                                </option>
+                            </select>
+
+                            @error('building_type')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="additional_info">Қўшимча маълумот</label>
+                            <input class="form-control" type="text" name="additional_info" id="additional_info"
+                                value="{{ old('additional_info', $aktiv->additional_info) }}">
+                            @error('additional_info')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="kadastr_raqami">Кадастр рақами</label>
+                            <input class="form-control" type="text" name="kadastr_raqami" id="kadastr_raqami"
+                                value="{{ old('kadastr_raqami', $aktiv->kadastr_raqami) }}"
+                                title="Format: 11:04:42:01:03:0136" placeholder="11:04:42:01:03:0136">
+                            <small id="kadastrHelp" class="form-text text-muted">
+                                Please enter the cadastral number in the format: 11:04:42:01:03:0136
+                            </small>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <div class="form-group">
+                                <label for="kadastr_pdf">Кадастр файл</label>
+                                <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-12 mb-3">
+
+                            <div class="form-group">
+                                <label for="hokim_qarori_pdf">Балансга қабул қилиш учун асос болган хужжат</label>
+                                <input type="file" id="hokim_qarori_pdf" name="hokim_qarori_pdf"
+                                    class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-12 mb-3">
+
+                            <div class="form-group mb-4">
+                                <label for="transfer_basis_pdf">3-шахсга йоки бошқа шахсга бериш учун асос болган
+                                    хужжат</label>
+                                <input type="file" id="transfer_basis_pdf" name="transfer_basis_pdf"
+                                    class="form-control">
+                            </div>
+
+                        </div>
+                        {{-- ------------------------------------------- --}}
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="object_type">Объект тури:</label>
+                            <select name="object_type" class="form-control">
+                                <option value="Иишлаб чиқариш"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'Иишлаб чиқариш' ? 'selected' : '' }}>
+                                    Иишлаб чиқариш
+                                </option>
+                                <option value="савдо"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'савдо' ? 'selected' : '' }}>
+                                    савдо
+                                </option>
+                                <option value="хизмат"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'хизмат' ? 'selected' : '' }}>
+                                    хизмат
+                                </option>
+                                <option value="қурилиш"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'қурилиш' ? 'selected' : '' }}>
+                                    қурилиш
+                                </option>
+                                <option value="таълим"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'таълим' ? 'selected' : '' }}>
+                                    таълим
+                                </option>
+                                <option value="спорт"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'спорт' ? 'selected' : '' }}>
+                                    спорт
+                                </option>
+                                <option value="наширёт"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'наширёт' ? 'selected' : '' }}>
+                                    наширёт
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="document_type">Ҳужжат тури:</label>
+                            <select name="document_type" class="form-control">
+                                <option value="ҳоким қарори"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ҳоким қарори' ? 'selected' : '' }}>
+                                    Ҳоким
+                                    қарори</option>
+                                <option value="ордер"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ордер' ? 'selected' : '' }}>
+                                    Ордер
+                                </option>
+                                <option value="ижара шартнома"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ижара шартнома' ? 'selected' : '' }}>
+                                    Ижара
+                                    шартнома</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
+                            <input type="text" name="reason_not_active" class="form-control"
+                                value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
+
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
+                            <select name="ready_for_rent" class="form-control">
+                                <option value="ха"
+                                    {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа
+                                </option>
+                                <option value="йўқ"
+                                    {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>
+                                    Йўқ
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
+                            <select name="rental_agreement_status" class="form-control">
+                                <option value="энди тузилади"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'энди тузилади' ? 'selected' : '' }}>
+                                    энди тузилади</option>
+                                <option value="хозир топполмаяпман"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'хозир топполмаяпман' ? 'selected' : '' }}>
+                                    хозир топполмаяпман</option>
+
+                                <option value="бор"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
+                                    бор</option>
+
+                                <option value="йўқ"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
+                                    йўқ</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="unused_duration">Фойдаланилмаган муддат:</label>
+                            <select name="unused_duration" class="form-control">
+                                <option value="1 ой бўлди"
+                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>
+                                    1
+                                    ой
+                                    бўлди</option>
+                                <option value="3 ой бўлди"
+                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>
+                                    3
+                                    ой
+                                    бўлди</option>
+
+                                <option value="6 ой бўлди"
+                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>
+                                    6
+                                    ой
+                                    бўлди</option>
+
+                                <option value="1 йил бўлди"
+                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>
+                                    1
+                                    йил бўлди</option>
+
+                                <option value="1 йил Ундан кўп"
+                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
+                                    1 йил Ундан кўп</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="provided_assistance">Берилган амалий ёрдам:</label>
+                            <select name="provided_assistance" class="form-control">
+                                <option value="кредит берилди"
+                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
+                                    кредит берилди</option>
+                                <option value="маслахат берилди"
+                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
+                                    маслахат берилди</option>
+
+                                <option value="ижарачи топиб берилди"
+                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
+                                    ижарачи топиб берилди</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="start_date">Фаолият юритишни бошлаган сана:</label>
+                            <input type="date" name="start_date" class="form-control"
+                                value="{{ old('start_date', $aktiv->start_date ?? '') }}">
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="additional_notes">Изоҳ:</label>
+                            <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="working_24_7">24/7 режимда ишлайдими?</label>
+                            <select name="working_24_7" class="form-control">
+                                <option value="1"
+                                    {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
+                                    Ҳа</option>
+                                <option value="0"
+                                    {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
+                                    Йўқ</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="owner">Мулкдор:</label>
+                            <input type="text" name="owner" class="form-control"
+                                value="{{ old('owner', $aktiv->owner ?? '') }}">
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="STIR">СТИР:</label>
+                            <input type="text" name="STIR" class="form-control"
+                                value="{{ old('STIR', $aktiv->STIR ?? '') }}">
+                        </div>
+                    </div>
+
                 </div>
-
-                <div class="mb-3">
-                    <label for="land_area">Ер майдони (кв.м)</label>
-                    <input class="form-control" type="number" name="land_area" id="land_area"
-                        value="{{ old('land_area', $aktiv->land_area) }}">
-                    @error('land_area')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="building_area">Бино майдони (кв.м)</label>
-                    <input class="form-control" type="number" name="building_area" id="building_area"
-                        value="{{ old('building_area', $aktiv->building_area) }}">
-                    @error('building_area')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <label for="gas">Газ</label>
-                <select class="form-control form-select mb-3" name="gas" id="gas">
-                    <option value="Мавжуд" {{ old('gas', $aktiv->gas) == 'Мавжуд' ? 'selected' : '' }}>Мавжуд</option>
-                    <option value="Мавжуд эмас" {{ old('gas', $aktiv->gas) == 'Мавжуд эмас' ? 'selected' : '' }}>Мавжуд
-                        эмас</option>
-                </select>
-                @error('gas')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-
-                <label for="water">Сув</label>
-                <select class="form-control form-select mb-3" name="water" id="water">
-                    <option value="Мавжуд" {{ old('water', $aktiv->water) == 'Мавжуд' ? 'selected' : '' }}>Мавжуд</option>
-                    <option value="Мавжуд эмас" {{ old('water', $aktiv->water) == 'Мавжуд эмас' ? 'selected' : '' }}>
-                        Мавжуд
-                        эмас</option>
-                </select>
-                @error('water')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-
-                <label for="electricity">Электр</label>
-                <select class="form-control form-select mb-3" name="electricity" id="electricity">
-                    <option value="Мавжуд" {{ old('electricity', $aktiv->electricity) == 'Мавжуд' ? 'selected' : '' }}>
-                        Мавжуд</option>
-                    <option value="Мавжуд эмас"
-                        {{ old('electricity', $aktiv->electricity) == 'Мавжуд эмас' ? 'selected' : '' }}>Мавжуд эмас
-                    </option>
-                </select>
-                @error('electricity')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-                <label for="building_type">Бино тури</label>
-                <select name="building_type" id="building_type" class="form-control" required>
-                    <option value="" disabled
-                        {{ old('building_type', $aktiv->building_type) == '' ? 'selected' : '' }}>Выберите тип недвижимости
-                    </option>
-                    {{-- <option value="yer" {{ old('building_type', $aktiv->building_type) == 'yer' ? 'selected' : '' }}>Yer
-                    </option> --}}
-                    <option value="kopQavatliUy"
-                        {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>kopQavatliUy
-                    </option>
-                    <option value="AlohidaSavdoDokoni"
-                        {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>
-                        AlohidaSavdoDokoni
-                    </option>
-                </select>
-
-                @error('building_type')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-
-                <div class="mb-3">
-                    <label for="additional_info">Қўшимча маълумот</label>
-                    <input class="form-control" type="text" name="additional_info" id="additional_info"
-                        value="{{ old('additional_info', $aktiv->additional_info) }}">
-                    @error('additional_info')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Region Information -->
-                <div class="mb-3">
-                    <strong>Худуд номи (Region Name):</strong>
-                    {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
-                </div>
-
-                <!-- District Information -->
-                <div class="mb-3">
-                    <strong>Туман номи :</strong>
-                    {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
-                </div>
-
-                <!-- SubStreet Information -->
-                <div class="mb-3">
-                    <strong>Кўча номи:</strong>
-                    {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
-                </div>
-
-                <div class="mb-3">
-                    <label for="kadastr_raqami">Кадастр рақами</label>
-                    <input class="form-control" type="text" name="kadastr_raqami" id="kadastr_raqami"
-                        value="{{ old('kadastr_raqami', $aktiv->kadastr_raqami) }}" title="Format: 11:04:42:01:03:0136"
-                        placeholder="11:04:42:01:03:0136">
-                    <small id="kadastrHelp" class="form-text text-muted">
-                        Please enter the cadastral number in the format: 11:04:42:01:03:0136
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label for="kadastr_pdf">Кадастр файл</label>
-                    <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label for="hokim_qarori_pdf">Балансга қабул қилиш учун асос болган хужжат</label>
-                    <input type="file" id="hokim_qarori_pdf" name="hokim_qarori_pdf" class="form-control">
-                </div>
-
-                <div class="form-group mb-4">
-                    <label for="transfer_basis_pdf">3-шахсга йоки бошқа шахсга бериш учун асос болган хужжат</label>
-                    <input type="file" id="transfer_basis_pdf" name="transfer_basis_pdf" class="form-control">
-                </div>
-
-                {{-- ------------------------------------------- --}}
-                <label for="document_type">Ҳужжат тури:</label>
-                <select name="document_type" class="form-control">
-                    <option value="ҳоким қарори"
-                        {{ old('document_type', $aktiv->document_type ?? '') == 'ҳоким қарори' ? 'selected' : '' }}>Ҳоким
-                        қарори</option>
-                    <option value="ордер"
-                        {{ old('document_type', $aktiv->document_type ?? '') == 'ордер' ? 'selected' : '' }}>Ордер</option>
-                    <option value="ижара шартнома"
-                        {{ old('document_type', $aktiv->document_type ?? '') == 'ижара шартнома' ? 'selected' : '' }}>Ижара
-                        шартнома</option>
-                </select>
-
-                <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
-                <input type="text" name="reason_not_active" class="form-control"
-                    value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
-
-                <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
-                <select name="ready_for_rent" class="form-control">
-                    <option value="ха"
-                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа</option>
-                    <option value="йўқ"
-                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>Йўқ</option>
-                </select>
-
-                <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
-                <select name="rental_agreement_status" class="form-control">
-                    <option value="энди тузилади"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'энди тузилади' ? 'selected' : '' }}>
-                        энди тузилади</option>
-                    <option value="хозир топполмаяпман"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'хозир топполмаяпман' ? 'selected' : '' }}>
-                        хозир топполмаяпман</option>
-
-                    <option value="бор"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
-                        бор</option>
-
-                    <option value="йўқ"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
-                        йўқ</option>
-                </select>
-
-
-                <label for="unused_duration">Фойдаланилмаган муддат:</label>
-                <select name="unused_duration" class="form-control">
-                    <option value="1 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1 ой
-                        бўлди</option>
-                    <option value="3 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>3 ой
-                        бўлди</option>
-
-                    <option value="6 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>6 ой
-                        бўлди</option>
-
-                    <option value="1 йил бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>1
-                        йил бўлди</option>
-
-                    <option value="1 йил Ундан кўп"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
-                        1 йил Ундан кўп</option>
-                </select>
-
-
-                <label for="provided_assistance">Берилган амалий ёрдам:</label>
-                <select name="provided_assistance" class="form-control">
-                    <option value="кредит берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
-                        кредит берилди</option>
-                    <option value="маслахат берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
-                        маслахат берилди</option>
-
-                    <option value="ижарачи топиб берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
-                        ижарачи топиб берилди</option>
-                </select>
-
-
-                <label for="start_date">Фаолият юритишни бошлаган сана:</label>
-                <input type="date" name="start_date" class="form-control"
-                    value="{{ old('start_date', $aktiv->start_date ?? '') }}">
-
-                <label for="additional_notes">Изоҳ:</label>
-                <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
-
-                <label for="working_24_7">24/7 режимда ишлайдими?</label>
-                <select name="working_24_7" class="form-control">
-                    <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
-                        Ҳа</option>
-                    <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
-                        Йўқ</option>
-                </select>
-
-                <label for="owner">Мулкдор:</label>
-                <input type="text" name="owner" class="form-control"
-                    value="{{ old('owner', $aktiv->owner ?? '') }}">
-
-                <label for="STIR">СТИР:</label>
-                <input type="text" name="STIR" class="form-control"
-                    value="{{ old('STIR', $aktiv->STIR ?? '') }}">
-
-
             </div>
             <!-- Right Column -->
             <div class="col-md-6">

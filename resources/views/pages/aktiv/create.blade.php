@@ -154,6 +154,41 @@
 
                 {{-- ---------------------------------- --}}
                 {{-- ------------------------------------------- --}}
+
+                <label for="object_type">Объект тури:</label>
+                <select name="object_type" class="form-control">
+                    <option value="Иишлаб чиқариш"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'Иишлаб чиқариш' ? 'selected' : '' }}>
+                        Иишлаб чиқариш
+                    </option>
+                    <option value="савдо"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'савдо' ? 'selected' : '' }}>
+                        савдо
+                    </option>
+                    <option value="хизмат"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'хизмат' ? 'selected' : '' }}>
+                        хизмат
+                    </option>
+                    <option value="қурилиш"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'қурилиш' ? 'selected' : '' }}>
+                        қурилиш
+                    </option>
+                    <option value="таълим"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'таълим' ? 'selected' : '' }}>
+                        таълим
+                    </option>
+                    <option value="спорт"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'спорт' ? 'selected' : '' }}>
+                        спорт
+                    </option>
+                    <option value="наширёт"
+                        {{ old('object_type', $aktiv->object_type ?? '') == 'наширёт' ? 'selected' : '' }}>
+                        наширёт
+                    </option>
+                </select>
+
+
+
                 <label for="document_type">Ҳужжат тури:</label>
                 <select name="document_type" class="form-control">
                     <option value="ҳоким қарори"
@@ -198,7 +233,7 @@
 
                 <label for="unused_duration">Фойдаланилмаган муддат:</label>
                 <select name="unused_duration" class="form-control">
-                    
+
                     <option value="1 ой бўлди"
                         {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1 ой
                         бўлди</option>
