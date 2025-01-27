@@ -39,7 +39,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id="buildingTypeChart"></div>
+                    <div class="col-3">
+
+                        <div id="buildingTypeChart"></div>
+                    </div>
                 </div>
             </div>
         </div>
