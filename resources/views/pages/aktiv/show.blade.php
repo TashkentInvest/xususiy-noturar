@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1 class="mb-4">Объект маълумотлари (Детали объекта)</h1>
 
     <!-- General Information -->
     <div class="card shadow-sm p-4 mb-4">
-        <h5 class="card-title text-primary">Общая информация</h5>
+        <h5 class="card-title text-primary">Умумий маълумотлар
+        </h5>
         <div class="card-body">
 
 
@@ -15,18 +15,18 @@
             </div>
 
             <div class="mb-3">
-                <strong>Бино тури :</strong> {{ $aktiv->building_type ?? 'Мавжуд Эмас' }}
+                <strong>Бино тури:</strong> {{ $aktiv->building_type ?? 'Мавжуд Эмас' }}
             </div>
 
             <div class="mb-3">
-                <strong>Объект номи (Название объекта):</strong> {{ $aktiv->object_name }}
+                <strong>Объект номи:</strong> {{ $aktiv->object_name }}
             </div>
 
             <div class="mb-3">
-                <strong>Балансда сақловчи (Балансодержатель):</strong> {{ $aktiv->balance_keeper }}
+                <strong>Балансда сақловчи:</strong> {{ $aktiv->balance_keeper }}
             </div>
             <div class="mb-3">
-                <strong>Мўлжал (Местоположение):</strong> {{ $aktiv->location }}
+                <strong>Мўлжал:</strong> {{ $aktiv->location }}
             </div>
 
             <div class="mb-3">
@@ -41,14 +41,14 @@
 
     <!-- Location Information -->
     <div class="card shadow-sm p-4 mb-4">
-        <h5 class="card-title text-primary">Расположение</h5>
+        <h5 class="card-title text-primary">Жойлашув</h5>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Худуд номи (Region Name):</strong>
+                <strong>Худуд номи:</strong>
                 {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Туман номи :</strong> {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
+                <strong>Туман номи:</strong> {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
                 <strong>Мфй номи:</strong> {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
@@ -115,31 +115,31 @@
 
     <!-- Technical Information -->
     <div class="card shadow-sm p-4 mb-4">
-        <h5 class="card-title text-primary">Техническая информация</h5>
+        <h5 class="card-title text-primary">Техник маълумотлар</h5>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Ер майдони (Площадь земли) (кв.м):</strong> {{ $aktiv->land_area }}
+                <strong>Ер майдони (кв.м):</strong> {{ $aktiv->land_area }}
             </div>
             <div class="mb-3">
-                <strong>Бино майдони (Площадь здания) (кв.м):</strong> {{ $aktiv->building_area }}
+                <strong>Бино майдони (кв.м):</strong> {{ $aktiv->building_area }}
             </div>
             <div class="mb-3">
-                <strong>Газ (Газ):</strong> {{ $aktiv->gas }}
+                <strong>Газ:</strong> {{ $aktiv->gas }}
             </div>
             <div class="mb-3">
-                <strong>Сув (Вода):</strong> {{ $aktiv->water }}
+                <strong>Сув:</strong> {{ $aktiv->water }}
             </div>
             <div class="mb-3">
-                <strong>Электр (Электричество):</strong> {{ $aktiv->electricity }}
+                <strong>Электр:</strong> {{ $aktiv->electricity }}
             </div>
             <div class="mb-3">
-                <strong>Қўшимча маълумот (Дополнительная информация):</strong> {{ $aktiv->additional_info }}
+                <strong>Қўшимча маълумот:</strong> {{ $aktiv->additional_info }}
             </div>
             <div class="mb-3">
-                <strong>Кадастр рақами (Кадастровый номер):</strong> {{ $aktiv->kadastr_raqami }}
+                <strong>Кадастр рақами:</strong> {{ $aktiv->kadastr_raqami }}
             </div>
             <div class="mb-3">
-                <strong>Геолокация (Ссылка на геолокацию):</strong>
+                <strong>Геолокация:</strong>
                 <a href="{{ $aktiv->geolokatsiya }}" target="_blank">{{ $aktiv->geolokatsiya }}</a>
             </div>
         </div>
@@ -147,7 +147,7 @@
 
     <!-- Display Files -->
     <div class="card shadow-sm p-4 mb-4">
-        <h5 class="card-title text-primary">Юкланган файллар (Загруженные файлы)</h5>
+        <h5 class="card-title text-primary">Юкланган файллар</h5>
         <div class="card-body">
             @if ($aktiv->files->count())
                 <!-- Swiper Container -->
@@ -176,30 +176,30 @@
                     <div class="swiper-button-prev"></div>
                 </div>
             @else
-                <p class="text-muted">Файллар мавжуд эмас (Нет загруженных файлов).</p>
+                <p class="text-muted">Файллар мавжуд эмас.</p>
             @endif
         </div>
     </div>
 
     <div class="card shadow-sm p-4 mb-4">
-        <h5 class="card-title text-primary">Юкланган ҳужжатлар (Загруженные документы)</h5>
+        <h5 class="card-title text-primary">Юкланган ҳужжатлар</h5>
         <div class="card-body">
             @if ($aktiv->kadastr_pdf)
                 <p>
                     <strong>Кадастр файл:</strong>
-                    <a href="{{ asset($aktiv->kadastr_pdf) }}" target="_blank">Просмотреть файл</a>
+                    <a href="{{ asset($aktiv->kadastr_pdf) }}" target="_blank">Файлни кўриш</a>
                 </p>
             @else
-                <p>Кадастр файл мавжуд эмас (Файл отсутствует).</p>
+                <p>Кадастр файл мавжуд эмас.</p>
             @endif
 
             @if ($aktiv->hokim_qarori_pdf)
                 <p>
                     <strong>Ҳоким қарори файл:</strong>
-                    <a href="{{ asset($aktiv->hokim_qarori_pdf) }}" target="_blank">Просмотреть файл</a>
+                    <a href="{{ asset($aktiv->hokim_qarori_pdf) }}" target="_blank">Файлни кўриш</a>
                 </p>
             @else
-                <p>Ҳоким қарори файл мавжуд эмас (Файл отсутствует).</p>
+                <p>Ҳоким қарори файл мавжуд эмас.</p>
             @endif
 
             @if ($aktiv->transfer_basis_pdf)
@@ -208,7 +208,7 @@
                     <a href="{{ asset($aktiv->transfer_basis_pdf) }}" target="_blank">Просмотреть файл</a>
                 </p>
             @else
-                <p>Трансфер асоси файл мавжуд эмас (Файл отсутствует).</p>
+                <p>Трансфер асоси файл мавжуд эмас.</p>
             @endif
         </div>
     </div>
@@ -216,7 +216,7 @@
 
     {{-- Comments Section --}}
     <div class="comments mt-4">
-        <h3 class="text-primary">Comments</h3>
+        <h3 class="text-primary">Фикрлар</h3>
 
         {{-- Display comments --}}
         <div class="comments-container">
@@ -238,19 +238,18 @@
             <form action="{{ route('comments.store', $aktiv->id) }}" method="POST" class="mt-4">
                 @csrf
                 <div class="form-group">
-                    <label for="content">Add Comment</label>
-                    <textarea id="content" name="content" class="form-control" rows="3" placeholder="Write your comment..."
-                        required></textarea>
+                    <label for="content">Фикр киритиш</label>
+                    <textarea id="content" name="content" class="form-control" rows="3" placeholder="Фикрингизни ёзинг..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+                <button type="submit" class="btn btn-primary mt-2">Изоҳ қолдириш</button>
             </form>
         @endauth
     </div>
 
 
-    @if (auth()->user()->roles->first()->name == 'Super Admin')
-        <a href="{{ route('export.pptx_id', $aktiv->id) }}" class="btn btn-primary btn-sm mt-2">Export to PPTX</a>
-    @endif
+    {{-- @if (auth()->user()->roles->first()->name == 'Super Admin')
+        <a href="{{ route('export.pptx_id', $aktiv->id) }}" class="btn btn-primary btn-sm mt-2">PPTX га экспорт қилиш</a>
+    @endif --}}
 
     {{-- Add some styling --}}
     <style>
@@ -298,18 +297,18 @@
 
     <!-- Map Section -->
     <div class="card shadow-sm p-4 mb-4 mt-4">
-        <h5 class="card-title text-primary">Геолокация на карте</h5>
+        <h5 class="card-title text-primary">Харитадаги геолокатсия</h5>
         <div id="map" style="height: 500px; width: 100%;"></div>
     </div>
 
     <!-- Action Buttons -->
     <div class="d-flex justify-content-between mt-4">
         <a href="{{ route('aktivs.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Рўйхатга қайтиш (Вернуться к списку)
+            <i class="fas fa-arrow-left"></i> Рўйхатга қайтиш
         </a>
         @if (auth()->user()->roles[0]->name != 'Manager')
             <a href="{{ route('aktivs.edit', $aktiv->id) }}" class="btn btn-primary">
-                <i class="fas fa-edit"></i> Объектни таҳрирлаш (Редактировать объект)
+                <i class="fas fa-edit"></i> Объектни таҳрирлаш
             </a>
         @endif
     </div>
@@ -361,11 +360,8 @@
         }
 
         .swiper-slide {
-            /* Adjust the width to mimic col-3 (25%) or col-6 (50%) */
             width: 25%;
-            /* For col-3 */
-            /* width: 50%; */
-            /* For col-6 */
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -382,7 +378,6 @@
         @media (max-width: 768px) {
             .swiper-slide {
                 width: 50%;
-                /* Show 2 slides per view on smaller screens */
             }
 
             .card-img-top {
@@ -394,7 +389,6 @@
         @media (max-width: 576px) {
             .swiper-slide {
                 width: 100%;
-                /* Show 1 slide per view on extra small screens */
             }
         }
     </style>
