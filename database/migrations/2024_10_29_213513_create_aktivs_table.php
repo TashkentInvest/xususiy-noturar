@@ -54,14 +54,17 @@ class CreateAktivsTable extends Migration
             $table->string('ready_for_rent')->nullable(); // Ижарага беришга тайёрлиги (справочник)
             $table->string('rental_agreement_status')->nullable(); // Ижара шартномасини туздириш (справочник)
             $table->string('unused_duration')->nullable(); // Қанча вақтдан буён фойдаланилмайди (справочник)
-        
+
             $table->string('provided_assistance')->nullable(); // Берилган амалий ёрдам
             $table->date('start_date')->nullable(); // Фаолият юритишни бошлаган сана
             $table->text('additional_notes')->nullable(); // Изоҳ киритилган маълумотлардаги
             $table->boolean('working_24_7')->default(false); // 24/7 режимда ишлайдими (справочник)
-        
+
             $table->string('owner')->nullable(); // Мулкдор
             $table->string('stir')->nullable(); // СТИР
+
+            $table->string('tenant_phone_number')->nullable(); // Ижарачи тел рақами
+            $table->decimal('rental_amount', 15, 2)->nullable(); // Ижарага бериш суммаси
 
             $table->timestamps();
         });

@@ -292,6 +292,16 @@
                 <input type="text" name="stir" class="form-control"
                     value="{{ old('stir', $aktiv->stir ?? '') }}">
 
+                <!-- Ижарачи тел рақами -->
+                <label for="tenant_phone_number">Ижарачи тел рақами</label>
+                <input type="text" name="tenant_phone_number" id="tenant_phone_number" class="form-control"
+                    placeholder="+998 90 123 45 67" value="{{ old('tenant_phone_number') }}">
+
+                <!-- Ижарага бериш суммаси -->
+                <label for="rental_amount">Ижарага бериш суммаси</label>
+                <input type="number" step="0.01" name="rental_amount" id="rental_amount" class="form-control"
+                    placeholder="Суммани киритинг" value="{{ old('rental_amount') }}">
+
 
                 <script>
                     // Function to toggle the required attribute on the kadastr_raqami input

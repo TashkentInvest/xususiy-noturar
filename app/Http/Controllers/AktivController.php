@@ -259,6 +259,8 @@ class AktivController extends Controller
             'owner' => 'nullable',
             'stir' => 'nullable',
             'object_type' => 'nullable',
+            'tenant_phone_number' => 'nullable',
+            'rental_amount' => 'nullable',
         ]);
         // $request->validate([
         //     'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -494,6 +496,8 @@ class AktivController extends Controller
             'owner' => 'nullable',
             'stir' => 'nullable',
             'object_type' => 'nullable',
+            'tenant_phone_number' => 'nullable',
+            'rental_amount' => 'nullable',
         ]);
 
         // $totalFiles = $aktiv->files()->count() - count($request->delete_files ?? []) + count($request->file('files') ?? []);

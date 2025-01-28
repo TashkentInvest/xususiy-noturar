@@ -120,6 +120,9 @@ class Aktiv extends Model
         'working_24_7', // 24/7 режимда ишлайдими
         'owner', // Мулкдор
         'stir', // СТИР
+
+        'tenant_phone_number', // New column
+        'rental_amount', // New column
     ];
 
     public function files()

@@ -682,6 +682,23 @@
                             <input type="text" name="stir" class="form-control"
                                 value="{{ old('stir', $aktiv->stir ?? '') }}">
                         </div>
+
+
+                        <!-- Ижарачи тел рақами -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="tenant_phone_number">Ижарачи тел рақами</label>
+                            <input type="text" name="tenant_phone_number" id="tenant_phone_number"
+                                class="form-control" placeholder="+998 90 123 45 67"
+                                value="{{ old('tenant_phone_number', $aktiv->tenant_phone_number) }}">
+                        </div>
+
+                        <!-- Ижарага бериш суммаси -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="rental_amount">Ижарага бериш суммаси</label>
+                            <input type="number" step="0.01" name="rental_amount" id="rental_amount"
+                                class="form-control" placeholder="Суммани киритинг"
+                                value="{{ old('rental_amount', $aktiv->rental_amount) }}">
+                        </div>
                     </div>
 
                 </div>

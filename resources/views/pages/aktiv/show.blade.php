@@ -119,6 +119,17 @@
             <div class="mb-3">
                 <strong>СТИР:</strong> {{ $aktiv->stir ?? 'Маълумот йўқ' }}
             </div>
+
+            <!-- Ижарачи тел рақами -->
+            <div class="mb-3">
+                <strong>Ижарачи тел рақами:</strong> {{ $aktiv->tenant_phone_number ?? 'Маълумот йўқ' }}
+            </div>
+
+            <!-- Ижарага бериш суммаси -->
+            <div class="mb-3">
+                <strong>Ижарага бериш суммаси:</strong>
+                {{ $aktiv->rental_amount ? number_format($aktiv->rental_amount, 2, ',', ' ') . ' сум' : 'Маълумот йўқ' }}
+            </div>
         </div>
     </div>
 
