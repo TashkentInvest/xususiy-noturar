@@ -46,7 +46,7 @@ class District extends Model
 
     public function region()
     {
-        return $this->belongsTo(Regions::class,'region_id');
+        return $this->belongsTo(Regions::class,'region_id','id');
     }
 
     public function street()
@@ -65,7 +65,7 @@ class District extends Model
     }
     public function substreets()
     {
-        return $this->hasMany(SubStreet::class, 'district_id');
+        return $this->hasMany(SubStreet::class, 'district_id','id');
     }
     // Define the relationship to Aktivs via Street
     public function aktives()

@@ -117,14 +117,18 @@ class AktivController extends Controller
 
         // Finally, paginate the results
         $aktivs = $query->orderBy('created_at', 'asc')
-            ->with('files')
+            ->with(['substreet.district.region', 'user', 'files'])  // Adjusted to substreet
             ->paginate(15)
             ->appends($request->query());
 
+        \Log::debug('SQL Query:', [
+            'query' => $query->toSql(),
+            'bindings' => $query->getBindings(),
+            'request_data' => $request->all()
+        ]);
 
         return view('pages.aktiv.index', compact('aktivs', 'yerCount', 'noturarBinoCount', 'turarBinoCount', 'regions'));
     }
-
 
 
     public function userTumanlarCounts(Request $request)

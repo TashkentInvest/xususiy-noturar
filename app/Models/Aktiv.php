@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\HistoryService;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,72 +12,68 @@ class Aktiv extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected static function booted()
-    {
-        static::updated(function ($model) {
-            $original = $model->getOriginal();
-            $changes = $model->getChanges();
-
-            HistoryService::record($model, $original, $changes);
-        });
-
-        static::deleted(function ($model) {
-            History::create([
-                'model_type' => get_class($model),
-                'model_id' => $model->id,
-                'field' => 'deleted',
-                'old_value' => json_encode($model->getOriginal()), // Store old data as JSON
-                'new_value' => null,
-                'user_id' => auth()->id() ?? 1,
-            ]);
-        });
-    }
-
-    // Filter Logic in Aktiv.php
     public static function deepFilters()
     {
         $query = self::query();
         $request = request();
 
-        // Generic filters for fillable attributes
-        foreach ((new self())->fillable as $item) {
-            if ($request->filled($item)) {
-                $operator = $request->input($item . '_operator', 'like');
-                $value = $request->input($item);
+        try {
+            // Generic filters for fillable attributes
+            foreach ((new self())->fillable as $item) {
+                if ($request->filled($item)) {
+                    $operator = $request->input($item . '_operator', 'like');
+                    $value = $request->input($item);
 
-                if ($operator === 'like') {
-                    $value = "%{$value}%";
+                    if ($operator === 'like') {
+                        $value = "%{$value}%";
+                    }
+
+                    $query->where($item, $operator, $value);
                 }
-
-                $query->where($item, $operator, $value);
             }
-        }
 
-        // Address-based filtering
-        if ($request->filled('region_id')) {
-            $query->whereHas('substreet.district.region', function ($q) use ($request) {
-                $q->where('id', $request->input('region_id'));
-            });
-        }
+            // Address-based filtering
+            if ($request->filled('region_id')) {
+                $query->whereHas('substreet.district.region', function ($q) use ($request) {
+                    $q->where('regions.id', $request->input('region_id'));
+                });
+            }
 
-        if ($request->filled('district_id')) {
-            $query->whereHas('substreet.district', function ($q) use ($request) {
-                $q->where('districts.id', $request->input('district_id'));
-            });
-        }
+            if ($request->filled('district_id')) {
+                $query->whereHas('substreet.district', function ($q) use ($request) {
+                    $q->where('districts.id', $request->input('district_id'));
+                });
+            }
 
-        if ($request->filled('street_id')) {
-            $query->whereHas('subStreet.street', function ($q) use ($request) {
-                $q->where('id', $request->input('street_id'));
-            });
-        }
+            if ($request->filled('street_id')) {
+                $query->whereHas('substreet.street', function ($q) use ($request) {
+                    $q->where('streets.id', $request->input('street_id'));
+                });
+            }
 
-        if ($request->filled('sub_street_id')) {
-            $query->where('sub_street_id', $request->input('sub_street_id'));
+            if ($request->filled('sub_street_id')) {
+                $query->where('sub_street_id', $request->input('sub_street_id'));
+            }
+
+            // Debugging the query
+            \Log::debug('SQL Query:', [
+                'query' => $query->toSql(),
+                'bindings' => $query->getBindings(),
+                'request_data' => $request->all()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in deepFilters method: ' . $e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+                'request_data' => $request->all()
+            ]);
+            // You can return an empty query or rethrow the exception
+            return $query;
         }
 
         return $query;
     }
+
+
 
     protected $fillable = [
         'user_id',
@@ -144,10 +141,5 @@ class Aktiv extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function district()
-    {
-        return $this->hasOneThrough(District::class, Street::class, 'district_id', 'id', 'street_id', 'id');
     }
 }

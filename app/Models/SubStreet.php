@@ -14,11 +14,11 @@ class SubStreet extends Model
 
     public function district()
     {
-        return $this->belongsTo(District::class, 'district_id');
+        return $this->belongsTo(District::class, 'district_id','id');
     }
 
     public function street()
     {
-        return $this->belongsTo(Street::class, 'street_id');
+        return $this->belongsTo(Street::class, 'street_id', 'id');
     }
 }

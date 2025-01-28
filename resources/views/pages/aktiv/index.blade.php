@@ -31,8 +31,9 @@
                     <select class="form-control select2 region_id" name="region_id" id="region_id">
                         <option value="">Худудни танланг</option>
                         @foreach ($regions as $region)
-                            {{-- <option value="{{ $region->id == 1 }}" selected>{{ $region->name_uz }}</option> --}}
-                            <option value="{{ $region->id }}">{{ $region->name_uz }}</option>
+                            <option value="{{ $region->id }}"
+                                {{ request()->input('region_id') == $region->id ? 'selected' : '' }}>{{ $region->name_uz }}
+                            </option>
                         @endforeach
                     </select>
                     <span class="text-danger error-message" id="region_id_error"></span>
@@ -54,7 +55,6 @@
                         <select class="form-control select2 street_id" name="street_id" id="street_id">
                             <option value="">Мфй ни танланг</option>
                         </select>
-
                     </div>
                     <span class="text-danger error-message" id="street_id_error"></span>
                 </div>
@@ -66,7 +66,6 @@
                         <select class="form-control select2 sub_street_id" name="sub_street_id" id="sub_street_id">
                             <option value="">Кўчани танланг</option>
                         </select>
-
                     </div>
                     <span class="text-danger error-message" id="sub_street_id_error"></span>
                 </div>
@@ -297,6 +296,7 @@
                         <th>Ҳаракатлар</th>
                     </tr>
                 </thead>
+                <pre>{{ print_r($aktivs->toArray(), true) }}</pre>
                 <tbody>
                     @foreach ($aktivs as $aktiv)
                         <tr>
