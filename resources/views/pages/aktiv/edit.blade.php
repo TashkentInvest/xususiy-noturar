@@ -491,7 +491,7 @@
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
-                            <label for="object_type">Объект тури:</label>
+                            <label for="object_type">Фаолияти тури:</label>
                             <select name="object_type" class="form-control">
                                 <option value="Иишлаб чиқариш"
                                     {{ old('object_type', $aktiv->object_type ?? '') == 'Иишлаб чиқариш' ? 'selected' : '' }}>

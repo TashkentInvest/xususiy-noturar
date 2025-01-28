@@ -25,12 +25,14 @@
             <div class="mb-3">
                 <strong>Балансда сақловчи:</strong> {{ $aktiv->balance_keeper }}
             </div>
+
+
             <div class="mb-3">
-                <strong>Мўлжал:</strong> {{ $aktiv->location }}
+                <strong>Объект тури:</strong> {{ $aktiv->object_name ?? '' }}
             </div>
 
             <div class="mb-3">
-                <strong>Объект тури:</strong> {{ $aktiv->object_type ?? ''}}
+                <strong>Фаолияти тури:</strong> {{ $aktiv->object_type ?? '' }}
             </div>
 
             <div class="mb-3">
@@ -59,6 +61,10 @@
             </div>
             <div class="mb-3">
                 <strong>Кўча номи:</strong> {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
+            </div>
+
+            <div class="mb-3">
+                <strong>Ўй:</strong> {{ $aktiv->home_number ?? 'Маълумот йўқ' }}
             </div>
         </div>
     </div>
@@ -243,7 +249,8 @@
                 @csrf
                 <div class="form-group">
                     <label for="content">Фикр киритиш</label>
-                    <textarea id="content" name="content" class="form-control" rows="3" placeholder="Фикрингизни ёзинг..." required></textarea>
+                    <textarea id="content" name="content" class="form-control" rows="3" placeholder="Фикрингизни ёзинг..."
+                        required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Изоҳ қолдириш</button>
             </form>
@@ -526,7 +533,6 @@
                         <h5>${aktiv.object_name}</h5>
                         <img src="${mainImagePath}" alt="Marker Image" style="width:100%;height:auto;"/>
                         <p><strong>Балансда сақловчи:</strong> ${aktiv.balance_keeper || 'N/A'}</p>
-                        <p><strong>Мўлжал:</strong> ${aktiv.location || 'N/A'}</p>
                         <p><strong>Ер майдони (кв.м):</strong> ${aktiv.land_area || 'N/A'}</p>
                         <p><strong>Бино майдони (кв.м):</strong> ${aktiv.building_area || 'N/A'}</p>
                         <p><strong>Газ:</strong> ${aktiv.gas || 'N/A'}</p>
