@@ -431,11 +431,11 @@
 
                                 <option value="kopQavatliUy"
                                     {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>
-                                    kopQavatliUy
+                                    Кўп қаватли уй
                                 </option>
                                 <option value="AlohidaSavdoDokoni"
                                     {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>
-                                    AlohidaSavdoDokoni
+                                    Алоҳида савдо дўкони
                                 </option>
                             </select>
 
