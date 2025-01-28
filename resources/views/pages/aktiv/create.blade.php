@@ -288,9 +288,9 @@
                 <input type="text" name="owner" class="form-control"
                     value="{{ old('owner', $aktiv->owner ?? '') }}">
 
-                <label for="STIR">СТИР:</label>
-                <input type="text" name="STIR" class="form-control"
-                    value="{{ old('STIR', $aktiv->STIR ?? '') }}">
+                <label for="stir">СТИР:</label>
+                <input type="text" name="stir" class="form-control"
+                    value="{{ old('stir', $aktiv->stir ?? '') }}">
 
 
                 <script>

@@ -678,9 +678,9 @@
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
-                            <label for="STIR">СТИР:</label>
-                            <input type="text" name="STIR" class="form-control"
-                                value="{{ old('STIR', $aktiv->STIR ?? '') }}">
+                            <label for="stir">СТИР:</label>
+                            <input type="text" name="stir" class="form-control"
+                                value="{{ old('stir', $aktiv->stir ?? '') }}">
                         </div>
                     </div>
 

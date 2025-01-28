@@ -132,7 +132,7 @@ return [
         'bank_code' => 'Bank Code',
         'bank_service' => 'Bank Service',
         'bank_account' => 'Bank Account',
-        'stir' => 'STIR',
+        'stir' => 'stir',
         'oked' => 'OKED',
         'yuridik_address' => 'Yuridik manzil',
         'company_location' => 'Kompaniya joylashuvi',

@@ -117,7 +117,7 @@
                 <strong>Мулкдор:</strong> {{ $aktiv->owner ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>СТИР:</strong> {{ $aktiv->STIR ?? 'Маълумот йўқ' }}
+                <strong>СТИР:</strong> {{ $aktiv->stir ?? 'Маълумот йўқ' }}
             </div>
         </div>
     </div>
