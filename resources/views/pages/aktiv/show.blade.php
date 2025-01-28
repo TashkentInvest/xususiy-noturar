@@ -19,28 +19,28 @@
             </div>
 
             <div class="mb-3">
-                <strong>Объект номи:</strong> {{ $aktiv->object_name }}
+                <strong>Объект номи:</strong> {{ $aktiv->object_name ?? 'Маълумот йўқ' }}
             </div>
 
             <div class="mb-3">
-                <strong>Балансда сақловчи:</strong> {{ $aktiv->balance_keeper }}
+                <strong>Балансда сақловчи:</strong> {{ $aktiv->balance_keeper ?? 'Маълумот йўқ' }}
             </div>
 
 
             <div class="mb-3">
-                <strong>Объект тури:</strong> {{ $aktiv->object_name ?? '' }}
+                <strong>Объект тури:</strong> {{ $aktiv->object_name ?? 'Маълумот йўқ' }}
             </div>
 
             <div class="mb-3">
-                <strong>Фаолияти тури:</strong> {{ $aktiv->object_type ?? '' }}
+                <strong>Фаолияти тури:</strong> {{ $aktiv->object_type ?? 'Маълумот йўқ' }}
             </div>
 
             <div class="mb-3">
-                <strong>Яратилган сана:</strong> {{ $aktiv->created_at }}
+                <strong>Яратилган сана:</strong> {{ $aktiv->created_at ?? 'Маълумот йўқ' }}
             </div>
 
             <div class="mb-3">
-                <strong>Тахрирланган сана:</strong> {{ $aktiv->updated_at }}
+                <strong>Тахрирланган сана:</strong> {{ $aktiv->updated_at ?? 'Маълумот йўқ' }}
             </div>
         </div>
     </div>
@@ -139,29 +139,29 @@
         <h5 class="card-title text-primary">Техник маълумотлар</h5>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Ер майдони (кв.м):</strong> {{ $aktiv->land_area }}
+                <strong>Ер майдони (кв.м):</strong> {{ $aktiv->land_area ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Бино майдони (кв.м):</strong> {{ $aktiv->building_area }}
+                <strong>Бино майдони (кв.м):</strong> {{ $aktiv->building_area ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Газ:</strong> {{ $aktiv->gas }}
+                <strong>Газ:</strong> {{ $aktiv->gas ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Сув:</strong> {{ $aktiv->water }}
+                <strong>Сув:</strong> {{ $aktiv->water ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Электр:</strong> {{ $aktiv->electricity }}
+                <strong>Электр:</strong> {{ $aktiv->electricity ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Қўшимча маълумот:</strong> {{ $aktiv->additional_info }}
+                <strong>Қўшимча маълумот:</strong> {{ $aktiv->additional_info ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
-                <strong>Кадастр рақами:</strong> {{ $aktiv->kadastr_raqami }}
+                <strong>Кадастр рақами:</strong> {{ $aktiv->kadastr_raqami ?? 'Маълумот йўқ' }}
             </div>
             <div class="mb-3">
                 <strong>Геолокация:</strong>
-                <a href="{{ $aktiv->geolokatsiya }}" target="_blank">{{ $aktiv->geolokatsiya }}</a>
+                <a href="{{ $aktiv->geolokatsiya }}" target="_blank">{{ $aktiv->geolokatsiya ?? '' }}</a>
             </div>
         </div>
     </div>

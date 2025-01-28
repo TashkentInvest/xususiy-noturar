@@ -56,6 +56,11 @@
                             <strong>Кўча номи:</strong>
                             {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
                         </div>
+
+                        <div class="mb-3">
+                            <strong>Ўй рақами:</strong>
+                            {{ $aktiv->home_number ?? 'Маълумот йўқ' }}
+                        </div>
                     </div>
                 </div>
 

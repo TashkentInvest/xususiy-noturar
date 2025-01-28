@@ -151,6 +151,7 @@ class AktivSeeder extends Seeder
                         'kadastr_raqami' => $row[10],
                         'street_id' => $street ? $street->id : null,
                         'sub_street_id' => $subStreet ? $subStreet->id : null,
+                        'home_number' => "{$row[5]}", // Default value, adjust as needed
                         'building_type' => null, // Default value, adjust as needed
                         'kadastr_pdf' => null, // Default value, adjust as needed
                         'hokim_qarori_pdf' => null, // Default value, adjust as needed

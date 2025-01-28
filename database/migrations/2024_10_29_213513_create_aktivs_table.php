@@ -64,7 +64,7 @@ class CreateAktivsTable extends Migration
             $table->string('stir')->nullable(); // СТИР
 
             $table->string('tenant_phone_number')->nullable(); // Ижарачи тел рақами
-            $table->decimal('rental_amount', 15, 2)->nullable(); // Ижарага бериш суммаси
+            $table->decimal('rental_amount', 20, 2)->nullable();
 
             $table->timestamps();
         });
