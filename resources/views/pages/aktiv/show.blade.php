@@ -113,9 +113,7 @@
     <div class="card shadow-sm p-4 mb-4">
         <h5 class="card-title text-primary">Мулкдор маълумотлари</h5>
         <div class="card-body">
-            <div class="mb-3">
-                <strong>Мулкдор:</strong> {{ $aktiv->owner ?? 'Маълумот йўқ' }}
-            </div>
+      
             <div class="mb-3">
                 <strong>СТИР:</strong> {{ $aktiv->stir ?? 'Маълумот йўқ' }}
             </div>

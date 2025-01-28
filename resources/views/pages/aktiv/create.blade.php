@@ -284,10 +284,7 @@
                         Йўқ</option>
                 </select>
 
-                <label for="owner">Мулкдор:</label>
-                <input type="text" name="owner" class="form-control"
-                    value="{{ old('owner', $aktiv->owner ?? '') }}">
-
+              
                 <label for="stir">СТИР:</label>
                 <input type="text" name="stir" class="form-control"
                     value="{{ old('stir', $aktiv->stir ?? '') }}">

@@ -153,7 +153,6 @@ class Aktiv extends Model
         'start_date', // Фаолият юритишни бошлаган сана
         'additional_notes', // Изоҳ киритилган маълумотлардаги
         'working_24_7', // 24/7 режимда ишлайдими
-        'owner', // Мулкдор
         'stir', // СТИР
 
         'tenant_phone_number', // New column

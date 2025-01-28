@@ -673,13 +673,7 @@
                         </div>
 
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="owner">Мулкдор:</label>
-                            <input type="text" name="owner" class="form-control"
-                                value="{{ old('owner', $aktiv->owner ?? '') }}">
-                        </div>
-
+                     
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
