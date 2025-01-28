@@ -18,13 +18,28 @@
                 <input type="text" class="form-control form-control-sm" name="stir" placeholder="Стир" id="stir"
                     value="{{ request()->input('stir') }}">
             </div>
+
+            <div class="col-md-3 col-6">
+                <select class="form-control district_id" name="district_id" id="district_id">
+                    <option value="">Туман</option>
+                    @foreach ($districts as $district)
+                        <option value="{{ $district->id }}"
+                            {{ request()->input('district_id') == $district->id ? 'selected' : '' }}>
+                            {{ $district->name_uz }}
+                        </option>
+                    @endforeach
+                </select>
+                <span class="text-danger error-message" id="district_id_error"></span>
+            </div>
             <div class="col-md-2 col-6">
                 <button type="submit" name="filter" class="btn btn-primary btn-sm w-100">Филтрлаш</button>
             </div>
         </div>
 
 
-        <div class="row g-3 mt-3">
+
+
+        {{-- <div class="row g-3 mt-3">
             <div class="col-lg-3 col-md-6 col-12">
                 <div class="mb-3">
                     <label for="region_id">Худуд</label>
@@ -238,7 +253,7 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
 
     </form>
 
@@ -296,7 +311,7 @@
                         <th>Ҳаракатлар</th>
                     </tr>
                 </thead>
-                <pre>{{ print_r($aktivs->toArray(), true) }}</pre>
+                {{-- <pre>{{ print_r($aktivs->toArray(), true) }}</pre> --}}
                 <tbody>
                     @foreach ($aktivs as $aktiv)
                         <tr>

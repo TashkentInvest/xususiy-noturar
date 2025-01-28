@@ -32,46 +32,88 @@ class Aktiv extends Model
                 }
             }
 
-            // Address-based filtering
-            if ($request->filled('region_id')) {
-                $query->whereHas('substreet.district.region', function ($q) use ($request) {
-                    $q->where('regions.id', $request->input('region_id'));
-                });
-            }
-
+            // Custom filter for district_id
             if ($request->filled('district_id')) {
-                $query->whereHas('substreet.district', function ($q) use ($request) {
+                $query->whereHas('street.district', function ($q) use ($request) {
                     $q->where('districts.id', $request->input('district_id'));
                 });
             }
-
-            if ($request->filled('street_id')) {
-                $query->whereHas('substreet.street', function ($q) use ($request) {
-                    $q->where('streets.id', $request->input('street_id'));
-                });
-            }
-
-            if ($request->filled('sub_street_id')) {
-                $query->where('sub_street_id', $request->input('sub_street_id'));
-            }
-
-            // Debugging the query
-            \Log::debug('SQL Query:', [
-                'query' => $query->toSql(),
-                'bindings' => $query->getBindings(),
-                'request_data' => $request->all()
-            ]);
         } catch (\Exception $e) {
-            \Log::error('Error in deepFilters method: ' . $e->getMessage(), [
-                'stack' => $e->getTraceAsString(),
-                'request_data' => $request->all()
-            ]);
-            // You can return an empty query or rethrow the exception
-            return $query;
+            \Log::error('Error in deepFilters:', ['error' => $e->getMessage()]);
         }
 
         return $query;
     }
+
+    // public static function deepFilters()
+    // {
+    //     $query = self::query();
+    //     $request = request();
+
+    //     try {
+    //         // Generic filters for fillable attributes
+    //         foreach ((new self())->fillable as $item) {
+    //             if ($request->filled($item)) {
+    //                 $operator = $request->input($item . '_operator', 'like');
+    //                 $value = $request->input($item);
+
+    //                 if ($operator === 'like') {
+    //                     $value = "%{$value}%";
+    //                 }
+
+    //                 $query->where($item, $operator, $value);
+    //             }
+    //         }
+
+    //         if ($request->filled('district_id')) {
+    //             // dd('sad');
+    //             $query->whereHas('street.district', function ($q) use ($request) {
+    //                 // dd($request);
+    //                 $q->where('districts.id', $request->input('district_id'));
+    //                 // dd($q);
+    //             });
+    //         }
+
+    //         // // Address-based filtering
+    //         // if ($request->filled('region_id')) {
+    //         //     $query->whereHas('substreet.district.region', function ($q) use ($request) {
+    //         //         $q->where('regions.id', $request->input('region_id'));
+    //         //     });
+    //         // }
+
+    //         // if ($request->filled('district_id')) {
+    //         //     $query->whereHas('substreet.district', function ($q) use ($request) {
+    //         //         $q->where('districts.id', $request->input('district_id'));
+    //         //     });
+    //         // }
+
+    //         // if ($request->filled('street_id')) {
+    //         //     $query->whereHas('substreet.street', function ($q) use ($request) {
+    //         //         $q->where('streets.id', $request->input('street_id'));
+    //         //     });
+    //         // }
+
+    //         // if ($request->filled('sub_street_id')) {
+    //         //     $query->where('sub_street_id', $request->input('sub_street_id'));
+    //         // }
+
+    //         // // Debugging the query
+    //         // \Log::debug('SQL Query:', [
+    //         //     'query' => $query->toSql(),
+    //         //     'bindings' => $query->getBindings(),
+    //         //     'request_data' => $request->all()
+    //         // ]);
+    //     } catch (\Exception $e) {
+    //         \Log::error('Error in deepFilters method: ' . $e->getMessage(), [
+    //             'stack' => $e->getTraceAsString(),
+    //             'request_data' => $request->all()
+    //         ]);
+    //         // You can return an empty query or rethrow the exception
+    //         return $query;
+    //     }
+
+    //     return $query;
+    // }
 
 
 
