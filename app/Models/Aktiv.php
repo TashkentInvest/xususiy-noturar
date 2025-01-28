@@ -31,55 +31,54 @@ class Aktiv extends Model
             ]);
         });
     }
+
+    // Filter Logic in Aktiv.php
     public static function deepFilters()
     {
-        $obj = new self();
+        $query = self::query();
         $request = request();
 
-        // Debugging: Dump and Die to see the request data
-        // dd($request->all());
-
-        $query = self::query();
-
-        foreach ($obj->fillable as $item) {
+        // Generic filters for fillable attributes
+        foreach ((new self())->fillable as $item) {
             if ($request->filled($item)) {
                 $operator = $request->input($item . '_operator', 'like');
                 $value = $request->input($item);
 
-                if ($operator == 'like') {
-                    $value = '%' . $value . '%';
+                if ($operator === 'like') {
+                    $value = "%{$value}%";
                 }
 
                 $query->where($item, $operator, $value);
             }
         }
 
-        if ($request->filled('kadastr_raqami')) {
-            $operator = $request->input('kadastr_raqami_operator', 'like');
-            $value = $request->input('kadastr_raqami');
-
-            if ($operator == 'like') {
-                $value = '%' . $value . '%';
-            }
-
-            $query->where('kadastr_raqami', $operator, $value);
+        // Address-based filtering
+        if ($request->filled('region_id')) {
+            $query->whereHas('substreet.district.region', function ($q) use ($request) {
+                $q->where('id', $request->input('region_id'));
+                // dd($q);
+            });
         }
 
-        if ($request->filled('stir')) {
-            $operator = $request->input('stir_operator', 'like');
-            $value = $request->input('stir');
-
-            if ($operator == 'like') {
-                $value = '%' . $value . '%';
-            }
-
-            $query->where('stir', $operator, $value);
+        if ($request->filled('district_id')) {
+            $query->whereHas('substreet.district', function ($q) use ($request) {
+                $q->where('id', $request->input('district_id'));
+                // dd($q);
+            });
         }
 
+        if ($request->filled('street_id')) {
+            $query->whereHas('subStreet.street', function ($q) use ($request) {
+                $q->where('id', $request->input('street_id'));
+            });
+        }
+
+        if ($request->filled('sub_street_id')) {
+            $query->where('sub_street_id', $request->input('sub_street_id'));
+        }
 
         return $query;
     }
-
 
 
     protected $fillable = [
