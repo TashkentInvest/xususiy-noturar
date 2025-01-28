@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('theme',30)->default('default');
 
-            $table->unsignedBigInteger('district_id')->nullable()->after('password');
+            $table->unsignedBigInteger('district_id')->nullable();
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('set null');
             
             $table->rememberToken();

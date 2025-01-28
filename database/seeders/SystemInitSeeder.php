@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Database\Seeders\DataSeeder;
-use Database\Seeders\init\CategorySeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Init\RoleSeeder;
 use Database\Seeders\Init\UserSeeder;
@@ -23,11 +22,10 @@ class SystemInitSeeder extends Seeder
     {
         $this->call(
             [
-                RoleSeeder::class,
-                UserSeeder::class,
                 RegionsSeeder::class,
                 DistrictsSeeder::class,
-                CategorySeeder::class,
+                RoleSeeder::class,
+                UserSeeder::class,
                 // ExelSeeder::class,
             ]
         );
