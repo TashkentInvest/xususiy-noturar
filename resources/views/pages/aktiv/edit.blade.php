@@ -673,7 +673,7 @@
                         </div>
 
 
-                     
+
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
@@ -693,10 +693,18 @@
 
                         <!-- Ижарага бериш суммаси -->
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="rental_amount">Ижарага бериш суммаси</label>
-                            <input type="number" step="0.01" name="rental_amount" id="rental_amount"
+                            <label for="ijara_summa_wanted">Ижарага суммасини режалаштирган</label>
+                            <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted"
                                 class="form-control" placeholder="Суммани киритинг"
-                                value="{{ old('rental_amount', $aktiv->rental_amount) }}">
+                                value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
+                        </div>
+
+                        <!-- Ижарага бериш суммаси -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="ijara_summa_fakt">Ижарага суммаси факт...</label>
+                            <input type="number" step="0.01" min="9999" name="ijara_summa_fakt" id="ijara_summa_fakt"
+                                class="form-control" placeholder="Суммани киритинг"
+                                value="{{ old('ijara_summa_fakt', $aktiv->ijara_summa_fakt) }}">
                         </div>
                     </div>
 

@@ -113,7 +113,7 @@
     <div class="card shadow-sm p-4 mb-4">
         <h5 class="card-title text-primary">Мулкдор маълумотлари</h5>
         <div class="card-body">
-      
+
             <div class="mb-3">
                 <strong>СТИР:</strong> {{ $aktiv->stir ?? 'Маълумот йўқ' }}
             </div>
@@ -125,8 +125,13 @@
 
             <!-- Ижарага бериш суммаси -->
             <div class="mb-3">
-                <strong>Ижарага бериш суммаси:</strong>
-                {{ $aktiv->rental_amount ? number_format($aktiv->rental_amount, 2, ',', ' ') . ' сум' : 'Маълумот йўқ' }}
+                <strong>Ижарага суммасини режалаштирган:</strong>
+                {{ $aktiv->ijara_summa_wanted ? number_format($aktiv->ijara_summa_wanted, 2, ',', ' ') . ' сум' : 'Маълумот йўқ' }}
+            </div>
+
+            <div class="mb-3">
+                <strong>Ижарага суммаси факт...:</strong>
+                {{ $aktiv->ijara_summa_fakt ? number_format($aktiv->ijara_summa_fakt, 2, ',', ' ') . ' сум' : 'Маълумот йўқ' }}
             </div>
         </div>
     </div>

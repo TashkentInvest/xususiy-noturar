@@ -295,9 +295,14 @@
                     placeholder="+998 90 123 45 67" value="{{ old('tenant_phone_number') }}">
 
                 <!-- Ижарага бериш суммаси -->
-                <label for="rental_amount">Ижарага бериш суммаси</label>
-                <input type="number" step="0.01" name="rental_amount" id="rental_amount" class="form-control"
-                    placeholder="Суммани киритинг" value="{{ old('rental_amount') }}">
+                <label for="ijara_summa_wanted">Ижарага суммасини режалаштирган</label>
+                <input type="number" step="0.01" name="ijara_summa_wanted" id="ijara_summa_wanted" class="form-control"
+                    placeholder="Суммани киритинг" value="{{ old('ijara_summa_wanted') }}">
+
+                           <!-- Ижарага бериш суммаси -->
+                <label for="ijara_summa_fakt">Ижарага суммаси факт...</label>
+                <input type="number" step="0.01" name="ijara_summa_fakt" id="ijara_summa_fakt" class="form-control"
+                    placeholder="Суммани киритинг" value="{{ old('ijara_summa_fakt') }}">
 
 
                 <script>

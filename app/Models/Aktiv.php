@@ -156,7 +156,8 @@ class Aktiv extends Model
         'stir', // СТИР
 
         'tenant_phone_number', // New column
-        'rental_amount', // New column
+        'ijara_summa_wanted', // New column
+        'ijara_summa_fakt', // New column
     ];
 
     public function files()
