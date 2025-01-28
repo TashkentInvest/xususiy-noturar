@@ -28,7 +28,7 @@
             <div class="col-lg-3 col-md-6 col-12">
                 <div class="mb-3">
                     <label for="region_id">Худуд</label>
-                    <select class="form-control region_id" name="region_id" id="region_id">
+                    <select class="form-control select2 region_id" name="region_id" id="region_id">
                         <option value="">Худудни танланг</option>
                         @foreach ($regions as $region)
                             {{-- <option value="{{ $region->id == 1 }}" selected>{{ $region->name_uz }}</option> --}}
@@ -41,7 +41,7 @@
             <div class="col-lg-3 col-md-6 col-12">
                 <div class="mb-3">
                     <label for="district_id">Район</label>
-                    <select class="form-control district_id" name="district_id" id="district_id">
+                    <select class="form-control select2 district_id" name="district_id" id="district_id">
                         <option value="">Туманни танланг</option>
                     </select>
                     <span class="text-danger error-message" id="district_id_error"></span>
@@ -51,7 +51,7 @@
                 <div class="mb-3">
                     <label for="street_id" class="me-2">Мфй</label>
                     <div class="d-flex align-items-end">
-                        <select class="form-control street_id" name="street_id" id="street_id">
+                        <select class="form-control select2 street_id" name="street_id" id="street_id">
                             <option value="">Мфй ни танланг</option>
                         </select>
 
@@ -63,7 +63,7 @@
                 <div class="mb-3">
                     <label for="sub_street_id" class="me-2">Кўча</label>
                     <div class="d-flex align-items-end">
-                        <select class="form-control sub_street_id" name="sub_street_id" id="sub_street_id">
+                        <select class="form-control select2 sub_street_id" name="sub_street_id" id="sub_street_id">
                             <option value="">Кўчани танланг</option>
                         </select>
 

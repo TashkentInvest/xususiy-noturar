@@ -56,14 +56,12 @@ class Aktiv extends Model
         if ($request->filled('region_id')) {
             $query->whereHas('substreet.district.region', function ($q) use ($request) {
                 $q->where('id', $request->input('region_id'));
-                // dd($q);
             });
         }
 
         if ($request->filled('district_id')) {
             $query->whereHas('substreet.district', function ($q) use ($request) {
-                $q->where('id', $request->input('district_id'));
-                // dd($q);
+                $q->where('districts.id', $request->input('district_id'));
             });
         }
 
@@ -79,7 +77,6 @@ class Aktiv extends Model
 
         return $query;
     }
-
 
     protected $fillable = [
         'user_id',
@@ -147,5 +144,10 @@ class Aktiv extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function district()
+    {
+        return $this->hasOneThrough(District::class, Street::class, 'district_id', 'id', 'street_id', 'id');
     }
 }
