@@ -22,6 +22,7 @@ class AktivController extends Controller
         $district_id = $request->input('district_id');
         $userRole = auth()->user()->roles[0]->name ?? '';
         $userDistrictId = auth()->user()->district_id; // Manager's assigned district
+        $regions = Regions::get();
 
         // If the user is a Manager and no district filter is present, redirect with their district_id
         if ($userRole == 'Manager' && !$request->has('district_id')) {
@@ -121,7 +122,7 @@ class AktivController extends Controller
             ->appends($request->query());
 
 
-        return view('pages.aktiv.index', compact('aktivs', 'yerCount', 'noturarBinoCount', 'turarBinoCount'));
+        return view('pages.aktiv.index', compact('aktivs', 'yerCount', 'noturarBinoCount', 'turarBinoCount', 'regions'));
     }
 
 
