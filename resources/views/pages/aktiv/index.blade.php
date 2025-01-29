@@ -190,8 +190,8 @@
                                 {{ $aktiv->object_name }}
                             </td>
                             <td>{{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}</td>
-                            <td>{{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}</td>
                             <td>{{ $aktiv->street->name ?? 'Маълумот йўқ' }}</td>
+                            <td>{{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}</td>
                             <td>{{ $aktiv->home_number ?? 'Маълумот йўқ' }}</td>
                             <td>{{ $aktiv->working_24_7 ? 'Ха' : 'Йўқ' }}</td>
                             <td>{{ $aktiv->kadastr_raqami ?? 'Маълумот йўқ' }}</td>
