@@ -139,8 +139,8 @@ class Aktiv extends Model
         'street_id',
         'building_type',
         'kadastr_pdf',
-        'hokim_qarori_pdf',
-        'transfer_basis_pdf',
+        'ijara_shartnoma_nusxasi_pdf',
+        'qoshimcha_fayllar_pdf',
         'apartment_number',
         'home_number',
 

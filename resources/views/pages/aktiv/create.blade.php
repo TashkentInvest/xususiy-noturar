@@ -143,13 +143,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="hokim_qarori_pdf">Балансга қабул қилиш учун асос болган хужжат</label>
-                    <input type="file" id="hokim_qarori_pdf" name="hokim_qarori_pdf" class="form-control">
+                    <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
+                    <input type="file" id="ijara_shartnoma_nusxasi_pdf" name="ijara_shartnoma_nusxasi_pdf" class="form-control">
                 </div>
 
                 <div class="form-group mb-4">
-                    <label for="transfer_basis_pdf">3-шахсга йоки бошқа шахсга бериш учун асос болган хужжат</label>
-                    <input type="file" id="transfer_basis_pdf" name="transfer_basis_pdf" class="form-control">
+                    <label for="qoshimcha_fayllar_pdf">Қошимча файллар</label>
+                    <input type="file" id="qoshimcha_fayllar_pdf" name="qoshimcha_fayllar_pdf" class="form-control">
                 </div>
 
                 {{-- ---------------------------------- --}}

@@ -476,8 +476,8 @@
                         <div class="col-lg-12 col-md-12 col-12 mb-3">
 
                             <div class="form-group">
-                                <label for="hokim_qarori_pdf">Балансга қабул қилиш учун асос болган хужжат</label>
-                                <input type="file" id="hokim_qarori_pdf" name="hokim_qarori_pdf"
+                                <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
+                                <input type="file" id="ijara_shartnoma_nusxasi_pdf" name="ijara_shartnoma_nusxasi_pdf"
                                     class="form-control">
                             </div>
                         </div>
@@ -485,9 +485,9 @@
                         <div class="col-lg-12 col-md-12 col-12 mb-3">
 
                             <div class="form-group mb-4">
-                                <label for="transfer_basis_pdf">3-шахсга йоки бошқа шахсга бериш учун асос болган
+                                <label for="qoshimcha_fayllar_pdf">Қошимча файллар
                                     хужжат</label>
-                                <input type="file" id="transfer_basis_pdf" name="transfer_basis_pdf"
+                                <input type="file" id="qoshimcha_fayllar_pdf" name="qoshimcha_fayllar_pdf"
                                     class="form-control">
                             </div>
 

@@ -154,8 +154,8 @@ class AktivSeeder extends Seeder
                         'home_number' => "{$row[5]}", // Default value, adjust as needed
                         'building_type' => null, // Default value, adjust as needed
                         'kadastr_pdf' => null, // Default value, adjust as needed
-                        'hokim_qarori_pdf' => null, // Default value, adjust as needed
-                        'transfer_basis_pdf' => null, // Default value, adjust as needed
+                        'ijara_shartnoma_nusxasi_pdf' => null, // Default value, adjust as needed
+                        'qoshimcha_fayllar_pdf' => null, // Default value, adjust as needed
                     ];
 
                     Aktiv::create($aktivData);

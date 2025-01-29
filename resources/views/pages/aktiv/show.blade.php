@@ -217,19 +217,19 @@
                 <p>Кадастр файл мавжуд эмас.</p>
             @endif
 
-            @if ($aktiv->hokim_qarori_pdf)
+            @if ($aktiv->ijara_shartnoma_nusxasi_pdf)
                 <p>
                     <strong>Ҳоким қарори файл:</strong>
-                    <a href="{{ asset($aktiv->hokim_qarori_pdf) }}" target="_blank">Файлни кўриш</a>
+                    <a href="{{ asset($aktiv->ijara_shartnoma_nusxasi_pdf) }}" target="_blank">Файлни кўриш</a>
                 </p>
             @else
                 <p>Ҳоким қарори файл мавжуд эмас.</p>
             @endif
 
-            @if ($aktiv->transfer_basis_pdf)
+            @if ($aktiv->qoshimcha_fayllar_pdf)
                 <p>
                     <strong>Трансфер асоси файл:</strong>
-                    <a href="{{ asset($aktiv->transfer_basis_pdf) }}" target="_blank">Просмотреть файл</a>
+                    <a href="{{ asset($aktiv->qoshimcha_fayllar_pdf) }}" target="_blank">Просмотреть файл</a>
                 </p>
             @else
                 <p>Трансфер асоси файл мавжуд эмас.</p>

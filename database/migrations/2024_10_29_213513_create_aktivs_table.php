@@ -44,8 +44,8 @@ class CreateAktivsTable extends Migration
             $table->string('kadastr_raqami')->nullable();
 
             $table->string('kadastr_pdf')->nullable();
-            $table->string('hokim_qarori_pdf')->nullable();
-            $table->string('transfer_basis_pdf')->nullable();
+            $table->string('ijara_shartnoma_nusxasi_pdf')->nullable();
+            $table->string('qoshimcha_fayllar_pdf')->nullable();
 
             $table->enum('building_type', ['yer', 'kopQavatliUy', 'AlohidaSavdoDokoni'])->nullable();
 

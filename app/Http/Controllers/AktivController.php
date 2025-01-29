@@ -197,8 +197,8 @@ class AktivController extends Controller
             'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
 
             'kadastr_pdf'      => 'nullable|file',
-            'hokim_qarori_pdf' => 'nullable|file',
-            'transfer_basis_pdf' => 'nullable|file',
+            'ijara_shartnoma_nusxasi_pdf' => 'nullable|file',
+            'qoshimcha_fayllar_pdf' => 'nullable|file',
 
             'document_type' => 'nullable',
             'reason_not_active' => 'nullable',
@@ -222,7 +222,7 @@ class AktivController extends Controller
         //     // other validations
         // ]);
 
-        $data = $request->except('files', 'kadastr_pdf', 'hokim_qarori_pdf', 'transfer_basis_pdf');
+        $data = $request->except('files', 'kadastr_pdf', 'ijara_shartnoma_nusxasi_pdf', 'qoshimcha_fayllar_pdf');
         $data['user_id'] = auth()->id(); // Automatically set the authenticated user's ID
 
         $aktiv = Aktiv::create($data);
@@ -242,14 +242,14 @@ class AktivController extends Controller
             $aktiv->kadastr_pdf = 'uploads/aktivs/' . basename($kadastrPath); // Store the file path in the 'kadastr_pdf' column
         }
 
-        if ($request->hasFile('hokim_qarori_pdf')) {
-            $hokimPath = $request->file('hokim_qarori_pdf')->move(public_path('uploads/aktivs'), 'hokim_' . time() . '.' . $request->file('hokim_qarori_pdf')->getClientOriginalExtension());
-            $aktiv->hokim_qarori_pdf = 'uploads/aktivs/' . basename($hokimPath); // Store the file path in the 'hokim_qarori_pdf' column
+        if ($request->hasFile('ijara_shartnoma_nusxasi_pdf')) {
+            $hokimPath = $request->file('ijara_shartnoma_nusxasi_pdf')->move(public_path('uploads/aktivs'), 'hokim_' . time() . '.' . $request->file('ijara_shartnoma_nusxasi_pdf')->getClientOriginalExtension());
+            $aktiv->ijara_shartnoma_nusxasi_pdf = 'uploads/aktivs/' . basename($hokimPath); // Store the file path in the 'ijara_shartnoma_nusxasi_pdf' column
         }
 
-        if ($request->hasFile('transfer_basis_pdf')) {
-            $transferPath = $request->file('transfer_basis_pdf')->move(public_path('uploads/aktivs'), 'transfer_' . time() . '.' . $request->file('transfer_basis_pdf')->getClientOriginalExtension());
-            $aktiv->transfer_basis_pdf = 'uploads/aktivs/' . basename($transferPath); // Store the file path in the 'transfer_basis_pdf' column
+        if ($request->hasFile('qoshimcha_fayllar_pdf')) {
+            $transferPath = $request->file('qoshimcha_fayllar_pdf')->move(public_path('uploads/aktivs'), 'transfer_' . time() . '.' . $request->file('qoshimcha_fayllar_pdf')->getClientOriginalExtension());
+            $aktiv->qoshimcha_fayllar_pdf = 'uploads/aktivs/' . basename($transferPath); // Store the file path in the 'qoshimcha_fayllar_pdf' column
         }
 
         // Save the 'aktiv' model after all file paths are set
@@ -435,8 +435,8 @@ class AktivController extends Controller
             'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
 
             'kadastr_pdf'      => 'nullable|file',
-            'hokim_qarori_pdf' => 'nullable|file',
-            'transfer_basis_pdf' => 'nullable|file',
+            'ijara_shartnoma_nusxasi_pdf' => 'nullable|file',
+            'qoshimcha_fayllar_pdf' => 'nullable|file',
 
             'document_type' => 'nullable',
             'reason_not_active' => 'nullable',
@@ -473,7 +473,7 @@ class AktivController extends Controller
 
 
 
-        $data = $request->except('files', 'kadastr_pdf', 'hokim_qarori_pdf', 'transfer_basis_pdf');
+        $data = $request->except('files', 'kadastr_pdf', 'ijara_shartnoma_nusxasi_pdf', 'qoshimcha_fayllar_pdf');
         $aktiv->update($data);
 
         if ($request->hasFile('files')) {
@@ -490,14 +490,14 @@ class AktivController extends Controller
             $aktiv->kadastr_pdf = 'uploads/aktivs/' . basename($kadastrPath);
         }
 
-        if ($request->hasFile('hokim_qarori_pdf')) {
-            $hokimPath = $request->file('hokim_qarori_pdf')->move(public_path('uploads/aktivs'), 'hokim_' . time() . '.' . $request->file('hokim_qarori_pdf')->getClientOriginalExtension());
-            $aktiv->hokim_qarori_pdf = 'uploads/aktivs/' . basename($hokimPath);
+        if ($request->hasFile('ijara_shartnoma_nusxasi_pdf')) {
+            $hokimPath = $request->file('ijara_shartnoma_nusxasi_pdf')->move(public_path('uploads/aktivs'), 'hokim_' . time() . '.' . $request->file('ijara_shartnoma_nusxasi_pdf')->getClientOriginalExtension());
+            $aktiv->ijara_shartnoma_nusxasi_pdf = 'uploads/aktivs/' . basename($hokimPath);
         }
 
-        if ($request->hasFile('transfer_basis_pdf')) {
-            $transferPath = $request->file('transfer_basis_pdf')->move(public_path('uploads/aktivs'), 'transfer_' . time() . '.' . $request->file('transfer_basis_pdf')->getClientOriginalExtension());
-            $aktiv->transfer_basis_pdf = 'uploads/aktivs/' . basename($transferPath);
+        if ($request->hasFile('qoshimcha_fayllar_pdf')) {
+            $transferPath = $request->file('qoshimcha_fayllar_pdf')->move(public_path('uploads/aktivs'), 'transfer_' . time() . '.' . $request->file('qoshimcha_fayllar_pdf')->getClientOriginalExtension());
+            $aktiv->qoshimcha_fayllar_pdf = 'uploads/aktivs/' . basename($transferPath);
         }
 
         // Save the updated model

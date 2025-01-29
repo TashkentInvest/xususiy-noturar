@@ -51,8 +51,8 @@ class AktivsExport implements FromCollection, WithHeadings
                 'street_id' => $aktiv->street->name ?? '', // Street name
                 'sub_street_id' => $aktiv->substreet->name ?? '', // Substreet name
                 'kadastr_pdf_exists' => $aktiv->kadastr_pdf ? 1 : 0,
-                'hokim_qarori_pdf_exists' => $aktiv->hokim_qarori_pdf ? 1 : 0,
-                'transfer_basis_pdf_exists' => $aktiv->transfer_basis_pdf ? 1 : 0,
+                'ijara_shartnoma_nusxasi_pdf_exists' => $aktiv->ijara_shartnoma_nusxasi_pdf ? 1 : 0,
+                'qoshimcha_fayllar_pdf_exists' => $aktiv->qoshimcha_fayllar_pdf ? 1 : 0,
                 'id' => "https://aktiv.toshkentinvest.uz/aktivs/" . $aktiv->id,
             ];
         });
