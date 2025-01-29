@@ -126,6 +126,20 @@
 
                     display: none !important;
                 }
+
+                select,
+                .email-compose-fields .select2-container--default .select2-selection--multiple,
+                .select2-container--default .select2-selection--single,
+                .select2-container--default .select2-selection--single .select2-search__field,
+                .typeahead,
+                .tt-query,
+                .tt-hint {
+                   
+                    padding: 0 !important;
+                    /* font-size: 0.875rem; */
+                    
+             
+                }
             </style>
 
             <!-- partial:partials/_footer.html -->

@@ -38,6 +38,12 @@ class Aktiv extends Model
                     $q->where('districts.id', $request->input('district_id'));
                 });
             }
+
+            if ($request->filled('street_id')) {
+                $query->whereHas('street.district.street', function ($q) use ($request) {
+                    $q->where('streets.id', $request->input('street_id'));
+                });
+            }
         } catch (\Exception $e) {
             \Log::error('Error in deepFilters:', ['error' => $e->getMessage()]);
         }

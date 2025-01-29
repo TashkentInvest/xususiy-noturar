@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-md-3 col-6">
-                <select class="form-control district_id" name="district_id" id="district_id">
+                <select class="form-control form-control-sm district_id select2" name="district_id" id="district_id">
                     <option value="">Туман</option>
                     @foreach ($districts as $district)
                         <option value="{{ $district->id }}"
@@ -29,7 +29,17 @@
                         </option>
                     @endforeach
                 </select>
+                
                 <span class="text-danger error-message" id="district_id_error"></span>
+            </div>
+
+            <div class="col-md-3 col-6">
+                    <div class="d-flex align-items-end">
+                        <select class="form-control select2 street_id" name="street_id" id="street_id">
+                            <option value="">Мфй ни танланг</option>
+                        </select>
+                    </div>
+                    <span class="text-danger error-message" id="street_id_error"></span>
             </div>
             <div class="col-md-2 col-6">
                 <button type="submit" name="filter" class="btn btn-primary btn-sm w-100">Филтрлаш</button>
@@ -37,97 +47,12 @@
         </div>
 
 
-
-
-        {{-- <div class="row g-3 mt-3">
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="mb-3">
-                    <label for="region_id">Худуд</label>
-                    <select class="form-control select2 region_id" name="region_id" id="region_id">
-                        <option value="">Худудни танланг</option>
-                        @foreach ($regions as $region)
-                            <option value="{{ $region->id }}"
-                                {{ request()->input('region_id') == $region->id ? 'selected' : '' }}>{{ $region->name_uz }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <span class="text-danger error-message" id="region_id_error"></span>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="mb-3">
-                    <label for="district_id">Район</label>
-                    <select class="form-control select2 district_id" name="district_id" id="district_id">
-                        <option value="">Туманни танланг</option>
-                    </select>
-                    <span class="text-danger error-message" id="district_id_error"></span>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="mb-3">
-                    <label for="street_id" class="me-2">Мфй</label>
-                    <div class="d-flex align-items-end">
-                        <select class="form-control select2 street_id" name="street_id" id="street_id">
-                            <option value="">Мфй ни танланг</option>
-                        </select>
-                    </div>
-                    <span class="text-danger error-message" id="street_id_error"></span>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="mb-3">
-                    <label for="sub_street_id" class="me-2">Кўча</label>
-                    <div class="d-flex align-items-end">
-                        <select class="form-control select2 sub_street_id" name="sub_street_id" id="sub_street_id">
-                            <option value="">Кўчани танланг</option>
-                        </select>
-                    </div>
-                    <span class="text-danger error-message" id="sub_street_id_error"></span>
-                </div>
-            </div>
-
-
-
-
-
-        </div>
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
         <script>
             $(document).ready(function() {
                 // Initialize select2
                 $('.select2').select2();
-
-                // When a region is selected
-                $('#region_id').change(function() {
-                    var regionId = $(this).val();
-                    if (regionId) {
-                        $.ajax({
-                            url: "{{ route('get.Obdistricts') }}",
-                            type: "GET",
-                            data: {
-                                region_id: regionId
-                            },
-                            success: function(data) {
-                                $('#district_id').empty().append(
-                                    '<option value="">Туманни танланг</option>');
-                                $.each(data, function(key, value) {
-                                    $('#district_id').append('<option value="' + key +
-                                        '">' + value + '</option>');
-                                });
-                                $('#street_id').empty().append(
-                                    '<option value="">Мфй ни танланг</option>');
-                                $('#sub_street_id').empty().append(
-                                    '<option value="">Кўчани танланг</option>');
-                            }
-                        });
-                    } else {
-                        $('#district_id').empty().append('<option value="">Туманни танланг</option>');
-                        $('#street_id').empty().append('<option value="">Мфй ни танланг</option>');
-                        $('#sub_street_id').empty().append('<option value="">Кўчани танланг</option>');
-                    }
-                });
 
                 // When a district is selected
                 $('#district_id').change(function() {
@@ -187,73 +112,9 @@
                     }
                 });
 
-                // Add Street Button Click Event
-                $('#add_street_btn').click(function() {
-                    var districtId = $('#district_id').val();
-                    if (!districtId) {
-                        alert('Выберите район сначала');
-                        return;
-                    }
-
-                    var newStreetName = prompt('Введите название новой улицы:');
-                    if (newStreetName) {
-                        $.ajax({
-                            url: "{{ route('create.street') }}",
-                            type: "POST",
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                district_id: districtId,
-                                street_name: newStreetName
-                            },
-                            success: function(response) {
-                                $('#street_id').append('<option value="' + response.id + '">' +
-                                    response.name + '</option>');
-                                $('#street_id').val(response.id).trigger('change');
-                                alert('Улица успешно добавлена: ' + response.name);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error adding street:', error);
-                                alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
-                            }
-                        });
-                    }
-                });
-
-                // Add SubStreet Button Click Event
-                $('#add_substreet_btn').click(function() {
-                    var districtId = $('#district_id').val();
-                    if (!districtId) {
-                        alert('Выберите район сначала');
-                        return;
-                    }
-
-                    var newSubStreetName = prompt('Введите название новой подулицы:');
-                    if (newSubStreetName) {
-                        $.ajax({
-                            url: "{{ route('create.substreet') }}",
-                            type: "POST",
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                district_id: districtId,
-                                sub_street_name: newSubStreetName
-                            },
-                            success: function(response) {
-                                $('#sub_street_id').append('<option value="' + response.id + '">' +
-                                    response.name + '</option>');
-                                $('#sub_street_id').val(response.id).trigger('change');
-                                alert('Подулица успешно добавлена: ' + response.name);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error adding sub-street:', error);
-                                alert(
-                                    'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
-                                );
-                            }
-                        });
-                    }
-                });
+             
             });
-        </script> --}}
+        </script> 
 
     </form>
 
