@@ -267,7 +267,7 @@
                     value="{{ old('start_date', $aktiv->start_date ?? '') }}">
 
                 <label for="additional_notes">Изоҳ:</label>
-                <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
+                <textarea name="additional_notes" rows="4" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
 
                 <label for="working_24_7">24/7 режимда ишлайдими?</label>
                 <select name="working_24_7" class="form-control">

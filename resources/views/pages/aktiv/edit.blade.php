@@ -774,22 +774,22 @@
                     </div>
 
 
-
-                    <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                        <label for="additional_notes">Изоҳ:</label>
-                        <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
-                    </div>
-
-
-                    <!-- Ижарага бериш суммаси -->
-                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+     <!-- Ижарага бериш суммаси -->
+                    <div class="col-lg-12 col-md-12 col-12 mb-3">
                         <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган <span style="color: red !important;">(фақат сўмда ёзилади)</label>
                         <input type="number" step="0.01" min="9999" name="ijara_summa_wanted"
                             id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
                             value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
                     </div>
 
+                    <div class="col-lg-12 col-md-12 col-12 mb-3">
+
+                        <label for="additional_notes">Изоҳ:</label>
+                        <textarea name="additional_notes" rows="4" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
+                    </div>
+
+
+               
 
                 </div>
             </div>
