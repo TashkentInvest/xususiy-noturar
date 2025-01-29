@@ -12,7 +12,7 @@ class StreetController extends Controller
 {
     public function index()
     {
-        $streets = Street::with('district')->get();
+        $streets = Street::with('district')->paginate(15);
         return view('pages.streets.index', compact('streets'));
     }
 

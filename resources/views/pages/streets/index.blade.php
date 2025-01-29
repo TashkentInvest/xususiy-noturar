@@ -66,8 +66,13 @@
                         @endforeach
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>
+</div>
+<div class="mt-3">
+    {{ $streets->links() }}
+
 </div>
 @endsection

@@ -44,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                  
+
                             @foreach ($substreets as $substreet)
                                 <tr>
                                     <td>{{ $substreet->id }}</td>
@@ -68,10 +68,13 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $substreets->links() }}
 
                 </div>
             </div>
         </div>
+    </div>
+    <div class="mt-2">
+        {{ $substreets->links() }}
+
     </div>
 @endsection
