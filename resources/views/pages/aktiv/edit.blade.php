@@ -30,12 +30,7 @@
                     @enderror
                 </div>
 
-
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet" />
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-
-                <div class="card mb-3">
+                {{-- <div class="card mb-3">
                     <div class="card-header">
                         <h5>Манзил маълумотлари</h5>
                     </div>
@@ -62,284 +57,27 @@
                             {{ $aktiv->home_number ?? 'Маълумот йўқ' }}
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5>Манзилни озгартириш</h5>
-                    </div>
-                    <div class="card-body row">
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="region_id">Худуд</label>
-                            <select class="form-control region_id select2" name="region_id" id="region_id" required>
-                                <option value="" disabled selected>Худудни танланг</option>
-                                @foreach ($regions as $region)
-                                    <option value="{{ $region->id }}"
-                                        {{ $region->id == old('region_id', optional($aktiv->subStreet->district->region)->id) ? 'selected' : '' }}>
-                                        {{ $region->name_uz }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="district_id">Туман</label>
-                            <select class="form-control district_id select2" name="district_id" id="district_id" required>
-                                <option value="" disabled selected>Туманни танланг</option>
-                                @foreach ($districts as $district)
-                                    <option value="{{ $district->id }}"
-                                        {{ $district->id == old('district_id', optional($aktiv->subStreet->district)->id) ? 'selected' : '' }}>
-                                        {{ $district->name_uz }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="street_id" class="me-2">Мфй<span
-                                    style="color: red;font-weight: bold;">MAJBURIY</span></label>
-                            <div class="d-flex align-items-end">
-                                <select class="form-control street_id select2" name="street_id" id="street_id" required>
-                                    <option value="" disabled selected>Мфй ни танланг</option>
-                                    @foreach ($streets as $street)
-                                        <option value="{{ $street->id }}"
-                                            {{ $street->id == old('street_id', $aktiv->street_id) ? 'selected' : '' }}>
-                                            {{ $street->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-primary ms-2" id="add_street_btn"
-                                    title="Мфй қошиш">+</button>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="substreet_id" class="me-2">Кўча<span
-                                    style="color: red;font-weight: bold;">MAJBURIЙ</span></label>
-                            <div class="d-flex align-items-end">
-                                <select class="form-control sub_street_id select2" name="sub_street_id" id="substreet_id"
-                                    required>
-                                    <option value="" disabled selected>Кўчани танланг</option>
-                                    @foreach ($substreets as $substreet)
-                                        <option value="{{ $substreet->id }}"
-                                            {{ $substreet->id == old('sub_street_id', $aktiv->sub_street_id) ? 'selected' : '' }}>
-                                            {{ $substreet->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button type="button" class="btn btn-primary ms-2" id="add_substreet_btn"
-                                    title="Кўча қошиш">+</button>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="home_number" class="me-2">Уй рақами (Мажбурий эмас)</label>
-                                <div class="d-flex align-items-end">
-                                    <input class="form-control" name="home_number" type="text" id="home_number"
-                                        value="{{ old('home_number', $aktiv->home_number) }}" />
-                                </div>
-                                <span class="text-danger error-message" id="home_number_error"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="apartment_number" class="me-2">Квартира рақами (Мажбурий эмас)</label>
-                                <div class="d-flex align-items-end">
-                                    <input class="form-control" name="apartment_number" type="text"
-                                        value="{{ old('apartment_number', $aktiv->apartment_number) }}"
-                                        id="apartment_number" />
-                                </div>
-                                <span class="text-danger error-message" id="apartment_number_error"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <style>
-                    .select2 {
-                        width: 100% !important;
-                    }
-                </style>
-
-                <script>
-                    $(document).ready(function() {
-                        $('.select2').select2();
-
-                        function fetchDistricts(regionId, selectedDistrictId = null) {
-                            $.ajax({
-                                url: "{{ route('getDistricts') }}",
-                                type: "GET",
-                                data: {
-                                    region_id: regionId
-                                },
-                                success: function(data) {
-                                    $('.district_id').empty().append(
-                                        '<option value="" disabled selected>Туманни танланг</option>');
-                                    $.each(data, function(key, value) {
-                                        $('.district_id').append('<option value="' + key + '">' + value +
-                                            '</option>');
-                                    });
-                                    if (selectedDistrictId) {
-                                        $('.district_id').val(selectedDistrictId).trigger('change');
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error fetching District:', error);
-                                }
-                            });
-                        }
-
-                        function fetchStreets(districtId, selectedStreetId = null) {
-                            $.ajax({
-                                url: "{{ route('getStreets') }}",
-                                type: "GET",
-                                data: {
-                                    district_id: districtId
-                                },
-                                success: function(data) {
-                                    $('.street_id').empty().append(
-                                        '<option value="" disabled selected>Мфй ни танланг</option>');
-                                    $.each(data, function(key, value) {
-                                        $('.street_id').append('<option value="' + key + '">' + value +
-                                            '</option>');
-                                    });
-                                    if (selectedStreetId) {
-                                        setTimeout(function() {
-                                            $('.street_id').val(selectedStreetId).trigger('change');
-                                        }, 500); // Adding a delay to ensure the data is fully loaded
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error fetching streets:', error);
-                                }
-                            });
-                        }
-
-                        function fetchSubStreets(districtId, selectedSubStreetId = null) {
-                            $.ajax({
-                                url: "{{ route('getSubStreets') }}",
-                                type: "GET",
-                                data: {
-                                    district_id: districtId
-                                },
-                                success: function(data) {
-                                    $('.sub_street_id').empty().append(
-                                        '<option value="" disabled selected>Кўчани танланг</option>');
-                                    $.each(data, function(key, value) {
-                                        $('.sub_street_id').append('<option value="' + key + '">' + value +
-                                            '</option>');
-                                    });
-                                    if (selectedSubStreetId) {
-                                        setTimeout(function() {
-                                            $('.sub_street_id').val(selectedSubStreetId).trigger('change');
-                                        }, 500); // Adding a delay to ensure the data is fully loaded
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error fetching substreets:', error);
-                                }
-                            });
-                        }
-
-                        // Initialize selections if data exists
-                        // var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
-                        // var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
-                        // var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
-                        // var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
-
-                        // if (selectedRegionId) {
-                        //     fetchDistricts(selectedRegionId, selectedDistrictId);
-                        // }
-                        // if (selectedDistrictId) {
-                        //     fetchStreets(selectedDistrictId, selectedStreetId);
-                        // }
-                        // if (selectedDistrictId) {
-                        //     fetchSubStreets(selectedDistrictId, selectedSubStreetId);
-                        // }
-
-                        // Update Districts based on Region change
-                        $('.region_id').change(function() {
-                            var regionId = $(this).val();
-                            fetchDistricts(regionId);
-                        });
-
-                        // Update Streets and SubStreets based on District change
-                        $('.district_id').change(function() {
-                            var districtId = $(this).val();
-                            fetchStreets(districtId);
-                            fetchSubStreets(districtId);
-                        });
-
-                        // Add Street Button Click Event
-                        $('#add_street_btn').click(function() {
-                            var districtId = $('#district_id').val();
-                            if (!districtId) {
-                                alert('Выберите район сначала');
-                                return;
-                            }
-                            var newStreetName = prompt('Введите название новой улицы:');
-                            if (newStreetName) {
-                                $.ajax({
-                                    url: "{{ route('create.streets') }}",
-                                    type: "POST",
-                                    data: {
-                                        _token: '{{ csrf_token() }}',
-                                        district_id: districtId,
-                                        street_name: newStreetName
-                                    },
-                                    success: function(response) {
-                                        $('.street_id').append('<option value="' + response.id + '">' +
-                                            response.name + '</option>');
-                                        $('.street_id').val(response.id).trigger('change');
-                                        alert('Улица успешно добавлена: ' + response.name);
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error adding street:', error);
-                                        alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
-                                    }
-                                });
-                            }
-                        });
-
-                        // Add SubStreet Button Click Event
-                        $('#add_substreet_btn').click(function() {
-                            var districtId = $('#district_id').val();
-                            if (!districtId) {
-                                alert('Выберите район сначала');
-                                return;
-                            }
-                            var newSubStreetName = prompt('Введите название новой подулицы:');
-                            if (newSubStreetName) {
-                                $.ajax({
-                                    url: "{{ route('create.substreets') }}",
-                                    type: "POST",
-                                    data: {
-                                        _token: '{{ csrf_token() }}',
-                                        district_id: districtId,
-                                        sub_street_name: newSubStreetName
-                                    },
-                                    success: function(response) {
-                                        $('.sub_street_id').append('<option value="' + response.id + '">' +
-                                            response.name + '</option>');
-                                        $('.sub_street_id').val(response.id);
-                                        alert('Подулица успешно добавлена: ' + response.name);
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error adding substreet:', error);
-                                        alert(
-                                            'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
-                                        );
-                                    }
-                                });
-                            }
-                        });
-                    });
-                </script>
 
 
                 <div class="test">
                     <div class="row">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="stir">СТИР:</label>
+                            <input type="text" name="stir" class="form-control"
+                                value="{{ old('stir', $aktiv->stir ?? '') }}">
+                        </div>
+
+                        <!-- Ижарачи тел рақами -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="tenant_phone_number">Ижарачи тел рақами</label>
+                            <input type="text" name="tenant_phone_number" id="tenant_phone_number" class="form-control"
+                                placeholder="+998 90 123 45 67"
+                                value="{{ old('tenant_phone_number', $aktiv->tenant_phone_number) }}">
+                        </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
                             <label for="location">Мўлжал</label>
@@ -473,7 +211,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-12 mb-3">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <div class="form-group">
                                 <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
@@ -482,7 +220,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-12 mb-3">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <div class="form-group mb-4">
                                 <label for="qoshimcha_fayllar_pdf">Қошимча файллар
@@ -549,35 +287,11 @@
                             </select>
                         </div>
 
-
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
-                            <input type="text" name="reason_not_active" class="form-control"
-                                value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
-
-
-                        </div>
-
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
-                            <select name="ready_for_rent" class="form-control">
-                                <option value="ха"
-                                    {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа
-                                </option>
-                                <option value="йўқ"
-                                    {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>
-                                    Йўқ
-                                </option>
-                            </select>
-                        </div>
-
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
                             <select name="rental_agreement_status" class="form-control">
-                      
+
                                 <option value="бор"
                                     {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
                                     бор</option>
@@ -589,56 +303,13 @@
                         </div>
 
 
+                        <!-- Ижарага бериш суммаси -->
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="unused_duration">Фойдаланилмаган муддат:</label>
-                            <select name="unused_duration" class="form-control">
-                                <option value="1 ой бўлди"
-                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>
-                                    1
-                                    ой
-                                    бўлди</option>
-                                <option value="3 ой бўлди"
-                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>
-                                    3
-                                    ой
-                                    бўлди</option>
-
-                                <option value="6 ой бўлди"
-                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>
-                                    6
-                                    ой
-                                    бўлди</option>
-
-                                <option value="1 йил бўлди"
-                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>
-                                    1
-                                    йил бўлди</option>
-
-                                <option value="1 йил Ундан кўп"
-                                    {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
-                                    1 йил Ундан кўп</option>
-                            </select>
+                            <label for="ijara_summa_fakt">Ижарага суммаси факт... (сўм)</label>
+                            <input type="number" step="0.01" min="9999" name="ijara_summa_fakt"
+                                id="ijara_summa_fakt" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                                value="{{ old('ijara_summa_fakt', $aktiv->ijara_summa_fakt) }}">
                         </div>
-
-
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="provided_assistance">Берилган амалий ёрдам:</label>
-                            <select name="provided_assistance" class="form-control">
-                                <option value="кредит берилди"
-                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
-                                    кредит берилди</option>
-                                <option value="маслахат берилди"
-                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
-                                    маслахат берилди</option>
-
-                                <option value="ижарачи топиб берилди"
-                                    {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
-                                    ижарачи топиб берилди</option>
-                            </select>
-                        </div>
-
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
@@ -647,11 +318,6 @@
                                 value="{{ old('start_date', $aktiv->start_date ?? '') }}">
                         </div>
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-
-                            <label for="additional_notes">Изоҳ:</label>
-                            <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
-                        </div>
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
@@ -666,46 +332,297 @@
                             </select>
                         </div>
 
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css"
+                            rel="stylesheet" />
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
 
 
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5>Манзилни озгартириш</h5>
+                            </div>
+                            <div class="card-body row">
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="region_id">Худуд</label>
+                                    <select class="form-control region_id select2" name="region_id" id="region_id"
+                                        required>
+                                        <option value="" disabled selected>Худудни танланг</option>
+                                        @foreach ($regions as $region)
+                                            <option value="{{ $region->id }}"
+                                                {{ $region->id == old('region_id', optional($aktiv->subStreet->district->region)->id) ? 'selected' : '' }}>
+                                                {{ $region->name_uz }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                            <label for="stir">СТИР:</label>
-                            <input type="text" name="stir" class="form-control"
-                                value="{{ old('stir', $aktiv->stir ?? '') }}">
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="district_id">Туман</label>
+                                    <select class="form-control district_id select2" name="district_id" id="district_id"
+                                        required>
+                                        <option value="" disabled selected>Туманни танланг</option>
+                                        @foreach ($districts as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $district->id == old('district_id', optional($aktiv->subStreet->district)->id) ? 'selected' : '' }}>
+                                                {{ $district->name_uz }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="street_id" class="me-2">Мфй (Majburiy)<span></span></label>
+                                    <div class="d-flex align-items-end">
+                                        <select class="form-control street_id select2" name="street_id" id="street_id"
+                                            required>
+                                            <option value="" disabled selected>Мфй ни танланг</option>
+                                            @foreach ($streets as $street)
+                                                <option value="{{ $street->id }}"
+                                                    {{ $street->id == old('street_id', $aktiv->street_id) ? 'selected' : '' }}>
+                                                    {{ $street->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn btn-primary ms-2" id="add_street_btn"
+                                            title="Мфй қошиш">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="substreet_id" class="me-2">Кўча (Majburiy)<span></span></label>
+                                    <div class="d-flex align-items-end">
+                                        <select class="form-control sub_street_id select2" name="sub_street_id"
+                                            id="substreet_id" required>
+                                            <option value="" disabled selected>Кўчани танланг</option>
+                                            @foreach ($substreets as $substreet)
+                                                <option value="{{ $substreet->id }}"
+                                                    {{ $substreet->id == old('sub_street_id', $aktiv->sub_street_id) ? 'selected' : '' }}>
+                                                    {{ $substreet->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn btn-primary ms-2" id="add_substreet_btn"
+                                            title="Кўча қошиш">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="home_number" class="me-2">Уй рақами (Мажбурий эмас)</label>
+                                        <div class="d-flex align-items-end">
+                                            <input class="form-control" name="home_number" type="text"
+                                                id="home_number" value="{{ old('home_number', $aktiv->home_number) }}" />
+                                        </div>
+                                        <span class="text-danger error-message" id="home_number_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="apartment_number" class="me-2">Квартира рақами (Мажбурий
+                                            эмас)</label>
+                                        <div class="d-flex align-items-end">
+                                            <input class="form-control" name="apartment_number" type="text"
+                                                value="{{ old('apartment_number', $aktiv->apartment_number) }}"
+                                                id="apartment_number" />
+                                        </div>
+                                        <span class="text-danger error-message" id="apartment_number_error"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
+                        <style>
+                            .select2 {
+                                width: 100% !important;
+                            }
+                        </style>
 
-                        <!-- Ижарачи тел рақами -->
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="tenant_phone_number">Ижарачи тел рақами</label>
-                            <input type="text" name="tenant_phone_number" id="tenant_phone_number"
-                                class="form-control" placeholder="+998 90 123 45 67"
-                                value="{{ old('tenant_phone_number', $aktiv->tenant_phone_number) }}">
-                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                $('.select2').select2();
 
-                        <!-- Ижарага бериш суммаси -->
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган (сўм)</label>
-                            <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted"
-                                class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
-                                value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
-                        </div>
+                                function fetchDistricts(regionId, selectedDistrictId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getDistricts') }}",
+                                        type: "GET",
+                                        data: {
+                                            region_id: regionId
+                                        },
+                                        success: function(data) {
+                                            $('.district_id').empty().append(
+                                                '<option value="" disabled selected>Туманни танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.district_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedDistrictId) {
+                                                $('.district_id').val(selectedDistrictId).trigger('change');
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching District:', error);
+                                        }
+                                    });
+                                }
 
-                        <!-- Ижарага бериш суммаси -->
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="ijara_summa_fakt">Ижарага суммаси факт... (сўм)</label>
-                            <input type="number" step="0.01" min="9999" name="ijara_summa_fakt" id="ijara_summa_fakt"
-                                class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
-                                value="{{ old('ijara_summa_fakt', $aktiv->ijara_summa_fakt) }}">
-                        </div>
+                                function fetchStreets(districtId, selectedStreetId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getStreets') }}",
+                                        type: "GET",
+                                        data: {
+                                            district_id: districtId
+                                        },
+                                        success: function(data) {
+                                            $('.street_id').empty().append(
+                                                '<option value="" disabled selected>Мфй ни танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.street_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedStreetId) {
+                                                setTimeout(function() {
+                                                    $('.street_id').val(selectedStreetId).trigger('change');
+                                                }, 500); // Adding a delay to ensure the data is fully loaded
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching streets:', error);
+                                        }
+                                    });
+                                }
+
+                                function fetchSubStreets(districtId, selectedSubStreetId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getSubStreets') }}",
+                                        type: "GET",
+                                        data: {
+                                            district_id: districtId
+                                        },
+                                        success: function(data) {
+                                            $('.sub_street_id').empty().append(
+                                                '<option value="" disabled selected>Кўчани танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.sub_street_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedSubStreetId) {
+                                                setTimeout(function() {
+                                                    $('.sub_street_id').val(selectedSubStreetId).trigger('change');
+                                                }, 500); // Adding a delay to ensure the data is fully loaded
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching substreets:', error);
+                                        }
+                                    });
+                                }
+
+                                // Initialize selections if data exists
+                                // var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
+                                // var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
+                                // var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
+                                // var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
+
+                                // if (selectedRegionId) {
+                                //     fetchDistricts(selectedRegionId, selectedDistrictId);
+                                // }
+                                // if (selectedDistrictId) {
+                                //     fetchStreets(selectedDistrictId, selectedStreetId);
+                                // }
+                                // if (selectedDistrictId) {
+                                //     fetchSubStreets(selectedDistrictId, selectedSubStreetId);
+                                // }
+
+                                // Update Districts based on Region change
+                                $('.region_id').change(function() {
+                                    var regionId = $(this).val();
+                                    fetchDistricts(regionId);
+                                });
+
+                                // Update Streets and SubStreets based on District change
+                                $('.district_id').change(function() {
+                                    var districtId = $(this).val();
+                                    fetchStreets(districtId);
+                                    fetchSubStreets(districtId);
+                                });
+
+                                // Add Street Button Click Event
+                                $('#add_street_btn').click(function() {
+                                    var districtId = $('#district_id').val();
+                                    if (!districtId) {
+                                        alert('Выберите район сначала');
+                                        return;
+                                    }
+                                    var newStreetName = prompt('Введите название новой улицы:');
+                                    if (newStreetName) {
+                                        $.ajax({
+                                            url: "{{ route('create.streets') }}",
+                                            type: "POST",
+                                            data: {
+                                                _token: '{{ csrf_token() }}',
+                                                district_id: districtId,
+                                                street_name: newStreetName
+                                            },
+                                            success: function(response) {
+                                                $('.street_id').append('<option value="' + response.id + '">' +
+                                                    response.name + '</option>');
+                                                $('.street_id').val(response.id).trigger('change');
+                                                alert('Улица успешно добавлена: ' + response.name);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error('Error adding street:', error);
+                                                alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
+                                            }
+                                        });
+                                    }
+                                });
+
+                                // Add SubStreet Button Click Event
+                                $('#add_substreet_btn').click(function() {
+                                    var districtId = $('#district_id').val();
+                                    if (!districtId) {
+                                        alert('Выберите район сначала');
+                                        return;
+                                    }
+                                    var newSubStreetName = prompt('Введите название новой подулицы:');
+                                    if (newSubStreetName) {
+                                        $.ajax({
+                                            url: "{{ route('create.substreets') }}",
+                                            type: "POST",
+                                            data: {
+                                                _token: '{{ csrf_token() }}',
+                                                district_id: districtId,
+                                                sub_street_name: newSubStreetName
+                                            },
+                                            success: function(response) {
+                                                $('.sub_street_id').append('<option value="' + response.id + '">' +
+                                                    response.name + '</option>');
+                                                $('.sub_street_id').val(response.id);
+                                                alert('Подулица успешно добавлена: ' + response.name);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error('Error adding substreet:', error);
+                                                alert(
+                                                    'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
+                                                );
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        </script>
+
+
+
                     </div>
 
                 </div>
             </div>
             <!-- Right Column -->
             <div class="col-md-6">
+
                 <!-- Existing Files -->
                 <div class="mb-3">
                     <label class="text-primary">Мавжуд файллар</label>
@@ -777,6 +694,103 @@
                     @error('geolokatsiya')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
+                        <input type="text" name="reason_not_active" class="form-control"
+                            value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
+
+
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
+                        <select name="ready_for_rent" class="form-control">
+                            <option value="ха"
+                                {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа
+                            </option>
+                            <option value="йўқ"
+                                {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>
+                                Йўқ
+                            </option>
+                        </select>
+                    </div>
+
+
+
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="unused_duration">Фойдаланилмаган муддат:</label>
+                        <select name="unused_duration" class="form-control">
+                            <option value="1 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>
+                                1
+                                ой
+                                бўлди</option>
+                            <option value="3 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>
+                                3
+                                ой
+                                бўлди</option>
+
+                            <option value="6 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>
+                                6
+                                ой
+                                бўлди</option>
+
+                            <option value="1 йил бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>
+                                1
+                                йил бўлди</option>
+
+                            <option value="1 йил Ундан кўп"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
+                                1 йил Ундан кўп</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="provided_assistance">Берилган амалий ёрдам:</label>
+                        <select name="provided_assistance" class="form-control">
+                            <option value="кредит берилди"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
+                                кредит берилди</option>
+                            <option value="маслахат берилди"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
+                                маслахат берилди</option>
+
+                            <option value="ижарачи топиб берилди"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
+                                ижарачи топиб берилди</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="additional_notes">Изоҳ:</label>
+                        <textarea name="additional_notes" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
+                    </div>
+
+
+                    <!-- Ижарага бериш суммаси -->
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган (сўм)</label>
+                        <input type="number" step="0.01" min="9999" name="ijara_summa_wanted"
+                            id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                            value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
+                    </div>
+
+
                 </div>
             </div>
         </div>
