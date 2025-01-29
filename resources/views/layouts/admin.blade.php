@@ -111,6 +111,23 @@
                 @yield('content')
             </div>
 
+            <style>
+                .select2-container .select2-selection--single {
+
+                    height: auto !important;
+
+                }
+
+                .select2-container--default .select2-selection--single .select2-selection__rendered {
+                    line-height: auto !important;
+                }
+
+                .select2-container--default .select2-selection--single .select2-selection__arrow {
+
+                    display: none !important;
+                }
+            </style>
+
             <!-- partial:partials/_footer.html -->
             <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <p class="text-muted text-center text-md-left">Copyright © {{ date('Y') }} <a
