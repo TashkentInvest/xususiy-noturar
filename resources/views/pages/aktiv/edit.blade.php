@@ -577,13 +577,7 @@
 
                             <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
                             <select name="rental_agreement_status" class="form-control">
-                                <option value="энди тузилади"
-                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'энди тузилади' ? 'selected' : '' }}>
-                                    энди тузилади</option>
-                                <option value="хозир топполмаяпман"
-                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'хозир топполмаяпман' ? 'selected' : '' }}>
-                                    хозир топполмаяпман</option>
-
+                      
                                 <option value="бор"
                                     {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
                                     бор</option>

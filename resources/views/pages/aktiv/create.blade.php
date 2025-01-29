@@ -215,13 +215,6 @@
 
                 <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
                 <select name="rental_agreement_status" class="form-control">
-                    <option value="энди тузилади"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'энди тузилади' ? 'selected' : '' }}>
-                        энди тузилади</option>
-                    <option value="хозир топполмаяпман"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'хозир топполмаяпман' ? 'selected' : '' }}>
-                        хозир топполмаяпман</option>
-
                     <option value="бор"
                         {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
                         бор</option>
@@ -284,7 +277,7 @@
                         Йўқ</option>
                 </select>
 
-              
+
                 <label for="stir">СТИР:</label>
                 <input type="text" name="stir" class="form-control"
                     value="{{ old('stir', $aktiv->stir ?? '') }}">
@@ -296,13 +289,15 @@
 
                 <!-- Ижарага бериш суммаси -->
                 <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган (сўм)</label>
-                <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted" class="form-control"
-                    placeholder="Суммани киритинг 1 000 000 сўм" value="{{ old('ijara_summa_wanted') }}">
+                <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted"
+                    class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                    value="{{ old('ijara_summa_wanted') }}">
 
-                           <!-- Ижарага бериш суммаси -->
+                <!-- Ижарага бериш суммаси -->
                 <label for="ijara_summa_fakt">Ижарага суммаси факт... (сўм)</label>
-                <input type="number" step="0.01" min="9999" name="ijara_summa_fakt" id="ijara_summa_fakt" class="form-control"
-                    placeholder="Суммани киритинг 1 000 000 сўм" value="{{ old('ijara_summa_fakt') }}">
+                <input type="number" step="0.01" min="9999" name="ijara_summa_fakt" id="ijara_summa_fakt"
+                    class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                    value="{{ old('ijara_summa_fakt') }}">
 
 
                 <script>
