@@ -57,12 +57,12 @@
                                             <span class="badge text-primary">{{ $role }} </span>
                                         @endforeach
                                     </td>
-                                    {{-- <td>
+                                    <td>
                                         @foreach ($user->getAllPermissions()->pluck('name') as $permission)
                                             <span class="badge text-secondary">{{ $permission }} </span>
                                         @endforeach
-                                    </td> --}}
-                                    {{-- <td class="text-center">
+                                    </td>
+                                    <td class="text-center">
                                         @can('user.delete')
                                             <form action="{{ route('userDestroy', $user->id) }}" method="post">
                                                 @csrf
@@ -80,7 +80,7 @@
                                                 </div>
                                             </form>
                                         @endcan
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

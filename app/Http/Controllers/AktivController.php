@@ -17,67 +17,43 @@ use Illuminate\Support\Facades\Log;
 class AktivController extends Controller
 {
     public function index(Request $request)
-{
-    $user_id = $request->input('user_id');
-    $district_id = $request->input('district_id');
-    $userRole = auth()->user()->roles[0]->name ?? '';
-    $userDistrictId = auth()->user()->district_id; // Manager's assigned district
-    $districts = District::get();
+    {
+        $user_id = $request->input('user_id');
+        $district_id = $request->input('district_id');
+        $user = auth()->user();
+        $userRole = $user->roles[0]->name ?? '';
+        $userDistrictId = $user->district_id; // Manager's assigned district
+        $districts = District::get();
 
-    // If the user is a Manager and no district filter is present, redirect with their district_id
-    if ($userRole == 'Manager' && !$request->has('district_id')) {
-        return redirect()->route('aktivs.index', [
-            'district_id' => $userDistrictId,
-        ]);
-    }
+        // Build the query
+        $query = Aktiv::deepFilters();
 
-    // Build the query
-    $query = Aktiv::deepFilters();
-
-    // Apply filters based on role
-    if ($userRole == 'Super Admin') {
-        // Super Admin can filter by user_id if provided
-        if ($user_id) {
-            $query->where('user_id', $user_id);
-        }
-    } elseif ($userRole == 'Manager') {
-        // For a Manager:
-        // - If the requested district_id matches manager's own district, filter by that district.
-        // - Otherwise, show only the manager's own aktivs.
-        if ($district_id == $userDistrictId) {
-            $query->whereHas('user', function ($q) use ($district_id) {
-                $q->where('district_id', $district_id);
+        // Apply filters based on the user's role
+        if ($userRole === 'Employee') {
+            // If the user is an Employee, show only aktivs where the street matches the user's assigned street
+            $query->whereHas('street', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
             });
-        } else {
-            // If the requested district_id doesn't match manager's district,
-            // show only their own aktivs.
-            $query->where('user_id', auth()->id());
         }
-    } else {
-        // For other roles, show only their own aktivs
-        $query->where('user_id', auth()->id());
+
+        // Counts for Super Admin (no restrictions)
+        $noturarBinoCount = $query->clone()->where('building_type', 'AlohidaSavdoDokoni')->count();
+        $turarBinoCount = $query->clone()->where('building_type', 'kopQavatliUy')->count();
+
+        // Finally, paginate the results
+        $aktivs = $query->orderBy('created_at', 'asc')
+            ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
+            ->paginate(15)
+            ->appends($request->query());
+
+        \Log::debug('SQL Query:', [
+            'query' => $query->toSql(),
+            'bindings' => $query->getBindings(),
+            'request_data' => $request->all()
+        ]);
+
+        return view('pages.aktiv.index', compact('aktivs', 'noturarBinoCount', 'turarBinoCount', 'districts'));
     }
-
-    // Counts for Super Admin (no restrictions)
-    $yerCount = $query->clone()->where('building_type', 'yer')->count();
-    $noturarBinoCount = $query->clone()->where('building_type', 'AlohidaSavdoDokoni')->count();
-    $turarBinoCount = $query->clone()->where('building_type', 'kopQavatliUy')->count();
-
-    // Finally, paginate the results
-    $aktivs = $query->orderBy('created_at', 'asc')
-        ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
-        ->paginate(15)
-        ->appends($request->query());
-
-    \Log::debug('SQL Query:', [
-        'query' => $query->toSql(),
-        'bindings' => $query->getBindings(),
-        'request_data' => $request->all()
-    ]);
-
-    return view('pages.aktiv.index', compact('aktivs', 'yerCount', 'noturarBinoCount', 'turarBinoCount', 'districts'));
-}
-
 
     public function userTumanlarCounts(Request $request)
     {
@@ -453,7 +429,7 @@ class AktivController extends Controller
             'tenant_phone_number' => 'nullable',
             'ijara_summa_wanted' => 'nullable',
             'ijara_summa_fakt' => 'nullable',
-            
+
         ]);
 
         // $totalFiles = $aktiv->files()->count() - count($request->delete_files ?? []) + count($request->file('files') ?? []);

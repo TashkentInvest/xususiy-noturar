@@ -17,29 +17,28 @@ class CustomUserSeeder extends Seeder
         Log::info('User seeding started at: ' . $startTime);
 
         $streets = Street::all();
-
         foreach ($streets as $street) {
-            $login = str_replace(' ', '_', "{$street->name}@hokimligi.uz");
+            $mail_name = $street->district->name_uz . '_' . $street->name ?? 'Unknown';
+            $login = str_replace(' ', '_', "{$mail_name}@hokimligi.uz");
             $password = 'secret'; // Use a better password management approach in production
 
             $globalAddressData = [
                 'region_id' => 1,  // Assuming a default region ID
                 'district_id' => $street->district_id,
                 'street_id' => $street->id,
-                'sub_street_id' => null, // Placeholder for sub-street ID if needed
-                'home_number' => null, // Placeholder for home number if needed
             ];
 
             $user = User::firstOrCreate([
                 'email' => $login
             ], [
-                'name' => $street->name ?? 'Unknown',
+                'name' => $street->district->name_uz . '_' . $street->name ?? 'Unknown',
                 'password' => Hash::make($password),
                 'district_id' => $street->district_id,
                 'global_address_id' => json_encode($globalAddressData),
                 'theme' => 'default'
             ]);
 
+            $user->assignRole('Employee');
             // Update street with the user ID
             $street->update(['user_id' => $user->id]);
         }
