@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             // KtSeeder::class,
             // KzSeeder::class,
             AktivSeeder::class,
+            CustomUserSeeder::class,
             // ExcelToDatabaseSeeder::class,
             // ClientDataSeeder::class,
 
