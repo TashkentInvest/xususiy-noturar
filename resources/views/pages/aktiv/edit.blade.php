@@ -268,7 +268,7 @@
                         </div>
 
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <label for="document_type">Ҳужжат тури:</label>
                             <select name="document_type" class="form-control">
@@ -285,7 +285,7 @@
                                     Ижара
                                     шартнома</option>
                             </select>
-                        </div>
+                        </div> --}}
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 

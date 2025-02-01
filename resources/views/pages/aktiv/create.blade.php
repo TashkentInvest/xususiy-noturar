@@ -189,7 +189,7 @@
 
 
 
-                <label for="document_type">Ҳужжат тури:</label>
+                {{-- <label for="document_type">Ҳужжат тури:</label>
                 <select name="document_type" class="form-control">
                     <option value="ҳоким қарори"
                         {{ old('document_type', $aktiv->document_type ?? '') == 'ҳоким қарори' ? 'selected' : '' }}>Ҳоким
@@ -199,7 +199,7 @@
                     <option value="ижара шартнома"
                         {{ old('document_type', $aktiv->document_type ?? '') == 'ижара шартнома' ? 'selected' : '' }}>Ижара
                         шартнома</option>
-                </select>
+                </select> --}}
 
                 <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
                 <input type="text" name="reason_not_active" class="form-control"

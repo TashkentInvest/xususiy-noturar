@@ -73,9 +73,9 @@
     <div class="card shadow-sm p-4 mb-4">
         <h5 class="card-title text-primary">Ҳужжат маълумотлари</h5>
         <div class="card-body">
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <strong>Ҳужжат тури:</strong> {{ $aktiv->document_type ?? 'Маълумот йўқ' }}
-            </div>
+            </div> --}}
             <div class="mb-3">
                 <strong>Фаолият юритмаётганлиги сабаби:</strong> {{ $aktiv->reason_not_active ?? 'Маълумот йўқ' }}
             </div>
