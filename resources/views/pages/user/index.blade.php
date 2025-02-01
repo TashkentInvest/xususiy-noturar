@@ -88,6 +88,10 @@
                 </div>
                 <!-- /.card-body -->
             </div>
+
+            <div>
+                {{ $users->links() }}
+            </div>
             <!-- /.card -->
         </div>
         <!-- /.col -->
