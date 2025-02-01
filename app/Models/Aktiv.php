@@ -164,6 +164,7 @@ class Aktiv extends Model
         'tenant_phone_number', // New column
         'ijara_summa_wanted', // New column
         'ijara_summa_fakt', // New column
+        'ijaraga_berishga_tayyorligi'
     ];
 
     public function files()

@@ -144,7 +144,8 @@
 
                 <div class="form-group">
                     <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
-                    <input type="file" id="ijara_shartnoma_nusxasi_pdf" name="ijara_shartnoma_nusxasi_pdf" class="form-control">
+                    <input type="file" id="ijara_shartnoma_nusxasi_pdf" name="ijara_shartnoma_nusxasi_pdf"
+                        class="form-control">
                 </div>
 
                 <div class="form-group mb-4">
@@ -262,15 +263,16 @@
                         ижарачи топиб берилди</option>
                 </select>
 
-                <label for="start_date">Фаолият юритишни бошлаган сана:</label>
+                {{-- <label for="start_date">Фаолият юритишни бошлаган сана:</label>
                 <input type="date" name="start_date" class="form-control"
-                    value="{{ old('start_date', $aktiv->start_date ?? '') }}">
+                    value="{{ old('start_date', $aktiv->start_date ?? '') }}"> --}}
 
                 <label for="additional_notes">Изоҳ:</label>
                 <textarea name="additional_notes" rows="4" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
 
                 <label for="working_24_7">24/7 режимда ишлайдими?</label>
-                <select name="working_24_7" class="form-control">
+                <select name="working_24_7" class="form-control" required>
+                    <option value="" selected>Tanlang</option>
                     <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
                         Ҳа</option>
                     <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
@@ -287,14 +289,45 @@
                 <input type="text" name="tenant_phone_number" id="tenant_phone_number" class="form-control"
                     placeholder="+998 90 123 45 67" value="{{ old('tenant_phone_number') }}">
 
-                <!-- Ижарага бериш суммаси -->
-                <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган <span style="color: red !important;">(фақат сўмда ёзилади)</label>
-                <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted"
-                    class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
-                    value="{{ old('ijara_summa_wanted') }}">
+                <div class="col-lg-12 col-md-12 col-12 mb-3">
+                    <label for="ijaraga_berishga_tayyorligi">Ижарага беришга тайёрлиги</label>
+                    <select name="ijaraga_berishga_tayyorligi" id="ijaraga_berishga_tayyorligi" class="form-control">
+                        <option value="">Танланг</option>
+                        <option value="yeap" {{ old('ijaraga_berishga_tayyorligi') == 'yeap' ? 'selected' : '' }}>yeap
+                        </option>
+                        <option value="not" {{ old('ijaraga_berishga_tayyorligi') == 'not' ? 'selected' : '' }}>not
+                        </option>
+                    </select>
+                </div>
 
                 <!-- Ижарага бериш суммаси -->
-                <label for="ijara_summa_fakt">Ижарага суммаси факт... <span style="color: red"><span style="color: red !important;">(фақат сўмда ёзилади)</span></span></label>
+                <div class="col-lg-12 col-md-12 col-12 mb-3" id="ijara_summa_wanted_container" style="display: none;">
+                    <label for="ijara_summa_wanted">Ижарага режалаштирган сумма <span
+                            style="color: red !important;">(фақат сўмда ёзилади)</label>
+                    <input type="number" step="0.01" min="9999" name="ijara_summa_wanted"
+                        id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                        value="{{ old('ijara_summa_wanted') }}">
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const ijaragaTayyorligiSelect = document.getElementById('ijaraga_berishga_tayyorligi');
+                        const ijaraSummaWantedContainer = document.getElementById('ijara_summa_wanted_container');
+
+                        function toggleIjaraSummaWanted() {
+                            ijaraSummaWantedContainer.style.display = ijaragaTayyorligiSelect.value === 'yeap' ? 'block' :
+                                'none';
+                        }
+
+                        ijaragaTayyorligiSelect.addEventListener('change', toggleIjaraSummaWanted);
+
+                        // Initial toggle based on the saved value
+                        toggleIjaraSummaWanted();
+                    });
+                </script>
+                <!-- Ижарага бериш суммаси -->
+                <label for="ijara_summa_fakt">Ижарага суммаси факт... <span style="color: red"><span
+                            style="color: red !important;">(фақат сўмда ёзилади)</span></span></label>
                 <input type="number" step="0.01" min="9999" name="ijara_summa_fakt" id="ijara_summa_fakt"
                     class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
                     value="{{ old('ijara_summa_fakt') }}">

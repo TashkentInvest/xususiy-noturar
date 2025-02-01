@@ -305,24 +305,26 @@
 
                         <!-- Ижарага бериш суммаси -->
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
-                            <label for="ijara_summa_fakt">Ижарага суммаси факт... <span style="color: red !important;">(фақат сўмда ёзилади)</span></label>
+                            <label for="ijara_summa_fakt">Ижарага суммаси факт... <span
+                                    style="color: red !important;">(фақат сўмда ёзилади)</span></label>
                             <input type="number" step="0.01" min="9999" name="ijara_summa_fakt"
                                 id="ijara_summa_fakt" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
                                 value="{{ old('ijara_summa_fakt', $aktiv->ijara_summa_fakt) }}">
                         </div>
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <label for="start_date">Фаолият юритишни бошлаган сана:</label>
                             <input type="date" name="start_date" class="form-control"
                                 value="{{ old('start_date', $aktiv->start_date ?? '') }}">
-                        </div>
+                        </div> --}}
 
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <label for="working_24_7">24/7 режимда ишлайдими?</label>
-                            <select name="working_24_7" class="form-control">
+                            <select name="working_24_7" class="form-control" >
+
                                 <option value="1"
                                     {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
                                     Ҳа</option>
@@ -774,13 +776,36 @@
                     </div>
 
 
-     <!-- Ижарага бериш суммаси -->
                     <div class="col-lg-12 col-md-12 col-12 mb-3">
-                        <label for="ijara_summa_wanted">Ижарага суммаси режалаштирган <span style="color: red !important;">(фақат сўмда ёзилади)</label>
-                        <input type="number" step="0.01" min="9999" name="ijara_summa_wanted"
-                            id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
-                            value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
+                        <label for="ijaraga_berishga_tayyorligi">Ижарага беришга тайёрлиги</label>
+                        <select name="ijaraga_berishga_tayyorligi" id="ijaraga_berishga_tayyorligi" class="form-control">
+                            <option value="">Танланг</option>
+                            <option value="yeap" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'yeap' ? 'selected' : '' }}>yeap</option>
+                            <option value="not" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'not' ? 'selected' : '' }}>not</option>
+                        </select>
                     </div>
+                    
+                    <!-- Ижарага бериш суммаси -->
+                    <div class="col-lg-12 col-md-12 col-12 mb-3" id="ijara_summa_wanted_container" style="display: none;">
+                        <label for="ijara_summa_wanted">Ижарага режалаштирган сумма <span style="color: red !important;">(фақат сўмда ёзилади)</label>
+                        <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм" value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
+                    </div>
+                    
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const ijaragaTayyorligiSelect = document.getElementById('ijaraga_berishga_tayyorligi');
+                            const ijaraSummaWantedContainer = document.getElementById('ijara_summa_wanted_container');
+                    
+                            function toggleIjaraSummaWanted() {
+                                ijaraSummaWantedContainer.style.display = ijaragaTayyorligiSelect.value === 'yeap' ? 'block' : 'none';
+                            }
+                    
+                            ijaragaTayyorligiSelect.addEventListener('change', toggleIjaraSummaWanted);
+                    
+                            // Initial toggle based on the saved value
+                            toggleIjaraSummaWanted();
+                        });
+                    </script>
 
                     <div class="col-lg-12 col-md-12 col-12 mb-3">
 
@@ -789,7 +814,7 @@
                     </div>
 
 
-               
+
 
                 </div>
             </div>
