@@ -31,65 +31,64 @@
                 </a>
             </li>
 
+            @if (auth()->user()->roles->first()->name == 'Super Admin')
+                <li class="nav-item nav-category">Бошқариш</li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
+                        aria-controls="emails">
+                        <i class="link-icon" data-feather="unlock"></i>
+                        <span class="link-title">Бошқариш</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="emails">
+                        <ul class="nav sub-menu">
 
 
-            <li class="nav-item nav-category">Бошқариш</li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
-                    aria-controls="emails">
-                    <i class="link-icon" data-feather="unlock"></i>
-                    <span class="link-title">Бошқариш</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="emails">
-                    <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('roleIndex') }}" class="nav-link">Роль</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('permissionIndex') }}" class="nav-link">Рухсат бериш</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('userIndex') }}" class="nav-link">Фойдаланувчилар</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
 
-                        <li class="nav-item">
-                            <a href="{{ route('roleIndex') }}" class="nav-link">Роль</a>
-                        </li>
+                <li class="nav-item nav-category">Манзиллар</li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
+                        aria-controls="emails">
+                        <i class="link-icon" data-feather="map-pin"></i>
+                        <span class="link-title">Манзиллар</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="emails">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('regionIndex') }}" class="nav-link">Худуд</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('permissionIndex') }}" class="nav-link">Рухсат бериш</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('districtIndex') }}" class="nav-link">Туман</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('userIndex') }}" class="nav-link">Фойдаланувчилар</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('streetIndex') }}" class="nav-link">Мфй</a>
+                            </li>
 
-
-            <li class="nav-item nav-category">Манзиллар</li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
-                    aria-controls="emails">
-                    <i class="link-icon" data-feather="map-pin"></i>
-                    <span class="link-title">Манзиллар</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse" id="emails">
-                    <ul class="nav sub-menu">
-                        <li class="nav-item">
-                            <a href="{{ route('regionIndex') }}" class="nav-link">Худуд</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('districtIndex') }}" class="nav-link">Туман</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('streetIndex') }}" class="nav-link">Мфй</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('substreetIndex') }}" class="nav-link">Кўча</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
+                            <li class="nav-item">
+                                <a href="{{ route('substreetIndex') }}" class="nav-link">Кўча</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
 
 
 

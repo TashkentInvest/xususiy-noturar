@@ -203,13 +203,13 @@
                             </small>
                         </div>
 
-                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
 
                             <div class="form-group">
                                 <label for="kadastr_pdf">Кадастр файл</label>
                                 <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-lg-6 col-md-12 col-12 mb-3">
 

@@ -208,22 +208,22 @@
     <div class="card shadow-sm p-4 mb-4">
         <h5 class="card-title text-primary">Юкланган ҳужжатлар</h5>
         <div class="card-body">
-            @if ($aktiv->kadastr_pdf)
+            {{-- @if ($aktiv->kadastr_pdf)
                 <p>
                     <strong>Кадастр файл:</strong>
                     <a href="{{ asset($aktiv->kadastr_pdf) }}" target="_blank">Файлни кўриш</a>
                 </p>
             @else
                 <p>Кадастр файл мавжуд эмас.</p>
-            @endif
+            @endif --}}
 
             @if ($aktiv->ijara_shartnoma_nusxasi_pdf)
                 <p>
-                    <strong>Ҳоким қарори файл:</strong>
+                    <strong>Ижара шартнома нусхаси:</strong>
                     <a href="{{ asset($aktiv->ijara_shartnoma_nusxasi_pdf) }}" target="_blank">Файлни кўриш</a>
                 </p>
             @else
-                <p>Ҳоким қарори файл мавжуд эмас.</p>
+                <p>Ижара шартнома нусхаси мавжуд эмас.</p>
             @endif
 
             @if ($aktiv->qoshimcha_fayllar_pdf)

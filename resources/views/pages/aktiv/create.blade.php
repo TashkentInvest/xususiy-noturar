@@ -137,10 +137,10 @@
                     </small>
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="kadastr_pdf">Кадастр файл</label>
                     <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
-                </div>
+                </div> --}}
 
                 <div class="form-group">
                     <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
