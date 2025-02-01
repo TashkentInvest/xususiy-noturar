@@ -293,9 +293,9 @@
                     <label for="ijaraga_berishga_tayyorligi">Ижарага беришга тайёрлиги</label>
                     <select name="ijaraga_berishga_tayyorligi" id="ijaraga_berishga_tayyorligi" class="form-control">
                         <option value="">Танланг</option>
-                        <option value="yeap" {{ old('ijaraga_berishga_tayyorligi') == 'yeap' ? 'selected' : '' }}>yeap
+                        <option value="yeap" {{ old('ijaraga_berishga_tayyorligi') == 'yeap' ? 'selected' : '' }}>Ха Ижарага бермоқчи
                         </option>
-                        <option value="not" {{ old('ijaraga_berishga_tayyorligi') == 'not' ? 'selected' : '' }}>not
+                        <option value="not" {{ old('ijaraga_berishga_tayyorligi') == 'not' ? 'selected' : '' }}>Йоқ ози бошқармоқчи
                         </option>
                     </select>
                 </div>
