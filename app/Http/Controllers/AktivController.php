@@ -192,6 +192,8 @@ class AktivController extends Controller
             'ijara_summa_wanted' => 'nullable',
             'ijara_summa_fakt' => 'nullable',
             'ijaraga_berishga_tayyorligi' => 'nullable',
+            'faoliyat_xolati' => 'nullable',
+
         ]);
         // $request->validate([
         //     'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -431,6 +433,7 @@ class AktivController extends Controller
             'ijara_summa_wanted' => 'nullable',
             'ijara_summa_fakt' => 'nullable',
             'ijaraga_berishga_tayyorligi' => 'nullable',
+            'faoliyat_xolati' => 'nullable',
 
         ]);
 

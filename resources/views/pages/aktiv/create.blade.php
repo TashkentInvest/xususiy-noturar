@@ -34,6 +34,26 @@
             <div class="col-md-6">
                 <!-- Form Inputs -->
                 <div class="mb-3">
+
+                <label for="working_24_7">24/7 режимда ишлайдими?</label>
+                <select name="working_24_7" class="form-control" required>
+                    <option value="" selected>Tanlang</option>
+                    <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
+                        Ҳа</option>
+                    <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
+                        Йўқ</option>
+                </select>
+                </div>
+                <div class="mb-3">
+                    <label for="faoliyat_xolati">Фаолият ҳолати</label>
+                    <select name="faoliyat_xolati" id="faoliyat_xolati" class="form-control">
+                        <option value="">Танланг</option>
+                        <option value="work" {{ old('faoliyat_xolati') == 'work' ? 'selected' : '' }}>Ишламоқда</option>
+                        <option value="notwork" {{ old('faoliyat_xolati') == 'notwork' ? 'selected' : '' }}>Ишламаяпти
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
                     <label for="object_name">Объект номи</label>
                     <input class="form-control" type="text" name="object_name" id="object_name"
                         placeholder="футбол майдони | 4 қаватли уйнинг 1-қавати" value="{{ old('object_name') }}">
@@ -54,7 +74,8 @@
 
                 <div class="mb-3">
                     <label for="location">Мўлжал</label>
-                    <input class="form-control" type="text" name="location" id="location" value="{{ old('location') }}">
+                    <input class="form-control" type="text" name="location" id="location"
+                        value="{{ old('location') }}">
                     @error('location')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -270,14 +291,7 @@
                 <label for="additional_notes">Изоҳ:</label>
                 <textarea name="additional_notes" rows="4" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
 
-                <label for="working_24_7">24/7 режимда ишлайдими?</label>
-                <select name="working_24_7" class="form-control" required>
-                    <option value="" selected>Tanlang</option>
-                    <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
-                        Ҳа</option>
-                    <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
-                        Йўқ</option>
-                </select>
+
 
 
                 <label for="stir">СТИР:</label>
