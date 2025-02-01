@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIjaragaBerishgaTayyorligiToAktivsTable extends Migration
+class AddFaoliyatXolatiToAktivsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddIjaragaBerishgaTayyorligiToAktivsTable extends Migration
     public function up()
     {
         Schema::table('aktivs', function (Blueprint $table) {
-            $table->enum('ijaraga_berishga_tayyorligi', ['not', 'yeap'])->nullable();
+            $table->enum('faoliyat_xolati', ['work', 'notwork'])->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddIjaragaBerishgaTayyorligiToAktivsTable extends Migration
     public function down()
     {
         Schema::table('aktivs', function (Blueprint $table) {
-            $table->dropColumn('ijaraga_berishga_tayyorligi');
+            $table->dropColumn('faoliyat_xolati');
         });
     }
 }
