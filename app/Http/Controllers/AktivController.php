@@ -236,7 +236,7 @@ class AktivController extends Controller
     public function show(Aktiv $aktiv)
     {
         // Check if the user can view this Aktiv (for authorization)
-        $this->authorizeView($aktiv);
+        // $this->authorizeView($aktiv);
 
         // Load necessary relationships using eager loading
         $aktiv->load(['subStreet.district.region', 'files:id,aktiv_id,path']);
