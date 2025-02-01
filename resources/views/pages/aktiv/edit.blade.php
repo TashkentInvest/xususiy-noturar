@@ -772,16 +772,16 @@
 
                         <label for="provided_assistance">Берилган амалий ёрдам:</label>
                         <select name="provided_assistance" class="form-control">
-                            <option value="кредит берилди"
-                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
-                                кредит берилди</option>
-                            <option value="маслахат берилди"
-                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
-                                маслахат берилди</option>
+                            <option value="кредит бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит бериш' ? 'selected' : '' }}>
+                                кредит бериш</option>
+                            <option value="маслахат бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат бериш' ? 'selected' : '' }}>
+                                маслахат бериш</option>
 
-                            <option value="ижарачи топиб берилди"
-                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
-                                ижарачи топиб берилди</option>
+                            <option value="ижарачи топиб бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб бериш' ? 'selected' : '' }}>
+                                ижарачи топиб бериш</option>
                         </select>
                     </div>
 

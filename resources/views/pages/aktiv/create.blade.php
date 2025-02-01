@@ -35,14 +35,16 @@
                 <!-- Form Inputs -->
                 <div class="mb-3">
 
-                <label for="working_24_7">24/7 режимда ишлайдими?</label>
-                <select name="working_24_7" class="form-control" required>
-                    <option value="" selected>Tanlang</option>
-                    <option value="1" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
-                        Ҳа</option>
-                    <option value="0" {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
-                        Йўқ</option>
-                </select>
+                    <label for="working_24_7">24/7 режимда ишлайдими?</label>
+                    <select name="working_24_7" class="form-control" required>
+                        <option value="" selected>Tanlang</option>
+                        <option value="1"
+                            {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
+                            Ҳа</option>
+                        <option value="0"
+                            {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
+                            Йўқ</option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="faoliyat_xolati">Фаолият ҳолати</label>
@@ -223,65 +225,73 @@
                         шартнома</option>
                 </select> --}}
 
-                <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
-                <input type="text" name="reason_not_active" class="form-control"
-                    value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
+                <div id="reason_not_active_container">
 
-                <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
-                <select name="ready_for_rent" class="form-control">
-                    <option value="ха"
-                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа</option>
-                    <option value="йўқ"
-                        {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>Йўқ</option>
-                </select>
+                    <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
+                    <input type="text" name="reason_not_active" class="form-control"
+                        value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
 
-                <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
-                <select name="rental_agreement_status" class="form-control">
-                    <option value="бор"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
-                        бор</option>
+                    <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
+                    <select name="ready_for_rent" class="form-control">
+                        <option value="ха"
+                            {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа</option>
+                        <option value="йўқ"
+                            {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>Йўқ
+                        </option>
+                    </select>
 
-                    <option value="йўқ"
-                        {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
-                        йўқ</option>
-                </select>
+                    <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
+                    <select name="rental_agreement_status" class="form-control">
+                        <option value="бор"
+                            {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
+                            бор</option>
 
-                <label for="unused_duration">Фойдаланилмаган муддат:</label>
-                <select name="unused_duration" class="form-control">
+                        <option value="йўқ"
+                            {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
+                            йўқ</option>
+                    </select>
 
-                    <option value="1 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1 ой
-                        бўлди</option>
-                    <option value="3 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>3 ой
-                        бўлди</option>
+                    <label for="unused_duration">Фойдаланилмаган муддат:</label>
+                    <select name="unused_duration" class="form-control">
 
-                    <option value="6 ой бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>6 ой
-                        бўлди</option>
+                        <option value="1 ой бўлди"
+                            {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>1
+                            ой
+                            бўлди</option>
+                        <option value="3 ой бўлди"
+                            {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>3
+                            ой
+                            бўлди</option>
 
-                    <option value="1 йил бўлди"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>1
-                        йил бўлди</option>
+                        <option value="6 ой бўлди"
+                            {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>6
+                            ой
+                            бўлди</option>
 
-                    <option value="1 йил Ундан кўп"
-                        {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
-                        1 йил Ундан кўп</option>
-                </select>
+                        <option value="1 йил бўлди"
+                            {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>
+                            1
+                            йил бўлди</option>
 
+                        <option value="1 йил Ундан кўп"
+                            {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
+                            1 йил Ундан кўп</option>
+                    </select>
+                </div>
 
+{{-- kredit, maslaxat berish ijarachi topib berish --}}
                 <label for="provided_assistance">Берилган амалий ёрдам:</label>
                 <select name="provided_assistance" class="form-control">
-                    <option value="кредит берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит берилди' ? 'selected' : '' }}>
-                        кредит берилди</option>
-                    <option value="маслахат берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат берилди' ? 'selected' : '' }}>
-                        маслахат берилди</option>
+                    <option value="кредит бериш"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит бериш' ? 'selected' : '' }}>
+                        кредит бериш</option>
+                    <option value="маслахат бериш"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат бериш' ? 'selected' : '' }}>
+                        маслахат бериш</option>
 
-                    <option value="ижарачи топиб берилди"
-                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб берилди' ? 'selected' : '' }}>
-                        ижарачи топиб берилди</option>
+                    <option value="ижарачи топиб бериш"
+                        {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб бериш' ? 'selected' : '' }}>
+                        ижарачи топиб бериш</option>
                 </select>
 
                 {{-- <label for="start_date">Фаолият юритишни бошлаган сана:</label>
@@ -324,6 +334,26 @@
                         id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
                         value="{{ old('ijara_summa_wanted') }}">
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const faoliyatSelect = document.getElementById('faoliyat_xolati');
+                        const reasonNotActiveContainer = document.getElementById('reason_not_active_container');
+
+                        function toggleReasonNotActive() {
+                            if (faoliyatSelect.value === 'work') {
+                                reasonNotActiveContainer.style.display = 'none';
+                            } else {
+                                reasonNotActiveContainer.style.display = 'block';
+                            }
+                        }
+
+                        faoliyatSelect.addEventListener('change', toggleReasonNotActive);
+
+                        // Initial toggle based on the saved value
+                        toggleReasonNotActive();
+                    });
+                </script>
 
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
