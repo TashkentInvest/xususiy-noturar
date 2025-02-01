@@ -41,7 +41,7 @@ class AktivController extends Controller
         $turarBinoCount = $query->clone()->where('building_type', 'kopQavatliUy')->count();
 
         // Finally, paginate the results
-        $aktivs = $query->orderBy('created_at', 'asc')
+        $aktivs = $query->orderBy('updated_at', 'desc')
             ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
             ->paginate(15)
             ->appends($request->query());
