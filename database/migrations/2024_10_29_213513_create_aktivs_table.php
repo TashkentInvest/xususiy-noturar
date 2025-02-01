@@ -68,6 +68,7 @@ class CreateAktivsTable extends Migration
             $table->decimal('ijara_summa_fakt', 20, 2)->nullable();
 
             $table->enum('ijaraga_berishga_tayyorligi', ['not', 'yeap'])->nullable();
+            $table->enum('faoliyat_xolati', ['work', 'notwork'])->nullable();
 
 
             $table->timestamps();
