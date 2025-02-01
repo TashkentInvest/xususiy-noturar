@@ -81,7 +81,7 @@
                             </div>
                         @endcan
 
-                        @if (auth()->user()->roles[0]->name == 'Super Admin')
+                        @if (auth()->user()->roles[0]->name == 'Super Admin' || true)
                             <div class="mb-3">
                                 <label for="password" class="form-label">@lang('cruds.user.fields.password')</label>
                                 <div class="input-group auth-pass-inputgroup">

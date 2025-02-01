@@ -272,7 +272,7 @@ class AktivController extends Controller
     }
     public function edit(Aktiv $aktiv)
     {
-        $this->authorizeView($aktiv); // Check if the user can edit this Aktiv
+        // $this->authorizeView($aktiv); // Check if the user can edit this Aktiv
 
         try {
             // Eager load relationships
