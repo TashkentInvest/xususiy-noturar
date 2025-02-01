@@ -257,7 +257,7 @@ class AktivController extends Controller
             $aktivs = Aktiv::with('files:id,aktiv_id,path')
                 ->join('streets', 'aktivs.street_id', '=', 'streets.id')
                 ->where('streets.district_id', $userDistrictId)
-                ->where('user_id', '!=', 1)
+                ->where('aktivs.user_id', '!=', 1) // Specify the table name for user_id
                 ->limit(10)
                 ->get();
         }
