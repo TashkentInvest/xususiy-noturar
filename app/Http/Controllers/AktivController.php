@@ -384,7 +384,7 @@ class AktivController extends Controller
     }
     public function update(Request $request, Aktiv $aktiv)
     {
-        $this->authorizeView($aktiv); // Check if the user can update this Aktiv
+        // $this->authorizeView($aktiv); // Check if the user can update this Aktiv
 
         $request->validate([
             'object_name'      => 'required|string|max:255',
