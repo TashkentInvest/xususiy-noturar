@@ -205,7 +205,7 @@
                                         title="Таҳрирлаш">
                                         <i class="btn-icon-prepend cusom_icon" data-feather="edit"></i>
                                     </a>
-                                    @if (auth()->user()->roles[0]->name == 'Manager')
+                                    @if (auth()->user()->roles->first()->name == 'Super Admin')
                                         <form action="{{ route('aktivs.destroy', $aktiv) }}" method="POST"
                                             class="d-inline-block">
                                             @csrf
