@@ -169,11 +169,11 @@
 
                                 <option value="kopQavatliUy"
                                     {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>
-                                    Кўп қаватли уй
+                                    Кўп қаватли уйдаги нотурар жой
                                 </option>
                                 <option value="AlohidaSavdoDokoni"
                                     {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>
-                                    Алоҳида савдо дўкони
+                                    Алоҳида нотурар жой
                                 </option>
                             </select>
 
@@ -781,7 +781,7 @@
                         <select name="ijaraga_berishga_tayyorligi" id="ijaraga_berishga_tayyorligi" class="form-control">
                             <option value="">Танланг</option>
                             <option value="yeap" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'yeap' ? 'selected' : '' }}>Ха Ижарага бермоқчи</option>
-                            <option value="not" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'not' ? 'selected' : '' }}>Йоқ ози бошқармоқчи</option>
+                            <option value="not" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'not' ? 'selected' : '' }}>Йўқ ози бошқармоқчи</option>
                         </select>
                     </div>
                     
