@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-md-3 col-6">
-                <select class="form-control form-control-sm district_id select2" name="district_id" id="district_id">
+                <select class="form-control form-control-sm district_id select2 w-100 " name="district_id" id="district_id">
                     <option value="">Туман</option>
                     @foreach ($districts as $district)
                         <option value="{{ $district->id }}"
@@ -35,13 +35,13 @@
 
             <div class="col-md-3 col-6">
                     <div class="d-flex align-items-end">
-                        <select class="form-control select2 street_id" name="street_id" id="street_id">
+                        <select class="form-control select2 street_id w-100" name="street_id" id="street_id">
                             <option value="">Мфй ни танланг</option>
                         </select>
                     </div>
                     <span class="text-danger error-message" id="street_id_error"></span>
             </div>
-            <div class="col-md-2 col-6">
+            <div class="col-md-2 mt-2 col-6">
                 <button type="submit" name="filter" class="btn btn-primary btn-sm w-100">Филтрлаш</button>
             </div>
         </div>
