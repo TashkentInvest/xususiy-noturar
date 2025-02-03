@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AktivsExport;
+use App\Http\Requests\StoreAktivRequest;
 use App\Models\Aktiv;
 use App\Models\District;
 use App\Models\Regions;
@@ -10,6 +11,7 @@ use App\Models\Street;
 use App\Models\SubStreet;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
@@ -145,96 +147,62 @@ class AktivController extends Controller
 
         return view('pages.aktiv.create', compact('aktivs', 'regions'));
     }
-    public function store(Request $request)
+    public function store(StoreAktivRequest $request)
     {
-        $request->validate([
-            'object_name'      => 'required|string|max:255',
-            'balance_keeper'   => 'required|string|max:255',
-            'location'         => 'required|string|max:255',
-            'land_area'        => 'required|numeric',
-            'building_area'    => 'nullable',
-            'gas'              => 'required|string',
-            'water'            => 'required|string',
-            'electricity'      => 'required|string',
-            'additional_info'  => 'nullable|string|max:255',
-            'geolokatsiya'     => 'required|string',
-            'latitude'         => 'required|numeric',
-            'longitude'        => 'required|numeric',
-            'kadastr_raqami'   => 'nullable|string|max:255',
-            'files.*'          => 'required',
-            'files' => 'required|array|min:4', // Enforces at least 4 files
+        // Start a database transaction
+        DB::beginTransaction();
 
-            'sub_street_id'    => 'required',
-            'street_id'    => 'required',
-            'home_number'          => 'nullable',
-            'apartment_number'          => 'nullable',
+        try {
+            $data = $request->except('files', 'kadastr_pdf', 'ijara_shartnoma_nusxasi_pdf', 'qoshimcha_fayllar_pdf');
+            $data['user_id'] = auth()->id(); // Automatically set the authenticated user's ID
 
-            'user_id'          => 'nullable',
-            'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
+            // Create the Aktiv record
+            $aktiv = Aktiv::create($data);
 
-            'kadastr_pdf'      => 'nullable|file',
-            'ijara_shartnoma_nusxasi_pdf' => 'nullable|file',
-            'qoshimcha_fayllar_pdf' => 'nullable|file',
+            // Handle file uploads
+            $this->handleFiles($request, $aktiv);
 
-            'document_type' => 'nullable',
-            'reason_not_active' => 'nullable',
-            'ready_for_rent' => 'nullable',
-            'rental_agreement_status' => 'nullable',
-            'unused_duration' => 'nullable',
-            'provided_assistance' => 'nullable',
-            'start_date' => 'nullable',
-            'additional_notes' => 'nullable',
-            'working_24_7' => 'nullable',
-            'owner' => 'nullable',
-            'stir' => 'nullable',
-            'object_type' => 'nullable',
-            'tenant_phone_number' => 'nullable',
-            'ijara_summa_wanted' => 'nullable',
-            'ijara_summa_fakt' => 'nullable',
-            'ijaraga_berishga_tayyorligi' => 'nullable',
-            'faoliyat_xolati' => 'nullable',
+            // Commit the transaction
+            DB::commit();
 
-        ]);
-        // $request->validate([
-        //     'files' => 'required|array|min:4', // Enforces at least 4 files
-        //     'files.*' => 'required|file', // Ensures each file is valid
-        //     // other validations
-        // ]);
+            return redirect()->route('aktivs.index')->with('success', 'Aktiv created successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of failure
+            DB::rollBack();
+            return redirect()->back()->with('error', 'There was an error creating the Aktiv. Please try again.');
+        }
+    }
 
-        $data = $request->except('files', 'kadastr_pdf', 'ijara_shartnoma_nusxasi_pdf', 'qoshimcha_fayllar_pdf');
-        $data['user_id'] = auth()->id(); // Automatically set the authenticated user's ID
-
-        $aktiv = Aktiv::create($data);
-
+    private function handleFiles($request, $aktiv)
+    {
+        // Process image files
         if ($request->hasFile('files')) {
+            $filePaths = [];
             foreach ($request->file('files') as $file) {
-                $path = $file->store('assets', 'public');
-
-                $aktiv->files()->create([
-                    'path' => $path,
-                ]);
+                $filePaths[] = [
+                    'path' => $file->store('assets', 'public'),
+                    'aktiv_id' => $aktiv->id,
+                ];
             }
+            // Use batch insert for file paths
+            $aktiv->files()->insert($filePaths);
         }
 
+        // Process other files
         if ($request->hasFile('kadastr_pdf')) {
-            $kadastrPath = $request->file('kadastr_pdf')->move(public_path('uploads/aktivs'), 'kadastr_' . time() . '.' . $request->file('kadastr_pdf')->getClientOriginalExtension());
-            $aktiv->kadastr_pdf = 'uploads/aktivs/' . basename($kadastrPath); // Store the file path in the 'kadastr_pdf' column
+            $aktiv->kadastr_pdf = $request->file('kadastr_pdf')->store('uploads/aktivs', 'public');
         }
 
         if ($request->hasFile('ijara_shartnoma_nusxasi_pdf')) {
-            $hokimPath = $request->file('ijara_shartnoma_nusxasi_pdf')->move(public_path('uploads/aktivs'), 'hokim_' . time() . '.' . $request->file('ijara_shartnoma_nusxasi_pdf')->getClientOriginalExtension());
-            $aktiv->ijara_shartnoma_nusxasi_pdf = 'uploads/aktivs/' . basename($hokimPath); // Store the file path in the 'ijara_shartnoma_nusxasi_pdf' column
+            $aktiv->ijara_shartnoma_nusxasi_pdf = $request->file('ijara_shartnoma_nusxasi_pdf')->store('uploads/aktivs', 'public');
         }
 
         if ($request->hasFile('qoshimcha_fayllar_pdf')) {
-            $transferPath = $request->file('qoshimcha_fayllar_pdf')->move(public_path('uploads/aktivs'), 'transfer_' . time() . '.' . $request->file('qoshimcha_fayllar_pdf')->getClientOriginalExtension());
-            $aktiv->qoshimcha_fayllar_pdf = 'uploads/aktivs/' . basename($transferPath); // Store the file path in the 'qoshimcha_fayllar_pdf' column
+            $aktiv->qoshimcha_fayllar_pdf = $request->file('qoshimcha_fayllar_pdf')->store('uploads/aktivs', 'public');
         }
 
-        // Save the 'aktiv' model after all file paths are set
+        // Save the aktiv model after all file paths are set
         $aktiv->save();
-
-        return redirect()->route('aktivs.index')->with('success', 'Aktiv created successfully.');
     }
     public function show(Aktiv $aktiv)
     {
@@ -356,7 +324,7 @@ class AktivController extends Controller
     {
         $request->validate([
             'district_id' => 'required|exists:districts,id',
-            'street_name' => 'required|string|max:255',
+            'street_name' => 'required',
         ]);
 
         $street = Street::create([
@@ -373,7 +341,7 @@ class AktivController extends Controller
     {
         $request->validate([
             'district_id' => 'required|exists:districts,id',
-            'sub_street_name' => 'required|string|max:255',
+            'sub_street_name' => 'required',
         ]);
 
         $subStreet = SubStreet::create([
@@ -390,19 +358,19 @@ class AktivController extends Controller
         // $this->authorizeView($aktiv); // Check if the user can update this Aktiv
 
         $request->validate([
-            'object_name'      => 'required|string|max:255',
-            'balance_keeper'   => 'required|string|max:255',
-            'location'         => 'required|string|max:255',
+            'object_name'      => 'required',
+            'balance_keeper'   => 'required',
+            'location'         => 'required',
             'land_area'        => 'required|numeric',
             'building_area'    => 'nullable',
             'gas'              => 'required|string',
             'water'            => 'required|string',
             'electricity'      => 'required|string',
-            'additional_info'  => 'nullable|string|max:255',
+            'additional_info'  => 'nullable',
             'geolokatsiya'     => 'required|string',
             'latitude'         => 'required|numeric',
             'longitude'        => 'required|numeric',
-            'kadastr_raqami'   => 'nullable|string|max:255',
+            'kadastr_raqami'   => 'nullable',
             'files.*'          => 'required',
             'sub_street_id'    => 'required',
             'street_id'    => 'required',
