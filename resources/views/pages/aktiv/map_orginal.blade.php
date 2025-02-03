@@ -327,8 +327,7 @@
                     <li class="pc-item">
                         <div class="legend-item" style="display: flex; align-items: center; gap: 8px;">
                             <!-- Marker Icon -->
-                            <span 
-                                class="legend-icon" 
+                            <span class="legend-icon"
                                 style="
                                     display: inline-block; 
                                     width: 12px; 
@@ -337,16 +336,14 @@
                                     border-radius: 50%;
                                     box-shadow: 0 0 3px rgba(0,0,0,0.3);
                                 "
-                                title="Yer"
-                            ></span>
+                                title="Yer"></span>
                             <!-- Marker Text -->
                             <span class="legend-text" style="font-size: 14px; color: #333;">Yer (Red Marker)</span>
                         </div>
                     </li>
                     <li class="pc-item">
                         <div class="legend-item" style="display: flex; align-items: center; gap: 8px;">
-                            <span 
-                                class="legend-icon" 
+                            <span class="legend-icon"
                                 style="
                                     display: inline-block; 
                                     width: 12px; 
@@ -355,15 +352,14 @@
                                     border-radius: 50%;
                                     box-shadow: 0 0 3px rgba(0,0,0,0.3);
                                 "
-                                title="kopQavatliUy"
-                            ></span>
-                            <span class="legend-text" style="font-size: 14px; color: #333;">kopQavatliUy (Yellow Marker)</span>
+                                title="kopQavatliUy"></span>
+                            <span class="legend-text" style="font-size: 14px; color: #333;">kopQavatliUy (Yellow
+                                Marker)</span>
                         </div>
                     </li>
                     <li class="pc-item">
                         <div class="legend-item" style="display: flex; align-items: center; gap: 8px;">
-                            <span 
-                                class="legend-icon" 
+                            <span class="legend-icon"
                                 style="
                                     display: inline-block; 
                                     width: 12px; 
@@ -372,13 +368,13 @@
                                     border-radius: 50%;
                                     box-shadow: 0 0 3px rgba(0,0,0,0.3);
                                 "
-                                title="AlohidaSavdoDokoni"
-                            ></span>
-                            <span class="legend-text" style="font-size: 14px; color: #333;">AlohidaSavdoDokoni (Green Marker)</span>
+                                title="AlohidaSavdoDokoni"></span>
+                            <span class="legend-text" style="font-size: 14px; color: #333;">AlohidaSavdoDokoni (Green
+                                Marker)</span>
                         </div>
                     </li>
                 </ul>
-                
+
             </div>
         </div>
     </nav>
@@ -416,7 +412,7 @@
                     </li>
                 </ul>
 
-                
+
             </div>
         </div>
     </header>
@@ -551,7 +547,6 @@
 
                             // Determine icon color based on building_type
                             let iconUrl;
-                            console.log(markerData.building_type);
                             if (markerData.building_type == 'yer') {
                                 // Red icon
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
@@ -560,7 +555,7 @@
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
                             } else if (markerData.building_type == 'AlohidaSavdoDokoni') {
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-                                
+
                             } else {
                                 iconUrl = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
 
@@ -676,14 +671,14 @@
                     <td>${markerData.land_area || 'N/A'}</td>
                 </tr>
                 ${priceUZS > 0 ? `
-                            <tr>
-                                <th class="sidebar_key">Boshlang'ich narxi</th>
-                                <td id="price-td">${lotPriceFormatted}</td>
-                            </tr>
-                            <tr>
-                                <th class="sidebar_key">1 sotix uchun narx</th>
-                                <td>${lotPricePerSotixFormatted}</td>
-                            </tr>` : ''}
+                                <tr>
+                                    <th class="sidebar_key">Boshlang'ich narxi</th>
+                                    <td id="price-td">${lotPriceFormatted}</td>
+                                </tr>
+                                <tr>
+                                    <th class="sidebar_key">1 sotix uchun narx</th>
+                                    <td>${lotPricePerSotixFormatted}</td>
+                                </tr>` : ''}
                 <tr>
                     <th class="sidebar_key">Yaratilgan foydalanuvchi</th>
                     <td>${markerData.user_name || 'N/A'}</td>

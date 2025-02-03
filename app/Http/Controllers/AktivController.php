@@ -688,18 +688,18 @@ class AktivController extends Controller
 
             // Return the necessary data
             return [
-                'lat' => $aktiv->latitude,
-                'lng' => $aktiv->longitude,
-                'property_name' => $aktiv->object_name,
-                'main_image' => $mainImageUrl,
-                'land_area' => $aktiv->land_area,
+                'lat' => $aktiv->latitude ?? null,
+                'lng' => $aktiv->longitude ?? null,
+                'property_name' => $aktiv->object_name ?? null,
+                'main_image' => $mainImageUrl ?? null,
+                'land_area' => $aktiv->land_area ?? null,
                 'start_price' => $aktiv->start_price ?? 0,
-                'lot_link' => route('aktivs.show', $aktiv->id),
-                'lot_number' => $aktiv->id,
-                'address' => $aktiv->location,
+                'lot_link' => route('aktivs.show', $aktiv->id ?? null),
+                'lot_number' => $aktiv->id ?? null,
+                'address' => $aktiv->location ?? null,
                 'user_name' => $aktiv->user ? $aktiv->user->name : 'N/A',
                 'user_email' => $aktiv->user ? $aktiv->user->email : 'N/A',
-                'building_type' => $aktiv->building_type // Include building_type
+                'building_type' => $aktiv->building_type ?? null // Include building_type
 
             ];
         });
