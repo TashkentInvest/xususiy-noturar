@@ -165,7 +165,18 @@ class Aktiv extends Model
         'ijara_summa_wanted', // New column
         'ijara_summa_fakt', // New column
         'ijaraga_berishga_tayyorligi',
-        'faoliyat_xolati'
+        'faoliyat_xolati',
+
+        //yer_tola----------------------------------------------------
+        'is_status_yer_tola',
+        'does_exists_yer_tola',
+        'does_can_we_use_yer_tola',
+        'does_ijaraga_berilgan_yer_tola',
+        'ijaraga_berilgan_qismi_yer_tola',
+        'ijaraga_berilmagan_qismi_yer_tola',
+        'texnik_qismi_yer_tola',
+        'oylik_ijara_narxi_yer_tola',
+        'faoliyat_turi',
     ];
 
     public function files()

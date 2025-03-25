@@ -21,7 +21,7 @@ use App\Http\Controllers\Blade\ApiUserController;
 use App\Http\Controllers\Blade\DistrictController;
 use App\Http\Controllers\Blade\PermissionController;
 use App\Http\Controllers\CommentController;
-
+use App\Http\Controllers\YerTolaController;
 
 // Default laravel auth routes
 Auth::routes(['register' => false]);
@@ -143,6 +143,28 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('userDestroy');
         Route::get('/theme-set/{id}', [UserController::class, 'setTheme'])->name('userSetTheme');
     });
+
+    Route::get('/yertola', [YerTolaController::class, 'index'])->name('yertola.index');
+
+    // Show form to create new YerTola
+    Route::get('/yertola/create', [YerTolaController::class, 'create'])->name('yertola.create');
+
+    // Store new YerTola record
+    Route::post('/yertola', [YerTolaController::class, 'store'])->name('yertola.store');
+
+    // Show a specific YerTola record
+    Route::get('/yertola/{id}', [YerTolaController::class, 'show'])->name('yertola.show');
+
+    // Show form to edit YerTola
+    Route::get('/yertola/{id}/edit', [YerTolaController::class, 'edit'])->name('yertola.edit');
+
+    // Update YerTola record
+    Route::put('/yertola/{id}', [YerTolaController::class, 'update'])->name('yertola.update');
+
+    // Delete YerTola record
+    Route::delete('/yertola/{id}', [YerTolaController::class, 'destroy'])->name('yertola.destroy');
+
+
     Route::post('user/update/users', [UserController::class, 'updateUserNames'])->name('userUpdateNames');
     // Constructions
 });
@@ -167,7 +189,7 @@ Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.ind
 Route::get('search', [SearchController::class, 'search'])->name('search');
 
 
-// product 
+// product
 
 
 
@@ -178,7 +200,7 @@ Route::post('/region/create', [RegionController::class, 'create'])->name('region
 Route::get('/region/edit/{id}', [RegionController::class, 'edit'])->name('regionEdit');
 Route::post('/region/update/{id}', [RegionController::class, 'update'])->name('regionUpdate');
 Route::delete('/region/delete/{id}', [RegionController::class, 'destroy'])->name('regionDestroy');
-// Districts 
+// Districts
 Route::get('/districts', [DistrictController::class, 'index'])->name('districtIndex');
 Route::get('/district/add', [DistrictController::class, 'add'])->name('districtAdd');
 Route::post('/district/create', [DistrictController::class, 'create'])->name('districtCreate');
@@ -187,7 +209,7 @@ Route::post('/district/update/{id}', [DistrictController::class, 'update'])->nam
 Route::delete('/district/delete/{id}', [DistrictController::class, 'destroy'])->name('districtDestroy');
 Route::get('/get-districts/{region_id}', [DistrictController::class, 'getDistricts'])->name('get.districts');
 Route::get('/get-streets/{district_id}', [DistrictController::class, 'getStreets']);
-// streets 
+// streets
 Route::get('/streets', [StreetController::class, 'index'])->name('streetIndex');
 Route::get('/street/add', [StreetController::class, 'add'])->name('streetAdd');
 Route::post('/street/create', [StreetController::class, 'create'])->name('streetCreate');
@@ -197,7 +219,7 @@ Route::delete('/street/delete/{id}', [StreetController::class, 'destroy'])->name
 Route::get('/get-product-by-street/{street_id}', [StreetController::class, 'getProductByStreet'])->name('getProductByStreet');
 Route::post('/create/street', [StreetController::class, 'create_new'])->name('create.street');
 
-// Substreet 
+// Substreet
 Route::get('/substreets', [SubStreetController::class, 'index'])->name('substreetIndex');
 Route::get('/substreet/add', [SubStreetController::class, 'add'])->name('substreetAdd');
 Route::post('/substreet/create', [SubStreetController::class, 'create'])->name('substreetCreate');

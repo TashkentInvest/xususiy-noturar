@@ -89,6 +89,13 @@
                     </div>
                 </li>
             @endif
+            <li class="pc-item">
+                <form action="{{ route('aktivs.export') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary my-3">Excel</button>
+                </form>
+            </li>
+
 
 
 
@@ -110,7 +117,7 @@
                 </a>
             </li>
             @endif
-            
+
             <li class="nav-item">
                 <a href="{{ route('ijro.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
