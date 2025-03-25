@@ -33,16 +33,16 @@
                     </div>
                     <div class="row">
                         <!-- Right Column -->
-                        <div class="col-lg-6 col-md-12 col-12 mt-3">
+                        <div class="col-lg-12 col-md-12 col-12 mt-3">
                             <div class="mb-3">
                                 <label class="text-danger">Файлларни юклаш (Камида 4 та расм мажбурий)</label>
                             </div>
 
-                            <div id="fileInputsContainer">
+                            <div id="fileInputsContainer" class="row">
                                 @for ($i = 1; $i <= 4; $i++)
-                                    <div class="mb-3" id="fileInput{{ $i }}">
+                                    <div class="mb-3 col-lg-3 col-md-6 col-12" id="fileInput{{ $i }}">
                                         <label for="file{{ $i }}">Файл {{ $i }}</label>
-                                        <div class="input-group">
+                                        <div class="input-group ">
                                             <input type="file" class="form-control" name="files[]"
                                                 id="file{{ $i }}" accept="image/*" required>
                                             <button type="button" class="btn btn-secondary"
@@ -59,12 +59,13 @@
 
 
                         </div>
-                        <div class="col-lg-6 col-md-12 col-12 mt-3">
+                        <div class="col-lg-12 col-md-12 col-12 mt-3">
                             <div class="mb-3">
                                 <button id="find-my-location" type="button" class="btn btn-primary mb-3">Менинг
                                     жойлашувимни
                                     топиш</button>
-                                <div id="map" style="height: 500px; width: 100%;"></div>
+                                <div id="map" style="height: 400px; width: 100%; border-radius: 10px;"></div>
+
                                 @error('latitude')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
