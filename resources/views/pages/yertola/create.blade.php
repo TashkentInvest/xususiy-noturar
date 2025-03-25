@@ -11,7 +11,7 @@
                 <!-- Manzil tanlash -->
                 <div class="mb-4">
                     <label class="form-label fw-bold">📍 Манзилни танланг:</label>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-md-6">
                             <select name="sub_street_id" class="form-select form-control-lg shadow-sm" required>
                                 <option value="">📌 Қўшимча кўча</option>
@@ -30,7 +30,9 @@
                         </div>
 
 
-                    </div>
+                    </div> --}}
+                    @include('inc.__address')
+
                     <div class="row">
                         <!-- Right Column -->
                         <div class="col-lg-12 col-md-12 col-12 mt-3">
@@ -144,7 +146,7 @@
                     </div>
 
                     <!-- Агар фойдаланиш мумкин бўлса -->
-                    <div id="useFields" class="mt-4 p-3 border rounded bg-light shadow-sm" style="display: none;">
+                    <div id="useFields" class="mt-4 " style="display: none;">
                         <input type="number" name="ijaraga_berilgan_qismi_yer_tola"
                             class="form-control form-control-lg shadow-sm mb-2"
                             placeholder="📏 Ижарага берилган қисм (м²)">

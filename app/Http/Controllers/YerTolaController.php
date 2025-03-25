@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Aktiv;
+use App\Models\Regions;
 use App\Models\SubStreet;
 use App\Models\Street;
 
@@ -17,9 +18,13 @@ class YerTolaController extends Controller
 
     public function create()
     {
+        $regions = Regions::get();  // Assuming this needs no filtering
+        $isSuperAdmin = auth()->id() === 1;  // Check if the user is the Super Admin
+        $userDistrictId = auth()->user()->district_id;  // Get the district ID of the authenticated user
+
         $subStreets = SubStreet::all();
         $streets = Street::all();
-        return view('pages.yertola.create', compact('subStreets', 'streets'));
+        return view('pages.yertola.create', compact('subStreets', 'streets','regions'));
     }
 
     public function store(Request $request)
