@@ -162,7 +162,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/yertola/{id}', [YerTolaController::class, 'update'])->name('yertola.update');
 
     // Delete YerTola record
-    Route::delete('/yertola/{id}', [YerTolaController::class, 'destroy'])->name('yertola.destroy');
+    Route::delete('yertola/{yertola}', [YerTolaController::class, 'destroy'])->name('yertola.destroy');
 
 
     Route::post('user/update/users', [UserController::class, 'updateUserNames'])->name('userUpdateNames');

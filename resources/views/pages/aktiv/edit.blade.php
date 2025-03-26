@@ -10,8 +10,8 @@
         <input type="hidden" name="user_id" value="{{ $aktiv->user_id }}">
         <div class="row my-3">
 
-         
-            
+
+
             <!-- Left Column -->
             <div class="col-md-6">
 
@@ -796,24 +796,24 @@
                             <option value="not" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'not' ? 'selected' : '' }}>Йўқ ози бошқармоқчи</option>
                         </select>
                     </div>
-                    
+
                     <!-- Ижарага бериш суммаси -->
                     <div class="col-lg-12 col-md-12 col-12 mb-3" id="ijara_summa_wanted_container" style="display: none;">
                         <label for="ijara_summa_wanted">Ижарага режалаштирган сумма <span style="color: red !important;">(фақат сўмда ёзилади)</label>
                         <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм" value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
                     </div>
-                    
+
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
                             const ijaragaTayyorligiSelect = document.getElementById('ijaraga_berishga_tayyorligi');
                             const ijaraSummaWantedContainer = document.getElementById('ijara_summa_wanted_container');
-                    
+
                             function toggleIjaraSummaWanted() {
                                 ijaraSummaWantedContainer.style.display = ijaragaTayyorligiSelect.value === 'yeap' ? 'block' : 'none';
                             }
-                    
+
                             ijaragaTayyorligiSelect.addEventListener('change', toggleIjaraSummaWanted);
-                    
+
                             // Initial toggle based on the saved value
                             toggleIjaraSummaWanted();
                         });

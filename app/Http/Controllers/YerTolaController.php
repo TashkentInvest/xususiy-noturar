@@ -30,6 +30,9 @@ class YerTolaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'geolokatsiya'     => 'required|string',
+            'latitude'         => 'required|numeric',
+            'longitude'        => 'required|numeric',
             'sub_street_id' => 'required',
             'street_id' => 'required',
             'does_exists_yer_tola' => 'required',
@@ -61,14 +64,32 @@ class YerTolaController extends Controller
 
     public function edit(Aktiv $yertola)
     {
-        $subStreets = SubStreet::all();
-        $streets = Street::all();
-        return view('pages.yertola.edit', compact('yertola', 'subStreets', 'streets'));
+        $regions = Regions::get();
+
+        // dd('wqe ');
+        try {
+
+            $yertola->load('subStreet.district.region');
+
+
+            $districts = optional($yertola->subStreet->district->region)->districts ?? collect();
+            $streets = optional($yertola->subStreet->district)->streets ?? collect();
+            $substreets = optional($yertola->subStreet->district)->subStreets ?? collect();
+
+            return view('pages.yertola.edit', compact('yertola', 'subStreets', 'streets', 'regions', 'districts'));
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error loading Aktiv data: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error loading Aktiv data. Please try again.');
+        }
     }
 
     public function update(Request $request, Aktiv $yertola)
     {
         $validated = $request->validate([
+            'geolokatsiya'     => 'required|string',
+            'latitude'         => 'required|numeric',
+            'longitude'        => 'required|numeric',
             'sub_street_id' => 'required',
             'street_id' => 'required',
             'does_exists_yer_tola' => 'required',
@@ -85,10 +106,23 @@ class YerTolaController extends Controller
         $yertola->update($validated);
         return redirect()->route('yertola.index')->with('success', 'YerTola updated successfully.');
     }
-
     public function destroy(Aktiv $yertola)
     {
-        $yertola->delete();
-        return redirect()->route('yertola.index')->with('success', 'YerTola deleted successfully.');
+        // Ensure the model exists
+        if (!$yertola) {
+            return redirect()->route('yertola.index')->with('error', 'Yer Tola not found.');
+        }
+
+        // Delete associated files
+        if ($yertola->files()->exists()) { // Use a proper relationship check
+            foreach ($yertola->files as $file) {
+                \Storage::disk('public')->delete($file->path);
+                $file->delete();
+            }
+        }
+
+        $yertola->delete(); // No need to call find() again
+
+        return redirect()->route('yertola.index')->with('success', 'Yer Tola deleted successfully.');
     }
 }

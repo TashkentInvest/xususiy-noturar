@@ -44,12 +44,13 @@
                                 </button>
                                 <a href="{{ route('yertola.edit', $yertola->id) }}" class="btn btn-warning btn-sm">✏️
                                     Таҳрирлаш</a>
-                                <form action="{{ route('yertola.destroy', $yertola->id) }}" method="POST"
-                                    class="d-inline">
+
+                                <form action="{{ route('yertola.destroy', $yertola) }}" method="POST"
+                                    class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Ростдан ҳам ўчиришни хоҳлайсизми?')">
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Ўчириш"
+                                        onclick="return confirm('Сиз ростдан ҳам бу объектни ўчиришни истайсизми?');">
                                         🗑️ Ўчириш
                                     </button>
                                 </form>
@@ -103,9 +104,13 @@
                                                 {{ $yertola->created_at->format('d.m.Y') }}</li>
                                             <li class="list-group-item"><strong>📆 Охирги таҳрир:</strong>
                                                 {{ $yertola->updated_at->format('d.m.Y H:i') }}</li>
-                                            {{-- @dd($yertola->latitude)
-@dd($yertola->longitude)
-<iframe src="{{$yertola->geolokatsiya}}" frameborder="0"></iframe> --}}
+                                            <iframe
+                                                src="https://www.google.com/maps?q={{ $yertola->latitude }},{{ $yertola->longitude }}&output=embed"
+                                                style="width: 100%;" height="450" style="border:0;" allowfullscreen
+                                                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                            </iframe>
+
+
                                         </ul>
                                     </div>
                                     <div class="modal-footer">
