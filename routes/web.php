@@ -156,13 +156,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/yertola/{id}', [YerTolaController::class, 'show'])->name('yertola.show');
 
     // Show form to edit YerTola
-    Route::get('/yertola/{id}/edit', [YerTolaController::class, 'edit'])->name('yertola.edit');
+    Route::get('/yertola/{aktiv}/edit', [YerTolaController::class, 'edit'])->name('yertola.edit');
 
     // Update YerTola record
     Route::put('/yertola/{id}', [YerTolaController::class, 'update'])->name('yertola.update');
 
     // Delete YerTola record
-    Route::delete('yertola/{yertola}', [YerTolaController::class, 'destroy'])->name('yertola.destroy');
+    Route::delete('yertola/{aktiv}', [YerTolaController::class, 'destroy'])->name('yertola.destroy');
 
 
     Route::post('user/update/users', [UserController::class, 'updateUserNames'])->name('userUpdateNames');

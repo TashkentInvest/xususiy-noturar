@@ -1,570 +1,840 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="card shadow-lg p-4 rounded-4 border-0">
-            <h2 class="mb-4 text-center text-primary fw-bold">Ер Тўла Таҳрирлаш</h2>
+    <h1>Активни таҳрирлаш</h1>
 
-            <form action="{{ route('yertola.update', $yertola->id ?? 1) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+    <form method="POST" action="{{ route('aktivs.update', $aktiv->id) }}" enctype="multipart/form-data" id="aktiv-form">
+        @csrf
+        @method('PUT')
 
-                <!-- Manzil tanlash -->
-                <div class="mb-4">
-                    <label class="form-label fw-bold">📍 Манзилни танланг:</label>
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h5>Манзилни озгартириш</h5>
+        <input type="hidden" name="user_id" value="{{ $aktiv->user_id }}">
+        <div class="row my-3">
+
+
+
+            <!-- Left Column -->
+            <div class="col-md-6">
+
+                <div class="mb-3">
+                    <label for="faoliyat_xolati">Фаолият ҳолати</label>
+                    <select name="faoliyat_xolati" id="faoliyat_xolati" class="form-control">
+                        <option value="">Танланг</option>
+                        <option value="work" {{ old('faoliyat_xolati', $aktiv->faoliyat_xolati) == 'work' ? 'selected' : '' }}>Ишламоқда</option>
+                        <option value="notwork" {{ old('faoliyat_xolati', $aktiv->faoliyat_xolati) == 'notwork' ? 'selected' : '' }}>Ишламаяпти</option>
+                    </select>
+                </div>
+                <!-- Form Inputs -->
+                <div class="mb-3">
+                    <label for="object_name">Объект номи</label>
+                    <input class="form-control" type="text" name="object_name" id="object_name"
+                        value="{{ old('object_name', $aktiv->object_name) }}">
+                    @error('object_name')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="balance_keeper">Балансда сақловчи</label>
+                    <input class="form-control" type="text" name="balance_keeper" id="balance_keeper"
+                        value="{{ old('balance_keeper', $aktiv->balance_keeper) }}">
+                    @error('balance_keeper')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Манзил маълумотлари</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong>Худуд номи:</strong>
+                            {{ $aktiv->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }}
                         </div>
-                        <div class="card-body row">
-                            <div class="col-lg-6 col-md-12 col-12 mb-3">
-                                <label for="region_id">Худуд</label>
-                                <select class="form-control region_id select2" name="region_id" id="region_id" required>
-                                    <option value="" disabled selected>Худудни танланг</option>
-                                    @foreach ($regions as $region)
-                                        <option value="{{ $region->id }}"
-                                            {{ $region->id == old('region_id', optional($yertola->subStreet->district->region)->id) ? 'selected' : '' }}>
-                                            {{ $region->name_uz }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="mb-3">
+                            <strong>Туман номи:</strong>
+                            {{ $aktiv->subStreet->district->name_uz ?? 'Маълумот йўқ' }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Мфй номи:</strong>
+                            {{ $aktiv->street->name ?? 'Маълумот йўқ' }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Кўча номи:</strong>
+                            {{ $aktiv->subStreet->name ?? 'Маълумот йўқ' }}
+                        </div>
 
-                            <div class="col-lg-6 col-md-12 col-12 mb-3">
-                                <label for="district_id">Туман</label>
-                                <select class="form-control district_id select2" name="district_id" id="district_id"
-                                    required>
-                                    <option value="" disabled selected>Туманни танланг</option>
-                                    @foreach ($districts as $district)
-                                        <option value="{{ $district->id }}"
-                                            {{ $district->id == old('district_id', optional($yertola->subStreet->district)->id) ? 'selected' : '' }}>
-                                            {{ $district->name_uz }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-lg-6 col-md-12 col-12 mb-3">
-                                <label for="street_id" class="me-2">Мфй (Majburiy)<span></span></label>
-                                <div class="d-flex align-items-end">
-                                    <select class="form-control street_id select2" name="street_id" id="street_id" required>
-                                        <option value="" disabled selected>Мфй ни танланг</option>
-                                        @foreach ($streets as $street)
-                                            <option value="{{ $street->id }}"
-                                                {{ $street->id == old('street_id', $yertola->street_id) ? 'selected' : '' }}>
-                                                {{ $street->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="button" class="btn btn-primary ms-2" id="add_street_btn"
-                                        title="Мфй қошиш">+</button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-12 col-12 mb-3">
-                                <label for="substreet_id" class="me-2">Кўча (Majburiy)<span></span></label>
-                                <div class="d-flex align-items-end">
-                                    <select class="form-control sub_street_id select2" name="sub_street_id"
-                                        id="substreet_id" required>
-                                        <option value="" disabled selected>Кўчани танланг</option>
-                                        @foreach ($substreets as $substreet)
-                                            <option value="{{ $substreet->id }}"
-                                                {{ $substreet->id == old('sub_street_id', $yertola->sub_street_id) ? 'selected' : '' }}>
-                                                {{ $substreet->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="button" class="btn btn-primary ms-2" id="add_substreet_btn"
-                                        title="Кўча қошиш">+</button>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="home_number" class="me-2">Уй рақами (Мажбурий эмас)</label>
-                                    <div class="d-flex align-items-end">
-                                        <input class="form-control" name="home_number" type="text" id="home_number"
-                                            value="{{ old('home_number', $yertola->home_number) }}" />
-                                    </div>
-                                    <span class="text-danger error-message" id="home_number_error"></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="apartment_number" class="me-2">Квартира рақами (Мажбурий
-                                        эмас)</label>
-                                    <div class="d-flex align-items-end">
-                                        <input class="form-control" name="apartment_number" type="text"
-                                            value="{{ old('apartment_number', $yertola->apartment_number) }}"
-                                            id="apartment_number" />
-                                    </div>
-                                    <span class="text-danger error-message" id="apartment_number_error"></span>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <strong>Ўй рақами:</strong>
+                            {{ $aktiv->home_number ?? 'Маълумот йўқ' }}
                         </div>
                     </div>
+                </div> --}}
 
-                    <style>
-                        .select2 {
-                            width: 100% !important;
-                        }
-                    </style>
+
+
+
+                <div class="test">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="stir">СТИР:</label>
+                            <input type="text" name="stir" class="form-control"
+                                value="{{ old('stir', $aktiv->stir ?? '') }}">
+                        </div>
+
+                        <!-- Ижарачи тел рақами -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="tenant_phone_number">Ижарачи тел рақами</label>
+                            <input type="text" name="tenant_phone_number" id="tenant_phone_number" class="form-control"
+                                placeholder="+998 90 123 45 67"
+                                value="{{ old('tenant_phone_number', $aktiv->tenant_phone_number) }}">
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="location">Мўлжал</label>
+                            <input class="form-control" type="text" name="location" id="location"
+                                value="{{ old('location', $aktiv->location) }}">
+                            @error('location')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="land_area">Ер майдони (кв.м)</label>
+                            <input class="form-control" type="number" name="land_area" id="land_area"
+                                value="{{ old('land_area', $aktiv->land_area) }}">
+                            @error('land_area')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="building_area">Бино майдони (кв.м)</label>
+                            <input class="form-control" type="number" name="building_area" id="building_area"
+                                value="{{ old('building_area', $aktiv->building_area) }}">
+                            @error('building_area')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="gas">Газ</label>
+                            <select class="form-control form-select mb-3" name="gas" id="gas">
+                                <option value="Мавжуд" {{ old('gas', $aktiv->gas) == 'Мавжуд' ? 'selected' : '' }}>Мавжуд
+                                </option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('gas', $aktiv->gas) == 'Мавжуд эмас' ? 'selected' : '' }}>
+                                    Мавжуд
+                                    эмас</option>
+                            </select>
+                            @error('gas')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="water">Сув</label>
+                            <select class="form-control form-select mb-3" name="water" id="water">
+                                <option value="Мавжуд" {{ old('water', $aktiv->water) == 'Мавжуд' ? 'selected' : '' }}>
+                                    Мавжуд
+                                </option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('water', $aktiv->water) == 'Мавжуд эмас' ? 'selected' : '' }}>
+                                    Мавжуд
+                                    эмас</option>
+                            </select>
+                            @error('water')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="electricity">Электр</label>
+                            <select class="form-control form-select mb-3" name="electricity" id="electricity">
+                                <option value="Мавжуд"
+                                    {{ old('electricity', $aktiv->electricity) == 'Мавжуд' ? 'selected' : '' }}>
+                                    Мавжуд</option>
+                                <option value="Мавжуд эмас"
+                                    {{ old('electricity', $aktiv->electricity) == 'Мавжуд эмас' ? 'selected' : '' }}>Мавжуд
+                                    эмас
+                                </option>
+                            </select>
+                            @error('electricity')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="building_type">Бино тури</label>
+                            <select name="building_type" id="building_type" class="form-control" required>
+                                <option value="" disabled
+                                    {{ old('building_type', $aktiv->building_type) == '' ? 'selected' : '' }}>Выберите тип
+                                    недвижимости
+                                </option>
+
+                                <option value="kopQavatliUy"
+                                    {{ old('building_type', $aktiv->building_type) == 'kopQavatliUy' ? 'selected' : '' }}>
+                                    Кўп қаватли уйдаги нотурар жой
+                                </option>
+                                <option value="AlohidaSavdoDokoni"
+                                    {{ old('building_type', $aktiv->building_type) == 'AlohidaSavdoDokoni' ? 'selected' : '' }}>
+                                    Алоҳида нотурар жой
+                                </option>
+                            </select>
+
+                            @error('building_type')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="additional_info">Қўшимча маълумот</label>
+                            <input class="form-control" type="text" name="additional_info" id="additional_info"
+                                value="{{ old('additional_info', $aktiv->additional_info) }}">
+                            @error('additional_info')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="kadastr_raqami">Кадастр рақами</label>
+                            <input class="form-control" type="text" name="kadastr_raqami" id="kadastr_raqami"
+                                value="{{ old('kadastr_raqami', $aktiv->kadastr_raqami) }}"
+                                title="Format: 11:04:42:01:03:0136" placeholder="11:04:42:01:03:0136">
+                            <small id="kadastrHelp" class="form-text text-muted">
+                                Please enter the cadastral number in the format: 11:04:42:01:03:0136
+                            </small>
+                        </div>
+
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <div class="form-group">
+                                <label for="kadastr_pdf">Кадастр файл</label>
+                                <input type="file" id="kadastr_pdf" name="kadastr_pdf" class="form-control">
+                            </div>
+                        </div> --}}
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <div class="form-group">
+                                <label for="ijara_shartnoma_nusxasi_pdf">Ижара шартнома нусхаси</label>
+                                <input type="file" id="ijara_shartnoma_nusxasi_pdf" name="ijara_shartnoma_nusxasi_pdf"
+                                    class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <div class="form-group mb-4">
+                                <label for="qoshimcha_fayllar_pdf">Қошимча файллар
+                                    хужжат</label>
+                                <input type="file" id="qoshimcha_fayllar_pdf" name="qoshimcha_fayllar_pdf"
+                                    class="form-control">
+                            </div>
+
+                        </div>
+                        {{-- ------------------------------------------- --}}
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="object_type">Фаолияти тури:</label>
+                            <select name="object_type" class="form-control">
+                                <option value="Иишлаб чиқариш"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'Иишлаб чиқариш' ? 'selected' : '' }}>
+                                    Иишлаб чиқариш
+                                </option>
+                                <option value="савдо"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'савдо' ? 'selected' : '' }}>
+                                    савдо
+                                </option>
+                                <option value="хизмат"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'хизмат' ? 'selected' : '' }}>
+                                    хизмат
+                                </option>
+                                <option value="қурилиш"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'қурилиш' ? 'selected' : '' }}>
+                                    қурилиш
+                                </option>
+                                <option value="таълим"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'таълим' ? 'selected' : '' }}>
+                                    таълим
+                                </option>
+                                <option value="спорт"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'спорт' ? 'selected' : '' }}>
+                                    спорт
+                                </option>
+                                <option value="наширёт"
+                                    {{ old('object_type', $aktiv->object_type ?? '') == 'наширёт' ? 'selected' : '' }}>
+                                    наширёт
+                                </option>
+                            </select>
+                        </div>
+
+
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="document_type">Ҳужжат тури:</label>
+                            <select name="document_type" class="form-control">
+                                <option value="ҳоким қарори"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ҳоким қарори' ? 'selected' : '' }}>
+                                    Ҳоким
+                                    қарори</option>
+                                <option value="ордер"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ордер' ? 'selected' : '' }}>
+                                    Ордер
+                                </option>
+                                <option value="ижара шартнома"
+                                    {{ old('document_type', $aktiv->document_type ?? '') == 'ижара шартнома' ? 'selected' : '' }}>
+                                    Ижара
+                                    шартнома</option>
+                            </select>
+                        </div> --}}
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="rental_agreement_status">Ижара шартномаси ҳолати:</label>
+                            <select name="rental_agreement_status" class="form-control">
+
+                                <option value="бор"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'бор' ? 'selected' : '' }}>
+                                    бор</option>
+
+                                <option value="йўқ"
+                                    {{ old('rental_agreement_status', $aktiv->rental_agreement_status ?? '') == 'йўқ' ? 'selected' : '' }}>
+                                    йўқ</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Ижарага бериш суммаси -->
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+                            <label for="ijara_summa_fakt">Ижарага суммаси факт... <span
+                                    style="color: red !important;">(фақат сўмда ёзилади)</span></label>
+                            <input type="number" step="0.01" min="9999" name="ijara_summa_fakt"
+                                id="ijara_summa_fakt" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм"
+                                value="{{ old('ijara_summa_fakt', $aktiv->ijara_summa_fakt) }}">
+                        </div>
+
+                        {{-- <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="start_date">Фаолият юритишни бошлаган сана:</label>
+                            <input type="date" name="start_date" class="form-control"
+                                value="{{ old('start_date', $aktiv->start_date ?? '') }}">
+                        </div> --}}
+
+
+                        <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                            <label for="working_24_7">24/7 режимда ишлайдими?</label>
+                            <select name="working_24_7" class="form-control" >
+
+                                <option value="1"
+                                    {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '1' ? 'selected' : '' }}>
+                                    Ҳа</option>
+                                <option value="0"
+                                    {{ old('working_24_7', $aktiv->working_24_7 ?? '') == '0' ? 'selected' : '' }}>
+                                    Йўқ</option>
+                            </select>
+                        </div>
+
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css"
+                            rel="stylesheet" />
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+
+
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5>Манзилни озгартириш</h5>
+                            </div>
+                            <div class="card-body row">
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="region_id">Худуд</label>
+                                    <select class="form-control region_id select2" name="region_id" id="region_id"
+                                        required>
+                                        <option value="" disabled selected>Худудни танланг</option>
+                                        @foreach ($regions as $region)
+                                            <option value="{{ $region->id }}"
+                                                {{ $region->id == old('region_id', optional($aktiv->subStreet->district->region)->id) ? 'selected' : '' }}>
+                                                {{ $region->name_uz }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="district_id">Туман</label>
+                                    <select class="form-control district_id select2" name="district_id" id="district_id"
+                                        required>
+                                        <option value="" disabled selected>Туманни танланг</option>
+                                        @foreach ($districts as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $district->id == old('district_id', optional($aktiv->subStreet->district)->id) ? 'selected' : '' }}>
+                                                {{ $district->name_uz }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="street_id" class="me-2">Мфй (Majburiy)<span></span></label>
+                                    <div class="d-flex align-items-end">
+                                        <select class="form-control street_id select2" name="street_id" id="street_id"
+                                            required>
+                                            <option value="" disabled selected>Мфй ни танланг</option>
+                                            @foreach ($streets as $street)
+                                                <option value="{{ $street->id }}"
+                                                    {{ $street->id == old('street_id', $aktiv->street_id) ? 'selected' : '' }}>
+                                                    {{ $street->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn btn-primary ms-2" id="add_street_btn"
+                                            title="Мфй қошиш">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-12 mb-3">
+                                    <label for="substreet_id" class="me-2">Кўча (Majburiy)<span></span></label>
+                                    <div class="d-flex align-items-end">
+                                        <select class="form-control sub_street_id select2" name="sub_street_id"
+                                            id="substreet_id" required>
+                                            <option value="" disabled selected>Кўчани танланг</option>
+                                            @foreach ($substreets as $substreet)
+                                                <option value="{{ $substreet->id }}"
+                                                    {{ $substreet->id == old('sub_street_id', $aktiv->sub_street_id) ? 'selected' : '' }}>
+                                                    {{ $substreet->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn btn-primary ms-2" id="add_substreet_btn"
+                                            title="Кўча қошиш">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="home_number" class="me-2">Уй рақами (Мажбурий эмас)</label>
+                                        <div class="d-flex align-items-end">
+                                            <input class="form-control" name="home_number" type="text"
+                                                id="home_number" value="{{ old('home_number', $aktiv->home_number) }}" />
+                                        </div>
+                                        <span class="text-danger error-message" id="home_number_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="apartment_number" class="me-2">Квартира рақами (Мажбурий
+                                            эмас)</label>
+                                        <div class="d-flex align-items-end">
+                                            <input class="form-control" name="apartment_number" type="text"
+                                                value="{{ old('apartment_number', $aktiv->apartment_number) }}"
+                                                id="apartment_number" />
+                                        </div>
+                                        <span class="text-danger error-message" id="apartment_number_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <style>
+                            .select2 {
+                                width: 100% !important;
+                            }
+                        </style>
+
+                        <script>
+                            $(document).ready(function() {
+                                $('.select2').select2();
+
+                                function fetchDistricts(regionId, selectedDistrictId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getDistricts') }}",
+                                        type: "GET",
+                                        data: {
+                                            region_id: regionId
+                                        },
+                                        success: function(data) {
+                                            $('.district_id').empty().append(
+                                                '<option value="" disabled selected>Туманни танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.district_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedDistrictId) {
+                                                $('.district_id').val(selectedDistrictId).trigger('change');
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching District:', error);
+                                        }
+                                    });
+                                }
+
+                                function fetchStreets(districtId, selectedStreetId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getStreets') }}",
+                                        type: "GET",
+                                        data: {
+                                            district_id: districtId
+                                        },
+                                        success: function(data) {
+                                            $('.street_id').empty().append(
+                                                '<option value="" disabled selected>Мфй ни танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.street_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedStreetId) {
+                                                setTimeout(function() {
+                                                    $('.street_id').val(selectedStreetId).trigger('change');
+                                                }, 500); // Adding a delay to ensure the data is fully loaded
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching streets:', error);
+                                        }
+                                    });
+                                }
+
+                                function fetchSubStreets(districtId, selectedSubStreetId = null) {
+                                    $.ajax({
+                                        url: "{{ route('getSubStreets') }}",
+                                        type: "GET",
+                                        data: {
+                                            district_id: districtId
+                                        },
+                                        success: function(data) {
+                                            $('.sub_street_id').empty().append(
+                                                '<option value="" disabled selected>Кўчани танланг</option>');
+                                            $.each(data, function(key, value) {
+                                                $('.sub_street_id').append('<option value="' + key + '">' + value +
+                                                    '</option>');
+                                            });
+                                            if (selectedSubStreetId) {
+                                                setTimeout(function() {
+                                                    $('.sub_street_id').val(selectedSubStreetId).trigger('change');
+                                                }, 500); // Adding a delay to ensure the data is fully loaded
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error('Error fetching substreets:', error);
+                                        }
+                                    });
+                                }
+
+                                // Initialize selections if data exists
+                                // var selectedRegionId = "{{ old('region_id', optional($aktiv->subStreet->district->region)->id) }}";
+                                // var selectedDistrictId = "{{ old('district_id', optional($aktiv->subStreet->district)->id) }}";
+                                // var selectedStreetId = "{{ old('street_id', $aktiv->street_id) }}";
+                                // var selectedSubStreetId = "{{ old('sub_street_id', $aktiv->sub_street_id) }}";
+
+                                // if (selectedRegionId) {
+                                //     fetchDistricts(selectedRegionId, selectedDistrictId);
+                                // }
+                                // if (selectedDistrictId) {
+                                //     fetchStreets(selectedDistrictId, selectedStreetId);
+                                // }
+                                // if (selectedDistrictId) {
+                                //     fetchSubStreets(selectedDistrictId, selectedSubStreetId);
+                                // }
+
+                                // Update Districts based on Region change
+                                $('.region_id').change(function() {
+                                    var regionId = $(this).val();
+                                    fetchDistricts(regionId);
+                                });
+
+                                // Update Streets and SubStreets based on District change
+                                $('.district_id').change(function() {
+                                    var districtId = $(this).val();
+                                    fetchStreets(districtId);
+                                    fetchSubStreets(districtId);
+                                });
+
+                                // Add Street Button Click Event
+                                $('#add_street_btn').click(function() {
+                                    var districtId = $('#district_id').val();
+                                    if (!districtId) {
+                                        alert('Выберите район сначала');
+                                        return;
+                                    }
+                                    var newStreetName = prompt('Введите название новой улицы:');
+                                    if (newStreetName) {
+                                        $.ajax({
+                                            url: "{{ route('create.streets') }}",
+                                            type: "POST",
+                                            data: {
+                                                _token: '{{ csrf_token() }}',
+                                                district_id: districtId,
+                                                street_name: newStreetName
+                                            },
+                                            success: function(response) {
+                                                $('.street_id').append('<option value="' + response.id + '">' +
+                                                    response.name + '</option>');
+                                                $('.street_id').val(response.id).trigger('change');
+                                                alert('Улица успешно добавлена: ' + response.name);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error('Error adding street:', error);
+                                                alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
+                                            }
+                                        });
+                                    }
+                                });
+
+                                // Add SubStreet Button Click Event
+                                $('#add_substreet_btn').click(function() {
+                                    var districtId = $('#district_id').val();
+                                    if (!districtId) {
+                                        alert('Выберите район сначала');
+                                        return;
+                                    }
+                                    var newSubStreetName = prompt('Введите название новой подулицы:');
+                                    if (newSubStreetName) {
+                                        $.ajax({
+                                            url: "{{ route('create.substreets') }}",
+                                            type: "POST",
+                                            data: {
+                                                _token: '{{ csrf_token() }}',
+                                                district_id: districtId,
+                                                sub_street_name: newSubStreetName
+                                            },
+                                            success: function(response) {
+                                                $('.sub_street_id').append('<option value="' + response.id + '">' +
+                                                    response.name + '</option>');
+                                                $('.sub_street_id').val(response.id);
+                                                alert('Подулица успешно добавлена: ' + response.name);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error('Error adding substreet:', error);
+                                                alert(
+                                                    'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
+                                                );
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        </script>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- Right Column -->
+            <div class="col-md-6">
+
+                <!-- Existing Files -->
+                <div class="mb-3">
+                    <label class="text-primary">Мавжуд файллар</label>
+                    <div id="existing-files" class="mb-3">
+                        @foreach ($aktiv->files as $file)
+                            <div class="existing-file mb-2">
+                                <a href="{{ asset('storage/' . $file->path) }}" target="_blank">Файлни кўриш</a>
+                                <label>
+                                    <input type="checkbox" name="delete_files[]" value="{{ $file->id }}">
+                                    Ўчириш
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- File upload fields -->
+                <div class="mb-3">
+                    <label class="text-danger">Янги файлларни юклаш (Камида 4 та файл бўлиши шарт)</label>
+                </div>
+                <!-- Error message display -->
+                <div id="file-error" class="text-danger mb-3"></div>
+
+                <!-- Container to hold new file inputs -->
+                <div id="file-upload-container" class="row">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <label for="file1">Биринчи файл</label>
+                        <input type="file" class="form-control" name="files[]" id="file1">
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <label for="file2">Иккинчи файл</label>
+                        <input type="file" class="form-control" name="files[]" id="file2">
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <label for="file3">Учинчи файл</label>
+                        <input type="file" class="form-control" name="files[]" id="file3">
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+                        <label for="file4">Тўртинчи файл</label>
+                        <input type="file" class="form-control" name="files[]" id="file4">
+                    </div>
+                </div>
+
+                {{-- <button type="button" class="btn btn-secondary mb-3" onclick="addFileInput()">Янги файл қўшиш</button> --}}
+
+                <!-- Map Section -->
+                <div class="mb-3">
+                    <button id="find-my-location" type="button" class="btn btn-primary mb-3">Менинг жойлашувимни
+                        топиш</button>
+                    <div id="map" style="height: 500px; width: 100%;"></div>
+                    @error('latitude')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @error('longitude')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Hidden Fields for Coordinates -->
+                <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude', $aktiv->latitude) }}">
+                <input type="hidden" name="longitude" id="longitude"
+                    value="{{ old('longitude', $aktiv->longitude) }}">
+
+                <!-- Geolocation URL Field -->
+                <div class="mb-3">
+                    <label for="geolokatsiya">Геолокация (координата)</label>
+                    <input class="form-control" type="text" name="geolokatsiya" id="geolokatsiya" readonly required
+                        value="{{ old('geolokatsiya', $aktiv->geolokatsiya) }}">
+                    @error('geolokatsiya')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="reason_not_active">Фаолият юритмаётганлиги сабаби:</label>
+                        <input type="text" name="reason_not_active" class="form-control"
+                            value="{{ old('reason_not_active', $aktiv->reason_not_active ?? '') }}">
+
+
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="ready_for_rent">Ижарага беришга тайёрлиги:</label>
+                        <select name="ready_for_rent" class="form-control">
+                            <option value="ха"
+                                {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'ха' ? 'selected' : '' }}>Ҳа
+                            </option>
+                            <option value="йўқ"
+                                {{ old('ready_for_rent', $aktiv->ready_for_rent ?? '') == 'йўқ' ? 'selected' : '' }}>
+                                Йўқ
+                            </option>
+                        </select>
+                    </div>
+
+
+
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="unused_duration">Фойдаланилмаган муддат:</label>
+                        <select name="unused_duration" class="form-control">
+                            <option value="1 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 ой бўлди' ? 'selected' : '' }}>
+                                1
+                                ой
+                                бўлди</option>
+                            <option value="3 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '3 ой бўлди' ? 'selected' : '' }}>
+                                3
+                                ой
+                                бўлди</option>
+
+                            <option value="6 ой бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '6 ой бўлди' ? 'selected' : '' }}>
+                                6
+                                ой
+                                бўлди</option>
+
+                            <option value="1 йил бўлди"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил бўлди' ? 'selected' : '' }}>
+                                1
+                                йил бўлди</option>
+
+                            <option value="1 йил Ундан кўп"
+                                {{ old('unused_duration', $aktiv->unused_duration ?? '') == '1 йил Ундан кўп' ? 'selected' : '' }}>
+                                1 йил Ундан кўп</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-12 col-12 mb-3">
+
+                        <label for="provided_assistance">Берилган амалий ёрдам:</label>
+                        <select name="provided_assistance" class="form-control">
+                            <option value="кредит бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'кредит бериш' ? 'selected' : '' }}>
+                                кредит бериш</option>
+                            <option value="маслахат бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'маслахат бериш' ? 'selected' : '' }}>
+                                маслахат бериш</option>
+
+                            <option value="ижарачи топиб бериш"
+                                {{ old('provided_assistance', $aktiv->provided_assistance ?? '') == 'ижарачи топиб бериш' ? 'selected' : '' }}>
+                                ижарачи топиб бериш</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-12 mb-3">
+                        <label for="ijaraga_berishga_tayyorligi">Ижарага беришга тайёрлиги</label>
+                        <select name="ijaraga_berishga_tayyorligi" id="ijaraga_berishga_tayyorligi" class="form-control">
+                            <option value="">Танланг</option>
+                            <option value="yeap" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'yeap' ? 'selected' : '' }}>Ха Ижарага бермоқчи</option>
+                            <option value="not" {{ old('ijaraga_berishga_tayyorligi', $aktiv->ijaraga_berishga_tayyorligi) == 'not' ? 'selected' : '' }}>Йўқ ози бошқармоқчи</option>
+                        </select>
+                    </div>
+
+                    <!-- Ижарага бериш суммаси -->
+                    <div class="col-lg-12 col-md-12 col-12 mb-3" id="ijara_summa_wanted_container" style="display: none;">
+                        <label for="ijara_summa_wanted">Ижарага режалаштирган сумма <span style="color: red !important;">(фақат сўмда ёзилади)</label>
+                        <input type="number" step="0.01" min="9999" name="ijara_summa_wanted" id="ijara_summa_wanted" class="form-control" placeholder="Суммани киритинг 1 000 000 сўм" value="{{ old('ijara_summa_wanted', $aktiv->ijara_summa_wanted) }}">
+                    </div>
 
                     <script>
-                        $(document).ready(function() {
-                            $('.select2').select2();
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const ijaragaTayyorligiSelect = document.getElementById('ijaraga_berishga_tayyorligi');
+                            const ijaraSummaWantedContainer = document.getElementById('ijara_summa_wanted_container');
 
-                            function fetchDistricts(regionId, selectedDistrictId = null) {
-                                $.ajax({
-                                    url: "{{ route('getDistricts') }}",
-                                    type: "GET",
-                                    data: {
-                                        region_id: regionId
-                                    },
-                                    success: function(data) {
-                                        $('.district_id').empty().append(
-                                            '<option value="" disabled selected>Туманни танланг</option>');
-                                        $.each(data, function(key, value) {
-                                            $('.district_id').append('<option value="' + key + '">' + value +
-                                                '</option>');
-                                        });
-                                        if (selectedDistrictId) {
-                                            $('.district_id').val(selectedDistrictId).trigger('change');
-                                        }
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error fetching District:', error);
-                                    }
-                                });
+                            function toggleIjaraSummaWanted() {
+                                ijaraSummaWantedContainer.style.display = ijaragaTayyorligiSelect.value === 'yeap' ? 'block' : 'none';
                             }
 
-                            function fetchStreets(districtId, selectedStreetId = null) {
-                                $.ajax({
-                                    url: "{{ route('getStreets') }}",
-                                    type: "GET",
-                                    data: {
-                                        district_id: districtId
-                                    },
-                                    success: function(data) {
-                                        $('.street_id').empty().append(
-                                            '<option value="" disabled selected>Мфй ни танланг</option>');
-                                        $.each(data, function(key, value) {
-                                            $('.street_id').append('<option value="' + key + '">' + value +
-                                                '</option>');
-                                        });
-                                        if (selectedStreetId) {
-                                            setTimeout(function() {
-                                                $('.street_id').val(selectedStreetId).trigger('change');
-                                            }, 500); // Adding a delay to ensure the data is fully loaded
-                                        }
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error fetching streets:', error);
-                                    }
-                                });
-                            }
+                            ijaragaTayyorligiSelect.addEventListener('change', toggleIjaraSummaWanted);
 
-                            function fetchSubStreets(districtId, selectedSubStreetId = null) {
-                                $.ajax({
-                                    url: "{{ route('getSubStreets') }}",
-                                    type: "GET",
-                                    data: {
-                                        district_id: districtId
-                                    },
-                                    success: function(data) {
-                                        $('.sub_street_id').empty().append(
-                                            '<option value="" disabled selected>Кўчани танланг</option>');
-                                        $.each(data, function(key, value) {
-                                            $('.sub_street_id').append('<option value="' + key + '">' + value +
-                                                '</option>');
-                                        });
-                                        if (selectedSubStreetId) {
-                                            setTimeout(function() {
-                                                $('.sub_street_id').val(selectedSubStreetId).trigger('change');
-                                            }, 500); // Adding a delay to ensure the data is fully loaded
-                                        }
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error fetching substreets:', error);
-                                    }
-                                });
-                            }
-
-                            // Initialize selections if data exists
-                            // var selectedRegionId = "{{ old('region_id', optional($yertola->subStreet->district->region)->id) }}";
-                            // var selectedDistrictId = "{{ old('district_id', optional($yertola->subStreet->district)->id) }}";
-                            // var selectedStreetId = "{{ old('street_id', $yertola->street_id) }}";
-                            // var selectedSubStreetId = "{{ old('sub_street_id', $yertola->sub_street_id) }}";
-
-                            // if (selectedRegionId) {
-                            //     fetchDistricts(selectedRegionId, selectedDistrictId);
-                            // }
-                            // if (selectedDistrictId) {
-                            //     fetchStreets(selectedDistrictId, selectedStreetId);
-                            // }
-                            // if (selectedDistrictId) {
-                            //     fetchSubStreets(selectedDistrictId, selectedSubStreetId);
-                            // }
-
-                            // Update Districts based on Region change
-                            $('.region_id').change(function() {
-                                var regionId = $(this).val();
-                                fetchDistricts(regionId);
-                            });
-
-                            // Update Streets and SubStreets based on District change
-                            $('.district_id').change(function() {
-                                var districtId = $(this).val();
-                                fetchStreets(districtId);
-                                fetchSubStreets(districtId);
-                            });
-
-                            // Add Street Button Click Event
-                            $('#add_street_btn').click(function() {
-                                var districtId = $('#district_id').val();
-                                if (!districtId) {
-                                    alert('Выберите район сначала');
-                                    return;
-                                }
-                                var newStreetName = prompt('Введите название новой улицы:');
-                                if (newStreetName) {
-                                    $.ajax({
-                                        url: "{{ route('create.streets') }}",
-                                        type: "POST",
-                                        data: {
-                                            _token: '{{ csrf_token() }}',
-                                            district_id: districtId,
-                                            street_name: newStreetName
-                                        },
-                                        success: function(response) {
-                                            $('.street_id').append('<option value="' + response.id + '">' +
-                                                response.name + '</option>');
-                                            $('.street_id').val(response.id).trigger('change');
-                                            alert('Улица успешно добавлена: ' + response.name);
-                                        },
-                                        error: function(xhr, status, error) {
-                                            console.error('Error adding street:', error);
-                                            alert('Ошибка при добавлении улицы. Пожалуйста, попробуйте снова.');
-                                        }
-                                    });
-                                }
-                            });
-
-                            // Add SubStreet Button Click Event
-                            $('#add_substreet_btn').click(function() {
-                                var districtId = $('#district_id').val();
-                                if (!districtId) {
-                                    alert('Выберите район сначала');
-                                    return;
-                                }
-                                var newSubStreetName = prompt('Введите название новой подулицы:');
-                                if (newSubStreetName) {
-                                    $.ajax({
-                                        url: "{{ route('create.substreets') }}",
-                                        type: "POST",
-                                        data: {
-                                            _token: '{{ csrf_token() }}',
-                                            district_id: districtId,
-                                            sub_street_name: newSubStreetName
-                                        },
-                                        success: function(response) {
-                                            $('.sub_street_id').append('<option value="' + response.id + '">' +
-                                                response.name + '</option>');
-                                            $('.sub_street_id').val(response.id);
-                                            alert('Подулица успешно добавлена: ' + response.name);
-                                        },
-                                        error: function(xhr, status, error) {
-                                            console.error('Error adding substreet:', error);
-                                            alert(
-                                                'Ошибка при добавлении подулицы. Пожалуйста, попробуйте снова.'
-                                            );
-                                        }
-                                    });
-                                }
-                            });
+                            // Initial toggle based on the saved value
+                            toggleIjaraSummaWanted();
                         });
                     </script>
 
-                    <div class="row">
-                        <!-- Right Column -->
-                        <div class="col-lg-12 col-md-12 col-12 mt-3">
-                            <div class="mb-3">
-                                <label class="text-danger">Файлларни юклаш (Камида 4 та расм мажбурий)</label>
-                            </div>
+                    <div class="col-lg-12 col-md-12 col-12 mb-3">
 
-                            <div id="fileInputsContainer" class="row">
-                                @if ($yertola->images && count($yertola->images) > 0)
-                                    @foreach ($yertola->images as $index => $image)
-                                        <div class="mb-3 col-lg-3 col-md-6 col-12" id="fileInput{{ $index + 1 }}">
-                                            <label for="file{{ $index + 1 }}">Файл {{ $index + 1 }}</label>
-                                            <div class="input-group">
-                                                <div class="form-control overflow-hidden position-relative">
-                                                    <img src="{{ asset('storage/' . $image) }}" alt="Мавжуд расм"
-                                                        class="img-thumbnail" style="height: 40px;">
-                                                    <input type="hidden" name="existing_files[]"
-                                                        value="{{ $image }}">
-                                                </div>
-                                                <input type="file" class="form-control d-none" name="files[]"
-                                                    id="file{{ $index + 1 }}" accept="image/*">
-                                                <button type="button" class="btn btn-danger"
-                                                    onclick="removeExistingFile(this)">❌</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="openCameraModal('file{{ $index + 1 }}')">📷</button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    @for ($i = 1; $i <= 4; $i++)
-                                        <div class="mb-3 col-lg-3 col-md-6 col-12" id="fileInput{{ $i }}">
-                                            <label for="file{{ $i }}">Файл {{ $i }}</label>
-                                            <div class="input-group">
-                                                <input type="file" class="form-control" name="files[]"
-                                                    id="file{{ $i }}" accept="image/*" required>
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="openCameraModal('file{{ $i }}')">📷</button>
-                                            </div>
-                                        </div>
-                                    @endfor
-                                @endif
-                            </div>
-
-                            <div id="file-error" class="text-danger mb-3"></div>
-                            <div id="file-upload-container"></div>
-                            <button type="button" class="btn btn-secondary mb-3" id="add-file-btn">Янги файл
-                                қўшиш</button>
-                        </div>
-
-                        <div class="col-lg-12 col-md-12 col-12 mt-3">
-                            <div class="mb-3">
-                                <button id="find-my-location" type="button" class="btn btn-primary mb-3">Менинг
-                                    жойлашувимни топиш</button>
-                                <div id="map" style="height: 400px; width: 100%; border-radius: 10px;"></div>
-
-                                @error('latitude')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                                @error('longitude')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <input type="hidden" name="latitude" id="latitude"
-                                value="{{ old('latitude', $yertola->latitude) }}">
-                            <input type="hidden" name="longitude" id="longitude"
-                                value="{{ old('longitude', $yertola->longitude) }}">
-                            <div class="mb-3">
-                                <label for="geolokatsiya">Геолокация (координата)</label>
-                                <input class="form-control" type="text" name="geolokatsiya" id="geolokatsiya"
-                                    readonly required value="{{ old('geolokatsiya', $yertola->geolokatsiya) }}">
-                                @error('geolokatsiya')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        <label for="additional_notes">Изоҳ:</label>
+                        <textarea name="additional_notes" rows="4" class="form-control">{{ old('additional_notes', $aktiv->additional_notes ?? '') }}</textarea>
                     </div>
+
+
+
+
                 </div>
-
-                <!-- Hidden Field -->
-                <input type="hidden" name="is_status_yer_tola" value="true">
-
-                <!-- Ер тўла мавжудми? -->
-                <div class="mb-4">
-                    <label class="form-label fw-bold">🏠 Ер тўла мавжудми?</label>
-                    <div class="d-flex gap-3">
-                        <div class="form-check">
-                            <input class="form-check-input custom-radio" type="radio" name="does_exists_yer_tola"
-                                value="1" onclick="showExtraFields(true)"
-                                {{ $yertola->does_exists_yer_tola ? 'checked' : '' }}>
-                            <label class="form-check-label fw-bold">✅ Мавжуд</label>
-                        </div>
-                        <div class="form-check ml-3">
-                            <input class="form-check-input custom-radio" type="radio" name="does_exists_yer_tola"
-                                value="0" onclick="showExtraFields(false)"
-                                {{ !$yertola->does_exists_yer_tola ? 'checked' : '' }}>
-                            <label class="form-check-label fw-bold">❌ Мавжуд эмас</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Агар мавжуд бўлса -->
-                <div id="extraFields" class="mb-4 p-3 border rounded bg-light shadow-sm" style="display: none;">
-                    <label class="form-label fw-bold">🔧 Бошқарув шакли:</label>
-                    <select name="managed_by" id="managedBy" class="form-select form-control-lg shadow-sm"
-                        onchange="toggleBalanceFields()">
-                        <option value="">Танланг</option>
-                        <option value="Kompaniya" {{ $yertola->managed_by == 'Kompaniya' ? 'selected' : '' }}>🏢 Компания
-                        </option>
-                        <option value="O'z o'zini boshqaradi"
-                            {{ $yertola->managed_by == 'O\'z o\'zini boshqaradi' ? 'selected' : '' }}>👤 Ўз-ўзини бошқаради
-                        </option>
-                    </select>
-
-                    <div class="mt-3">
-                        <input type="text" name="balance_keeper" class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="🔹 Балансга масъул шахс"
-                            value="{{ old('balance_keeper', $yertola->balance_keeper) }}">
-                        <input type="text" name="stir" id="stirField"
-                            class="form-control form-control-lg shadow-sm" placeholder="📊 СТИР рақами"
-                            value="{{ old('stir', $yertola->stir) }}" style="display: none;">
-                    </div>
-
-                    <!-- Фойдаланиш мумкинми? -->
-                    <div class="mt-4">
-                        <label class="form-label fw-bold">❓ Фойдаланиш мумкинми?</label>
-                        <div class="d-flex gap-3">
-                            <div class="form-check">
-                                <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="1" onclick="showUseFields(true)"
-                                    {{ $yertola->does_can_we_use_yer_tola ? 'checked' : '' }}>
-                                <label class="form-check-label fw-bold">✅ Ҳа</label>
-                            </div>
-                            <div class="form-check ml-3">
-                                <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="0" onclick="showUseFields(false)"
-                                    {{ !$yertola->does_can_we_use_yer_tola ? 'checked' : '' }}>
-                                <label class="form-check-label fw-bold">❌ Йўқ</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Агар фойдаланиш мумкин бўлса -->
-                    <div id="useFields" class="mt-4" style="display: none;">
-                        <input type="number" name="ijaraga_berilgan_qismi_yer_tola"
-                            class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="📏 Ижарага берилган қисм (м²)"
-                            value="{{ old('ijaraga_berilgan_qismi_yer_tola', $yertola->ijaraga_berilgan_qismi_yer_tola) }}">
-                        <input type="number" name="ijaraga_berilмаган_qismi_yer_tola"
-                            class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="📏 Ижарага берилмаган қисм (м²)"
-                            value="{{ old('ijaraga_berilмаган_qismi_yer_tola', $yertola->ijaraga_berilмаган_qismi_yer_tola) }}">
-                        <input type="number" name="texnik_qismi_yer_tola" class="form-control form-control-lg shadow-sm"
-                            placeholder="⚙ Техник қисм (м²)"
-                            value="{{ old('texnik_qismi_yer_tola', $yertola->texnik_qismi_yer_tola) }}">
-
-                        <!-- Ижара нархи -->
-                        <div class="mb-3 mt-3">
-                            <label class="form-label fw-bold">💰 Ойлик ижара нархи:</label>
-                            <input type="number" name="oylik_ijara_narxi_yer_tola"
-                                class="form-control form-control-lg shadow-sm" placeholder="💵 Сум"
-                                value="{{ old('oylik_ijara_narxi_yer_tola', $yertola->oylik_ijara_narxi_yer_tola) }}">
-                        </div>
-
-                        <!-- Фаолият тури (Checkbox) -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">🏢 Фаолият тури:</label>
-                            <div class="d-flex flex-wrap gap-2">
-                                @php
-                                    $faoliyatTurlari = [
-                                        'Gozallik Saloni' => '💄 Гўзаллик салони',
-                                        'Dorixona' => '💊 Дорихона',
-                                        'Kompyuter Xizmati' => '💻 Компьютер хизмати',
-                                        'Savdo' => '🛍 Савдо',
-                                        'Boshqalar' => '🔹 Бошқалар',
-                                    ];
-                                    $selectedFaoliyatTurlari = $yertola->faoliyat_turi
-                                        ? json_decode($yertola->faoliyat_turi, true)
-                                        : [];
-                                @endphp
-                                @foreach ($faoliyatTurlari as $key => $value)
-                                    <div class="form-check d-flex align-items-center ml-3">
-                                        <input class="form-check-input m-0" type="checkbox" name="faoliyat_turi[]"
-                                            value="{{ $key }}"
-                                            {{ in_array($key, $selectedFaoliyatTurlari) ? 'checked' : '' }}>
-                                        <label class="form-check-label">{{ $value }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Юбориш тугмаси -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">💾 Сақлаш</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Scripts for Dynamic Fields -->
-    <script>
-        // Initialize form state on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set initial states for conditional fields
-            const doesExistYerTola = {{ $yertola->does_exists_yer_tola ? 'true' : 'false' }};
-            const doesCanWeUseYerTola = {{ $yertola->does_can_we_use_yer_tola ? 'true' : 'false' }};
-            const managedBy = "{{ $yertola->managed_by }}";
-
-            // Show/hide extra fields based on existing data
-            showExtraFields(doesExistYerTola);
-            if (doesExistYerTola) {
-                showUseFields(doesCanWeUseYerTola);
-                document.getElementById('stirField').style.display = (managedBy === 'Kompaniya') ? 'block' : 'none';
-            }
-
-            // Initialize map with existing coordinates
-            initMap();
-        });
-
-        function showExtraFields(show) {
-            document.getElementById('extraFields').style.display = show ? 'block' : 'none';
-        }
-
-        function toggleBalanceFields() {
-            var managedBy = document.getElementById('managedBy').value;
-            document.getElementById('stirField').style.display = (managedBy === 'Kompaniya') ? 'block' : 'none';
-        }
-
-        function showUseFields(show) {
-            document.getElementById('useFields').style.display = show ? 'block' : 'none';
-        }
-
-        function removeExistingFile(button) {
-            const parent = button.closest('.input-group');
-            const fileInput = parent.querySelector('input[type="file"]');
-
-            // Remove the hidden field with the existing file path
-            parent.querySelector('input[type="hidden"]').remove();
-
-            // Show the file input and make it required
-            fileInput.classList.remove('d-none');
-            fileInput.setAttribute('required', 'required');
-
-            // Remove the image thumbnail
-            parent.querySelector('img').remove();
-
-            // Remove the button itself
-            button.remove();
-        }
-
-        // Map initialization function
-        function initMap() {
-            // This would depend on how your map is implemented in the original code
-            // If you're using a library like Leaflet or Google Maps, you'd initialize it here
-            // with the existing coordinates from the hidden fields
-
-            const latitude = parseFloat(document.getElementById('latitude').value) || null;
-            const longitude = parseFloat(document.getElementById('longitude').value) || null;
-
-            if (latitude && longitude) {
-                // Set the map center to the existing coordinates
-                // This is a placeholder - replace with your actual map initialization code
-                console.log("Map should center on:", latitude, longitude);
-
-                // Update the geolocation display field
-                document.getElementById('geolokatsiya').value = `${latitude}, ${longitude}`;
-            }
-        }
-    </script>
-
-    <style>
-        .custom-radio {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            margin: 0px;
-        }
-    </style>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success" id="submit-btn">Сақлаш</button>
+    </form>
 @endsection
 
 @section('scripts')

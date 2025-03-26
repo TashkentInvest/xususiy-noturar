@@ -62,27 +62,30 @@ class YerTolaController extends Controller
         return redirect()->route('yertola.index')->with('success', 'YerTola created successfully.');
     }
 
-    public function edit(Aktiv $yertola)
+    public function edit(Aktiv $aktiv)
     {
-        $regions = Regions::get();
+        // $this->authorizeView($aktiv); // Check if the user can edit this Aktiv
 
-        // dd('wqe ');
         try {
+            // Eager load relationships
+            $aktiv->load('subStreet.district.region');
 
-            $yertola->load('subStreet.district.region');
+            // Get regions
+            $regions = Regions::all();
 
+            // Safely access subStreet, district, and region
+            $districts = optional($aktiv->subStreet->district->region)->districts ?? collect();
+            $streets = optional($aktiv->subStreet->district)->streets ?? collect();
+            $substreets = optional($aktiv->subStreet->district)->subStreets ?? collect();
 
-            $districts = optional($yertola->subStreet->district->region)->districts ?? collect();
-            $streets = optional($yertola->subStreet->district)->streets ?? collect();
-            $substreets = optional($yertola->subStreet->district)->subStreets ?? collect();
-
-            return view('pages.yertola.edit', compact('yertola', 'subStreets', 'streets', 'regions', 'districts'));
+            return view('pages.yertola.edit', compact('aktiv', 'regions', 'districts', 'streets', 'substreets'));
         } catch (\Exception $e) {
             // Log the error for debugging
             \Log::error('Error loading Aktiv data: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Error loading Aktiv data. Please try again.');
         }
     }
+
 
     public function update(Request $request, Aktiv $yertola)
     {
