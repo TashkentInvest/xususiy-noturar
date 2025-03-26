@@ -30,7 +30,7 @@ class CreateAktivsTable extends Migration
             $table->string('object_type')->nullable();
             $table->text('balance_keeper')->nullable();
             $table->string('location')->nullable();
-            $table->decimal('land_area', 10, 2);
+            $table->decimal('land_area', 10, 2)->nullable();
             $table->decimal('building_area', 10, 2)->nullable();
             $table->string('gas');
             $table->string('water');

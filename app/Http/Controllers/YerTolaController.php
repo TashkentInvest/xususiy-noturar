@@ -12,7 +12,7 @@ class YerTolaController extends Controller
 {
     public function index()
     {
-        $yertolas = Aktiv::all();
+        $yertolas = Aktiv::where('is_status_yer_tola', 1)->get();
         return view('pages.yertola.index', compact('yertolas'));
     }
 
@@ -24,14 +24,14 @@ class YerTolaController extends Controller
 
         $subStreets = SubStreet::all();
         $streets = Street::all();
-        return view('pages.yertola.create', compact('subStreets', 'streets','regions'));
+        return view('pages.yertola.create', compact('subStreets', 'streets', 'regions'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'sub_street_id' => 'required|exists:sub_streets,id',
-            'street_id' => 'required|exists:streets,id',
+            'sub_street_id' => 'required',
+            'street_id' => 'required',
             'does_exists_yer_tola' => 'required',
             'balance_keeper' => 'nullable|string',
             'stir' => 'nullable|string',
@@ -40,13 +40,23 @@ class YerTolaController extends Controller
             'ijaraga_berilmagan_qismi_yer_tola' => 'nullable|numeric',
             'texnik_qismi_yer_tola' => 'nullable|numeric',
             'oylik_ijara_narxi_yer_tola' => 'nullable|numeric',
-            'faoliyat_turi' => 'required|array',
+            'faoliyat_turi' => 'required|array', // Ensure it's an array
         ]);
 
+        // Convert the array to JSON before storing
+        if (isset($validated['faoliyat_turi'])) {
+            $validated['faoliyat_turi'] = json_encode($validated['faoliyat_turi']);
+            // Alternative: Store as a comma-separated string
+            // $validated['faoliyat_turi'] = implode(',', $validated['faoliyat_turi']);
+        }
+
+        // Add the hidden field value
         $validated['is_status_yer_tola'] = true;
+
+        // Save the data
         Aktiv::create($validated);
 
-        return redirect()->route('pages.yertola.index')->with('success', 'YerTola created successfully.');
+        return redirect()->route('yertola.index')->with('success', 'YerTola created successfully.');
     }
 
     public function edit(Aktiv $yertola)
@@ -59,8 +69,8 @@ class YerTolaController extends Controller
     public function update(Request $request, Aktiv $yertola)
     {
         $validated = $request->validate([
-            'sub_street_id' => 'required|exists:sub_streets,id',
-            'street_id' => 'required|exists:streets,id',
+            'sub_street_id' => 'required',
+            'street_id' => 'required',
             'does_exists_yer_tola' => 'required',
             'balance_keeper' => 'nullable|string',
             'stir' => 'nullable|string',
@@ -73,12 +83,12 @@ class YerTolaController extends Controller
         ]);
 
         $yertola->update($validated);
-        return redirect()->route('pages.yertola.index')->with('success', 'YerTola updated successfully.');
+        return redirect()->route('yertola.index')->with('success', 'YerTola updated successfully.');
     }
 
     public function destroy(Aktiv $yertola)
     {
         $yertola->delete();
-        return redirect()->route('pages.yertola.index')->with('success', 'YerTola deleted successfully.');
+        return redirect()->route('yertola.index')->with('success', 'YerTola deleted successfully.');
     }
 }

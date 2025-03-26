@@ -44,6 +44,7 @@ class AktivController extends Controller
 
         // Finally, paginate the results
         $aktivs = $query->orderBy('updated_at', 'desc')
+            ->where('is_status_yer_tola','!=', 1)
             ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
             ->paginate(15)
             ->appends($request->query());

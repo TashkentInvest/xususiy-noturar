@@ -31,6 +31,14 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('yertola.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="layout"></i>
+                    <span class="link-title">Ер Тўлалар</span>
+                </a>
+            </li>
+
+
             @if (auth()->user()->roles->first()->name == 'Super Admin')
                 <li class="nav-item nav-category">Бошқариш</li>
                 <li class="nav-item">
