@@ -12,9 +12,16 @@
         <div class="card shadow-lg rounded-4 border-0 p-4">
             <table class="table table-hover text-center align-middle">
                 <thead class="table-primary">
+                    <style>
+                        .table .td_address {
+                            max-width: 200px;
+                            word-wrap: break-word;
+                            white-space: normal;
+                        }
+                    </style>
                     <tr>
                         <th>#</th>
-                        <th>📍 Манзил</th>
+                        <th class="td_address">📍 Манзил</th>
                         <th>🏠 Ер тўла</th>
                         <th>✅ Фойдаланиш</th>
                         <th>⚙ Амаллар</th>
@@ -24,7 +31,15 @@
                     @foreach ($yertolas as $yertola)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $yertola->sub_street_id }} / {{ $yertola->street_id }}</td>
+                            <td class="td_address">
+
+                                {{ $yertola->subStreet->district->name_uz ?? 'Маълумот йўқ' }} Tumani,
+
+                                {{ $yertola->street->name ?? 'Маълумот йўқ' }} Mfy,
+                                {{ $yertola->subStreet->name ?? 'Маълумот йўқ' }},
+
+
+                                {{ $yertola->home_number ?? 'Маълумот йўқ' }}</td>
                             <td>
                                 <span
                                     class="badge text-light {{ $yertola->does_exists_yer_tola ? 'bg-success' : 'bg-danger' }}">
@@ -34,7 +49,7 @@
                             <td>
                                 <span
                                     class="badge text-light {{ $yertola->does_can_we_use_yer_tola ? 'bg-primary' : 'bg-warning' }}">
-                                    {{ $yertola->does_can_we_use_yer_tola ? 'Ҳа' : 'Йўқ' }}
+                                    {{ $yertola->does_can_we_use_yer_tola ? 'Мумкин' : 'Мумкин эмас' }}
                                 </span>
                             </td>
                             <td>
@@ -42,7 +57,7 @@
                                     data-bs-target="#detailsModal{{ $yertola->id }}">
                                     🔍 Маълумот
                                 </button>
-                                <a href="{{ route('yertola.edit', $yertola->id) }}" class="btn btn-warning btn-sm">✏️
+                                {{-- <a href="{{ route('yertola.edit', $yertola->id) }}" class="btn btn-warning btn-sm">✏️
                                     Таҳрирлаш</a>
 
                                 <form action="{{ route('yertola.destroy', $yertola) }}" method="POST"
@@ -53,7 +68,7 @@
                                         onclick="return confirm('Сиз ростдан ҳам бу объектни ўчиришни истайсизми?');">
                                         🗑️ Ўчириш
                                     </button>
-                                </form>
+                                </form> --}}
                             </td>
                         </tr>
 
@@ -71,7 +86,20 @@
                                     <div class="modal-body">
                                         <ul class="list-group">
                                             <li class="list-group-item"><strong>📍 Манзил:</strong>
-                                                {{ $yertola->sub_street_id }} / {{ $yertola->street_id }}</li>
+
+
+
+                                                {{ $yertola->subStreet->district->region->name_uz ?? 'Маълумот йўқ' }},
+
+                                                {{ $yertola->subStreet->district->name_uz ?? 'Маълумот йўқ' }} Tumani,
+
+                                                {{ $yertola->street->name ?? 'Маълумот йўқ' }} Mfy,
+                                                {{ $yertola->subStreet->name ?? 'Маълумот йўқ' }},
+
+
+                                                {{ $yertola->home_number ?? 'Маълумот йўқ' }}
+
+                                            </li>
                                             <li class="list-group-item"><strong>🏠 Ер тўла:</strong>
                                                 {{ $yertola->does_exists_yer_tola ? 'Мавжуд' : 'Мавжуд эмас' }}</li>
                                             <li class="list-group-item"><strong>✅ Фойдаланиш мумкин:</strong>
