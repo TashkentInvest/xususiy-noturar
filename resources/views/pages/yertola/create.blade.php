@@ -123,9 +123,8 @@
                     <div class="mt-3">
                         <input type="text" name="balance_keeper" class="form-control form-control-lg shadow-sm mb-2"
                             placeholder="🔹 Балансга масъул шахс">
-                        <input type="text" name="stir" id="stirField"
-                            class="form-control form-control-lg shadow-sm" placeholder="📊 СТИР рақами"
-                            style="display: none;">
+                        <input type="text" name="stir" id="stirField" class="form-control form-control-lg shadow-sm"
+                            placeholder="📊 СТИР рақами" style="display: none;">
                     </div>
 
                     <!-- Фойдаланиш мумкинми? -->
@@ -164,18 +163,41 @@
                         </div>
 
                         <!-- Фаолият тури (Checkbox) -->
+                        @php
+                            $faoliyatTurlari = [
+                                'Gozallik Saloni' => '💄 Гўзаллик салони',
+                                'Dorixona' => '💊 Дорихона',
+                                'Kompyuter Xizmati' => '💻 Компьютер хизмати',
+                                'Savdo' => '🛍 Савдо',
+                                'Boshqalar' => '🔹 Бошқалар',
+                            ];
+
+                            // Additional values to ensure they are included
+                            $additionalTurlari = [
+                                'Oquv Markazi' => '📚 Ўқув маркази',
+                                'Tikuvchilik' => '🧵 Тикувчилик',
+                                'Kosibchilik' => '🪡 Косибчилик',
+                                'Poligrafiya' => '🖨 Полиграфия',
+                                'Fotostudiya' => '📸 Фотостудия',
+                                'Kafe' => '☕️ Кафе',
+                                'Maishiy Texnika Tamirlash' => '🔧 Маиший техника таъмирлаш устахонаси',
+                                'Sartoroshxona' => '✂️ Сарторошхона',
+                                'Ximchistka' => '🧼 Химчистка',
+                                'Avtomoyka' => '🚗 Автомойка',
+                                'Ofis' => '🏢 Офис',
+                            ];
+
+                            // Merge additional only if keys not already set
+                            foreach ($additionalTurlari as $key => $value) {
+                                if (!array_key_exists($key, $faoliyatTurlari)) {
+                                    $faoliyatTurlari[$key] = $value;
+                                }
+                            }
+                        @endphp
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">🏢 Фаолият тури:</label>
                             <div class="d-flex flex-wrap gap-2">
-                                @php
-                                    $faoliyatTurlari = [
-                                        'Gozallik Saloni' => '💄 Гўзаллик салони',
-                                        'Dorixona' => '💊 Дорихона',
-                                        'Kompyuter Xizmati' => '💻 Компьютер хизмати',
-                                        'Savdo' => '🛍 Савдо',
-                                        'Boshqalar' => '🔹 Бошқалар',
-                                    ];
-                                @endphp
                                 @foreach ($faoliyatTurlari as $key => $value)
                                     <div class="form-check d-flex align-items-center ml-3">
                                         <input class="form-check-input m-0" type="checkbox" name="faoliyat_turi[]"
@@ -185,6 +207,7 @@
                                 @endforeach
                             </div>
                         </div>
+
                     </div>
                 </div>
 
