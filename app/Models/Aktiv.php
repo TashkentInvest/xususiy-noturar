@@ -177,6 +177,8 @@ class Aktiv extends Model
         'texnik_qismi_yer_tola',
         'oylik_ijara_narxi_yer_tola',
         'faoliyat_turi',
+
+        'does_yer_tola_ijaraga_berish_mumkin'
     ];
 
     public function files()

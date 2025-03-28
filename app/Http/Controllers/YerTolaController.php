@@ -30,20 +30,22 @@ class YerTolaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'geolokatsiya'     => 'required|string',
-            'latitude'         => 'required|numeric',
-            'longitude'        => 'required|numeric',
+            'geolokatsiya'     => 'nullable',
+            'latitude'         => 'nullable',
+            'longitude'        => 'nullable',
             'sub_street_id' => 'required',
             'street_id' => 'required',
-            'does_exists_yer_tola' => 'required',
+            'does_exists_yer_tola' => 'nullable',
             'balance_keeper' => 'nullable|string',
             'stir' => 'nullable|string',
-            'does_can_we_use_yer_tola' => 'required',
+            'does_can_we_use_yer_tola' => 'nullable',
             'ijaraga_berilgan_qismi_yer_tola' => 'nullable|numeric',
             'ijaraga_berilmagan_qismi_yer_tola' => 'nullable|numeric',
             'texnik_qismi_yer_tola' => 'nullable|numeric',
             'oylik_ijara_narxi_yer_tola' => 'nullable|numeric',
-            'faoliyat_turi' => 'required|array', // Ensure it's an array
+            'faoliyat_turi' => 'nullable|array', // Ensure it's an array
+
+            'does_yer_tola_ijaraga_berish_mumkin' => 'nullable',
         ]);
 
         // Convert the array to JSON before storing
@@ -90,20 +92,23 @@ class YerTolaController extends Controller
     public function update(Request $request, Aktiv $yertola)
     {
         $validated = $request->validate([
-            'geolokatsiya'     => 'required|string',
-            'latitude'         => 'required|numeric',
-            'longitude'        => 'required|numeric',
+            'geolokatsiya'     => 'nullable',
+            'latitude'         => 'nullable',
+            'longitude'        => 'nullable',
             'sub_street_id' => 'required',
             'street_id' => 'required',
-            'does_exists_yer_tola' => 'required',
+            'does_exists_yer_tola' => 'nullable',
             'balance_keeper' => 'nullable|string',
             'stir' => 'nullable|string',
-            'does_can_we_use_yer_tola' => 'required',
+            'does_can_we_use_yer_tola' => 'nullable',
             'ijaraga_berilgan_qismi_yer_tola' => 'nullable|numeric',
             'ijaraga_berilmagan_qismi_yer_tola' => 'nullable|numeric',
             'texnik_qismi_yer_tola' => 'nullable|numeric',
             'oylik_ijara_narxi_yer_tola' => 'nullable|numeric',
-            'faoliyat_turi' => 'required|array',
+            'faoliyat_turi' => 'nullable|array',
+
+            'does_yer_tola_ijaraga_berish_mumkin' => 'nullable',
+
         ]);
 
         $yertola->update($validated);

@@ -11,26 +11,7 @@
                 <!-- Manzil tanlash -->
                 <div class="mb-4">
                     <label class="form-label fw-bold">📍 Манзилни танланг:</label>
-                    {{-- <div class="row">
-                        <div class="col-md-6">
-                            <select name="sub_street_id" class="form-select form-control-lg shadow-sm" required>
-                                <option value="">📌 Қўшимча кўча</option>
-                                @foreach ($subStreets as $subStreet)
-                                    <option value="{{ $subStreet->id }}">{{ $subStreet->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <select name="street_id" class="form-select form-control-lg shadow-sm" required>
-                                <option value="">🏡 Кўча</option>
-                                @foreach ($streets as $street)
-                                    <option value="{{ $street->id }}">{{ $street->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
-
-                    </div> --}}
                     @include('inc.__address')
 
                     <div class="row">
@@ -133,17 +114,35 @@
                         <div class="d-flex gap-3">
                             <div class="form-check">
                                 <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="1" onclick="showUseFields(true)">
+                                    name="does_can_we_use_yer_tola" value="1" onclick="showUseIjaraFields(true)">
                                 <label class="form-check-label fw-bold">✅ Ҳа</label>
                             </div>
                             <div class="form-check ml-3">
                                 <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="0" onclick="showUseFields(false)">
+                                    name="does_can_we_use_yer_tola" value="0" onclick="showUseIjaraFields(false)">
                                 <label class="form-check-label fw-bold">❌ Йўқ</label>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Ижарага бериш мумкинми? -->
+                    <div id="UseIjaraFields" class="mt-4" style="display: none;">
+                        <label class="form-label fw-bold">❓ Ижарага бериш мумкинми?</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input custom-radio" type="radio"
+                                    name="does_yer_tola_ijaraga_berish_mumkin" value="1"
+                                    onclick="showUseFields(true)">
+                                <label class="form-check-label fw-bold">✅ Ҳа</label>
+                            </div>
+                            <div class="form-check ml-3">
+                                <input class="form-check-input custom-radio" type="radio"
+                                    name="does_yer_tola_ijaraga_berish_mumkin" value="0"
+                                    onclick="showUseFields(false)">
+                                <label class="form-check-label fw-bold">❌ Йўқ</label>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Агар фойдаланиш мумкин бўлса -->
                     <div id="useFields" class="mt-4 " style="display: none;">
                         <input type="number" name="ijaraga_berilgan_qismi_yer_tola"
@@ -169,7 +168,6 @@
                                 'Dorixona' => '💊 Дорихона',
                                 'Kompyuter Xizmati' => '💻 Компьютер хизмати',
                                 'Savdo' => '🛍 Савдо',
-                                'Boshqalar' => '🔹 Бошқалар',
                             ];
 
                             // Additional values to ensure they are included
@@ -185,6 +183,7 @@
                                 'Ximchistka' => '🧼 Химчистка',
                                 'Avtomoyka' => '🚗 Автомойка',
                                 'Ofis' => '🏢 Офис',
+                                'Boshqalar' => '🔹 Бошқалар',
                             ];
 
                             // Merge additional only if keys not already set
@@ -228,6 +227,10 @@
         function toggleBalanceFields() {
             var managedBy = document.getElementById('managedBy').value;
             document.getElementById('stirField').style.display = (managedBy === 'Kompaniya') ? 'block' : 'none';
+        }
+
+        function showUseIjaraFields(show) {
+            document.getElementById('UseIjaraFields').style.display = show ? 'block' : 'none';
         }
 
         function showUseFields(show) {

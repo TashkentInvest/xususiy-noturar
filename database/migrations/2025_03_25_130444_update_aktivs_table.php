@@ -23,6 +23,7 @@ class UpdateAktivsTable extends Migration
             $table->decimal('texnik_qismi_yer_tola', 10, 2)->nullable()->after('ijaraga_berilmagan_qismi_yer_tola');
             $table->decimal('oylik_ijara_narxi_yer_tola', 10, 2)->nullable()->after('texnik_qismi_yer_tola');
             $table->json('faoliyat_turi')->nullable()->after('oylik_ijara_narxi_yer_tola');
+            $table->boolean('does_yer_tola_ijaraga_berish_mumkin')->default(false)->after('faoliyat_turi');
         });
     }
 
@@ -44,6 +45,7 @@ class UpdateAktivsTable extends Migration
                 'texnik_qismi_yer_tola',
                 'oylik_ijara_narxi_yer_tola',
                 'faoliyat_turi',
+                'does_yer_tola_ijaraga_berish_mumkin',
             ]);
         });
     }
