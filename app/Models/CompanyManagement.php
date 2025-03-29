@@ -32,4 +32,9 @@ class CompanyManagement extends Model
     {
         return $this->belongsTo(Street::class);
     }
+
+    public function aktiv()
+    {
+        return $this->hasMany(Aktiv::class);
+    }
 }

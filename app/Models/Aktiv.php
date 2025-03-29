@@ -205,4 +205,9 @@ class Aktiv extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function company_management()
+    {
+        return $this->hasMany(CompanyManagement::class);
+    }
 }
