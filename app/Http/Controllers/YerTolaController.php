@@ -12,7 +12,8 @@ class YerTolaController extends Controller
 {
     public function index()
     {
-        $yertolas = Aktiv::where('is_status_yer_tola', 1)->get();
+
+        $yertolas = Aktiv::with('files')->where('is_status_yer_tola', 1)->get();
         return view('pages.yertola.index', compact('yertolas'));
     }
 
@@ -34,6 +35,7 @@ class YerTolaController extends Controller
             'latitude'         => 'nullable',
             'longitude'        => 'nullable',
             'sub_street_id' => 'required',
+            'company_management_id' => 'nullable',
             'street_id' => 'required',
             'does_exists_yer_tola' => 'nullable',
             'balance_keeper' => 'nullable|string',
@@ -46,6 +48,8 @@ class YerTolaController extends Controller
             'faoliyat_turi' => 'nullable|array', // Ensure it's an array
 
             'does_yer_tola_ijaraga_berish_mumkin' => 'nullable',
+            'files.*'          => 'required',
+
         ]);
 
         // Convert the array to JSON before storing
@@ -59,7 +63,19 @@ class YerTolaController extends Controller
         $validated['is_status_yer_tola'] = true;
 
         // Save the data
-        Aktiv::create($validated);
+        $yertola = Aktiv::create($validated);
+
+        if ($request->hasFile('files')) {
+            $filePaths = [];
+            foreach ($request->file('files') as $file) {
+                $filePaths[] = [
+                    'path' => $file->store('assets', 'public'),
+                    'aktiv_id' => $yertola->id,
+                ];
+            }
+            // Use batch insert for file paths
+            $yertola->files()->insert($filePaths);
+        }
 
         return redirect()->route('yertola.index')->with('success', 'YerTola created successfully.');
     }

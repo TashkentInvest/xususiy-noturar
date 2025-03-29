@@ -45,3 +45,8 @@ Route::delete('/product/delete/{id}', [ProductController::class, 'deleteProduct'
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// Company Management API Routes
+Route::get('/company-management/search', 'CompanyManagementController@search');
+Route::post('/company-management/create', 'CompanyManagementController@apiCreate');

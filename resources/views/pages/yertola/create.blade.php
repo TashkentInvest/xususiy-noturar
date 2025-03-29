@@ -5,7 +5,7 @@
         <div class="card shadow-lg p-4 rounded-4 border-0">
             <h2 class="mb-4 text-center text-primary fw-bold">Ер Тўла Яратиш</h2>
 
-            <form action="{{ route('yertola.store') }}" method="POST">
+            <form action="{{ route('yertola.store') }}" method="POST" enctype="multipart/form-data" id="yertola-form">
                 @csrf
 
                 <!-- Manzil tanlash -->
@@ -25,7 +25,7 @@
                                 @for ($i = 1; $i <= 4; $i++)
                                     <div class="mb-3 col-lg-3 col-md-6 col-12" id="fileInput{{ $i }}">
                                         <label for="file{{ $i }}">Файл {{ $i }}</label>
-                                        <div class="input-group ">
+                                        <div class="input-group">
                                             <input type="file" class="form-control" name="files[]"
                                                 id="file{{ $i }}" accept="image/*" required>
                                             <button type="button" class="btn btn-secondary"
@@ -39,8 +39,6 @@
                             <div id="file-upload-container"></div>
                             <button type="button" class="btn btn-secondary mb-3" id="add-file-btn">Янги файл
                                 қўшиш</button>
-
-
                         </div>
                         <div class="col-lg-12 col-md-12 col-12 mt-3">
                             <div class="mb-3">
@@ -80,12 +78,14 @@
                     <div class="d-flex gap-3">
                         <div class="form-check">
                             <input class="form-check-input custom-radio" type="radio" name="does_exists_yer_tola"
-                                value="1" onclick="showExtraFields(true)">
+                                value="1" onclick="showExtraFields(true)"
+                                {{ old('does_exists_yer_tola') == '1' ? 'checked' : '' }}>
                             <label class="form-check-label fw-bold">✅ Мавжуд</label>
                         </div>
                         <div class="form-check ml-3">
                             <input class="form-check-input custom-radio" type="radio" name="does_exists_yer_tola"
-                                value="0" onclick="showExtraFields(false)">
+                                value="0" onclick="showExtraFields(false)"
+                                {{ old('does_exists_yer_tola') == '0' ? 'checked' : '' }}>
                             <label class="form-check-label fw-bold">❌ Мавжуд эмас</label>
                         </div>
                     </div>
@@ -95,17 +95,47 @@
                 <div id="extraFields" class="mb-4 p-3 border rounded bg-light shadow-sm" style="display: none;">
                     <label class="form-label fw-bold">🔧 Бошқарув шакли:</label>
                     <select name="managed_by" id="managedBy" class="form-select form-control-lg shadow-sm"
-                        onchange="toggleBalanceFields()">
+                        onchange="toggleManagementFields()">
                         <option value="">Танланг</option>
-                        <option value="Kompaniya">🏢 Компания</option>
-                        <option value="O'z o'zini boshqaradi">👤 Ўз-ўзини бошқаради</option>
+                        <option value="Kompaniya" {{ old('managed_by') == 'Kompaniya' ? 'selected' : '' }}>🏢 Компания
+                        </option>
+                        <option value="O'z o'zini boshqaradi"
+                            {{ old('managed_by') == "O'z o'zini boshqaradi" ? 'selected' : '' }}>👤 Ўз-ўзини бошқаради
+                        </option>
                     </select>
 
-                    <div class="mt-3">
+                    <!-- Company Management Section (Shows when Kompaniya is selected) -->
+                    <div id="companySection" class="mt-3" style="display: none;">
+                        <div class="input-group mb-2">
+                            <input type="text" name="company_search" id="companySearch"
+                                class="form-control form-control-lg shadow-sm"
+                                placeholder="🔍 Компания номи ёки СТИР рақами">
+                            <button type="button" class="btn btn-primary" onclick="searchCompany()">
+                                <i class="fas fa-search"></i> Излаш
+                            </button>
+                        </div>
+                        <div id="searchResults" class="list-group mt-2" style="display: none;"></div>
+
+                        <!-- Hidden field to store selected company_management_id -->
+                        <input type="hidden" name="company_management_id" id="companyManagementId"
+                            value="{{ old('company_management_id') }}">
+
+                        <!-- Selected company display -->
+                        <div id="selectedCompany" class="alert alert-success mt-2" style="display: none;">
+                            <strong>Танланган компания:</strong> <span id="companyName"></span>
+                            <button type="button" class="btn-close float-end" onclick="clearSelectedCompany()"></button>
+                        </div>
+
+                        <!-- Button to show modal for creating a new company -->
+                        <button type="button" class="btn btn-outline-primary mt-2" onclick="showNewCompanyModal()">
+                            ➕ Янги компания яратиш
+                        </button>
+                    </div>
+
+                    <!-- Self-management Section (Shows when O'z o'zini boshqaradi is selected) -->
+                    <div id="selfManagementSection" class="mt-3" style="display: none;">
                         <input type="text" name="balance_keeper" class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="🔹 Балансга масъул шахс">
-                        <input type="text" name="stir" id="stirField" class="form-control form-control-lg shadow-sm"
-                            placeholder="📊 СТИР рақами" style="display: none;">
+                            placeholder="🔹 Балансга масъул шахс" value="{{ old('balance_keeper') }}">
                     </div>
 
                     <!-- Фойдаланиш мумкинми? -->
@@ -114,12 +144,14 @@
                         <div class="d-flex gap-3">
                             <div class="form-check">
                                 <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="1" onclick="showUseIjaraFields(true)">
+                                    name="does_can_we_use_yer_tola" value="1" onclick="showUseIjaraFields(true)"
+                                    {{ old('does_can_we_use_yer_tola') == '1' ? 'checked' : '' }}>
                                 <label class="form-check-label fw-bold">✅ Ҳа</label>
                             </div>
                             <div class="form-check ml-3">
                                 <input class="form-check-input custom-radio" type="radio"
-                                    name="does_can_we_use_yer_tola" value="0" onclick="showUseIjaraFields(false)">
+                                    name="does_can_we_use_yer_tola" value="0" onclick="showUseIjaraFields(false)"
+                                    {{ old('does_can_we_use_yer_tola') == '0' ? 'checked' : '' }}>
                                 <label class="form-check-label fw-bold">❌ Йўқ</label>
                             </div>
                         </div>
@@ -132,33 +164,38 @@
                             <div class="form-check">
                                 <input class="form-check-input custom-radio" type="radio"
                                     name="does_yer_tola_ijaraga_berish_mumkin" value="1"
-                                    onclick="showUseFields(true)">
+                                    onclick="showUseFields(true)"
+                                    {{ old('does_yer_tola_ijaraga_berish_mumkin') == '1' ? 'checked' : '' }}>
                                 <label class="form-check-label fw-bold">✅ Ҳа</label>
                             </div>
                             <div class="form-check ml-3">
                                 <input class="form-check-input custom-radio" type="radio"
                                     name="does_yer_tola_ijaraga_berish_mumkin" value="0"
-                                    onclick="showUseFields(false)">
+                                    onclick="showUseFields(false)"
+                                    {{ old('does_yer_tola_ijaraga_berish_mumkin') == '0' ? 'checked' : '' }}>
                                 <label class="form-check-label fw-bold">❌ Йўқ</label>
                             </div>
                         </div>
                     </div>
                     <!-- Агар фойдаланиш мумкин бўлса -->
-                    <div id="useFields" class="mt-4 " style="display: none;">
+                    <div id="useFields" class="mt-4" style="display: none;">
                         <input type="number" name="ijaraga_berilgan_qismi_yer_tola"
                             class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="📏 Ижарага берилган қисм (м²)">
-                        <input type="number" name="ijaraga_berilмаган_qismi_yer_tola"
+                            placeholder="📏 Ижарага берилган қисм (м²)"
+                            value="{{ old('ijaraga_berilgan_qismi_yer_tola') }}">
+                        <input type="number" name="ijaraga_berilmagan_qismi_yer_tola"
                             class="form-control form-control-lg shadow-sm mb-2"
-                            placeholder="📏 Ижарага берилмаган қисм (м²)">
+                            placeholder="📏 Ижарага берилмаган қисм (м²)"
+                            value="{{ old('ijaraga_berilmagan_qismi_yer_tola') }}">
                         <input type="number" name="texnik_qismi_yer_tola" class="form-control form-control-lg shadow-sm"
-                            placeholder="⚙ Техник қисм (м²)">
+                            placeholder="⚙ Техник қисм (м²)" value="{{ old('texnik_qismi_yer_tola') }}">
 
                         <!-- Ижара нархи -->
                         <div class="mb-3 mt-3">
                             <label class="form-label fw-bold">💰 Ойлик ижара нархи:</label>
                             <input type="number" name="oylik_ijara_narxi_yer_tola"
-                                class="form-control form-control-lg shadow-sm" placeholder="💵 Сум">
+                                class="form-control form-control-lg shadow-sm" placeholder="💵 Сум"
+                                value="{{ old('oylik_ijara_narxi_yer_tola') }}">
                         </div>
 
                         <!-- Фаолият тури (Checkbox) -->
@@ -192,6 +229,8 @@
                                     $faoliyatTurlari[$key] = $value;
                                 }
                             }
+
+                            $oldFaoliyatTuri = old('faoliyat_turi', []);
                         @endphp
 
                         <div class="mb-3">
@@ -200,21 +239,96 @@
                                 @foreach ($faoliyatTurlari as $key => $value)
                                     <div class="form-check d-flex align-items-center ml-3">
                                         <input class="form-check-input m-0" type="checkbox" name="faoliyat_turi[]"
-                                            value="{{ $key }}">
+                                            value="{{ $key }}"
+                                            {{ in_array($key, $oldFaoliyatTuri) ? 'checked' : '' }}>
                                         <label class="form-check-label">{{ $value }}</label>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <!-- Юбориш тугмаси -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">💾 Сақлаш</button>
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">💾
+                        Сақлаш</button>
                 </div>
             </form>
+        </div>
+
+        <!-- Modal for creating a new company -->
+        <div class="modal fade" id="newCompanyModal" tabindex="-1" aria-labelledby="newCompanyModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newCompanyModalLabel">🏢 Янги компания яратиш</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="modalOrganization" class="form-label">Ташкилот номи</label>
+                            <input type="text" class="form-control" id="modalOrganization" name="modal_organization"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalInn" class="form-label">СТИР рақами</label>
+                            <input type="text" class="form-control" id="modalInn" name="modal_inn" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalRepresentative" class="form-label">Вакил</label>
+                            <input type="text" class="form-control" id="modalRepresentative"
+                                name="modal_representative">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalPhone" class="form-label">Телефон</label>
+                            <input type="text" class="form-control" id="modalPhone" name="modal_phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalServicePhone" class="form-label">Хизмат телефони</label>
+                            <input type="text" class="form-control" id="modalServicePhone"
+                                name="modal_service_phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalDistrict" class="form-label">Туман</label>
+                            <input type="text" class="form-control" id="modalDistrict" name="modal_district">
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalAddress" class="form-label">Манзил</label>
+                            <input type="text" class="form-control" id="modalAddress" name="modal_address">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор қилиш</button>
+                        <button type="button" class="btn btn-primary" onclick="createNewCompany()">Яратиш</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Modal -->
+        <div class="modal fade" id="cameraModal" tabindex="-1" aria-labelledby="cameraModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cameraModalLabel">📸 Камера</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <video id="cameraPreview" autoplay style="width: 100%; max-height: 400px;"></video>
+                            <canvas id="snapshotCanvas" style="display: none;"></canvas>
+                            <div id="cameraError" class="text-danger mt-2"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор қилиш</button>
+                        <button type="button" class="btn btn-info" id="captureButton" disabled>Расмга олиш</button>
+                        <button type="button" class="btn btn-primary" id="saveButton" disabled>Сақлаш</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -224,17 +338,203 @@
             document.getElementById('extraFields').style.display = show ? 'block' : 'none';
         }
 
-        function toggleBalanceFields() {
-            var managedBy = document.getElementById('managedBy').value;
-            document.getElementById('stirField').style.display = (managedBy === 'Kompaniya') ? 'block' : 'none';
+        function toggleManagementFields() {
+            const managedBy = document.getElementById('managedBy').value;
+            document.getElementById('companySection').style.display = (managedBy === 'Kompaniya') ? 'block' : 'none';
+            document.getElementById('selfManagementSection').style.display = (managedBy === "O'z o'zini boshqaradi") ?
+                'block' : 'none';
+
+            // Clear any previous selections when changing management type
+            if (managedBy !== 'Kompaniya') {
+                clearSelectedCompany();
+            }
         }
 
         function showUseIjaraFields(show) {
             document.getElementById('UseIjaraFields').style.display = show ? 'block' : 'none';
+            // Hide useFields if not showing UseIjaraFields
+            if (!show) {
+                document.getElementById('useFields').style.display = 'none';
+            }
         }
 
         function showUseFields(show) {
             document.getElementById('useFields').style.display = show ? 'block' : 'none';
+        }
+
+        function searchCompany() {
+            const searchTerm = document.getElementById('companySearch').value.trim();
+            if (searchTerm.length < 2) {
+                alert('Камида 2 та белги киритинг');
+                return;
+            }
+
+            // Show loading indicator
+            document.getElementById('searchResults').innerHTML =
+                '<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p>Излаш...</p></div>';
+            document.getElementById('searchResults').style.display = 'block';
+
+            // Perform AJAX search
+            fetch(`/api/company-management/search?q=${encodeURIComponent(searchTerm)}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Сервер хатоси');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const resultsDiv = document.getElementById('searchResults');
+
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML =
+                            '<div class="alert alert-warning">Компания топилмади. Янги компания яратишингиз мумкин.</div>';
+                        return;
+                    }
+
+                    let html = '';
+                    data.forEach(company => {
+                        // Escape values to prevent XSS
+                        const escapedOrg = company.organization.replace(/"/g, '&quot;');
+                        const escapedInn = company.inn ? company.inn.replace(/"/g, '&quot;') : '';
+                        const escapedRep = company.representative ? company.representative.replace(/"/g,
+                            '&quot;') : 'Вакил кўрсатилмаган';
+                        const escapedPhone = company.phone ? company.phone.replace(/"/g, '&quot;') : 'N/A';
+
+                        html += `<a href="#" class="list-group-item list-group-item-action"
+                                onclick="selectCompany(${company.id}, '${escapedOrg}', '${escapedInn}')">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${escapedOrg}</h5>
+                                    <small>СТИР: ${escapedInn}</small>
+                                </div>
+                                <p class="mb-1">${escapedRep}</p>
+                                <small>Тел: ${escapedPhone}</small>
+                            </a>`;
+                    });
+
+                    resultsDiv.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error searching for company:', error);
+                    document.getElementById('searchResults').innerHTML =
+                        `<div class="alert alert-danger">Хатолик юз берди: ${error.message}</div>`;
+                });
+        }
+
+        function selectCompany(id, name, inn) {
+            // Set the hidden input value
+            document.getElementById('companyManagementId').value = id;
+
+            // Update selected company display
+            document.getElementById('companyName').textContent = `${name} (СТИР: ${inn})`;
+            document.getElementById('selectedCompany').style.display = 'block';
+
+            // Clear search results and search input
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('companySearch').value = '';
+        }
+
+        function clearSelectedCompany() {
+            document.getElementById('companyManagementId').value = '';
+            document.getElementById('selectedCompany').style.display = 'none';
+            document.getElementById('companyName').textContent = '';
+        }
+
+        function showNewCompanyModal() {
+            // Clear any previous values
+            document.getElementById('modalOrganization').value = '';
+            document.getElementById('modalInn').value = '';
+            document.getElementById('modalRepresentative').value = '';
+            document.getElementById('modalPhone').value = '';
+            document.getElementById('modalServicePhone').value = '';
+            document.getElementById('modalDistrict').value = '';
+            document.getElementById('modalAddress').value = '';
+
+            // Get the search term and use it if available
+            const searchTerm = document.getElementById('companySearch').value.trim();
+            if (searchTerm) {
+                // If search term looks like an INN (numeric, typically 9 digits)
+                if (/^\d+$/.test(searchTerm)) {
+                    document.getElementById('modalInn').value = searchTerm;
+                } else {
+                    document.getElementById('modalOrganization').value = searchTerm;
+                }
+            }
+
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('newCompanyModal'));
+            modal.show();
+        }
+
+        function createNewCompany() {
+            const organization = document.getElementById('modalOrganization').value.trim();
+            const inn = document.getElementById('modalInn').value.trim();
+
+            if (!organization || !inn) {
+                alert('Ташкилот номи ва СТИР рақами мажбурий');
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                organization: organization,
+                inn: inn,
+                representative: document.getElementById('modalRepresentative').value.trim(),
+                phone: document.getElementById('modalPhone').value.trim(),
+                service_phone: document.getElementById('modalServicePhone').value.trim(),
+                district: document.getElementById('modalDistrict').value.trim(),
+                address: document.getElementById('modalAddress').value.trim()
+            };
+
+            // Show loading spinner
+            const submitBtn = document.querySelector('#newCompanyModal .btn-primary');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML =
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Юкланмоқда...';
+            submitBtn.disabled = true;
+
+            // Create new company via AJAX
+            fetch('/api/company-management/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.error || 'Хатолик юз берди');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Close the modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('newCompanyModal'));
+                    modal.hide();
+
+                    // Select the newly created company
+                    selectCompany(data.id, data.organization, data.inn);
+
+                    // Show success message
+                    alert('Компания муваффақиятли яратилди!');
+                })
+                .catch(error => {
+                    console.error('Error creating company:', error);
+                    alert('Хатолик юз берди: ' + error.message);
+                })
+                .finally(() => {
+                    // Reset button state
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                });
         }
     </script>
 
@@ -245,14 +545,28 @@
             cursor: pointer;
             margin: 0px;
         }
+
+        #searchResults {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .alert-success {
+            position: relative;
+            padding-right: 40px;
+        }
+
+        .btn-close {
+            font-size: 0.8rem;
+        }
     </style>
 @endsection
+
 @section('scripts')
     <!-- Include Google Maps JavaScript API with Places Library -->
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAnUwWTguBMsDU8UrQ7Re-caVeYCmcHQY&libraries&libraries=places&callback=initMap"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAnUwWTguBMsDU8UrQ7Re-caVeYCmcHQY&libraries=places&callback=initMap"
         async defer></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 
     <script>
         // Wrap the entire script in an IIFE to avoid global scope pollution
@@ -271,8 +585,63 @@
                 initializeEventListeners();
                 initializeFileInputs();
                 validateFiles();
-                initMap();
+
+                // Initialize form state from old input
+                initializeFormState();
             });
+
+            function initializeFormState() {
+                // Initialize the visibility of conditional sections based on old input values
+                const doesExistYerTola = document.querySelector('input[name="does_exists_yer_tola"]:checked');
+                if (doesExistYerTola) {
+                    showExtraFields(doesExistYerTola.value === '1');
+                }
+
+                const doesCanUseYerTola = document.querySelector('input[name="does_can_we_use_yer_tola"]:checked');
+                if (doesCanUseYerTola) {
+                    showUseIjaraFields(doesCanUseYerTola.value === '1');
+                }
+
+                const doesYerTolaIjaragaBerishMumkin = document.querySelector(
+                    'input[name="does_yer_tola_ijaraga_berish_mumkin"]:checked');
+                if (doesYerTolaIjaragaBerishMumkin) {
+                    showUseFields(doesYerTolaIjaragaBerishMumkin.value === '1');
+                }
+
+                // Initialize management fields
+                toggleManagementFields();
+
+                // If company_management_id is set, try to load company info
+                const companyManagementId = document.getElementById('companyManagementId').value;
+                if (companyManagementId) {
+                    loadCompanyInfo(companyManagementId);
+                }
+            }
+
+            function loadCompanyInfo(companyId) {
+                if (!companyId) return;
+
+                fetch(`/api/company-management/${companyId}`, {
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Компания маълумотларини юклашда хатолик юз берди');
+                        }
+                        return response.json();
+                    })
+                    .then(company => {
+                        if (company && company.id) {
+                            selectCompany(company.id, company.organization, company.inn);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading company info:', error);
+                    });
+            }
 
             function initializeEventListeners() {
                 // Camera modal elements
@@ -284,7 +653,7 @@
                 // Form elements
                 const addFileBtn = document.getElementById('add-file-btn');
                 const submitBtn = document.getElementById('submit-btn');
-                const aktivForm = document.getElementById('aktiv-form');
+                const yerTolaForm = document.getElementById('yertola-form');
 
                 // Map elements
                 const findMyLocationBtn = document.getElementById('find-my-location');
@@ -302,12 +671,23 @@
                     addFileBtn.addEventListener('click', addFileInput);
                 }
 
-                if (aktivForm) {
-                    aktivForm.addEventListener('submit', handleFormSubmit);
+                if (yerTolaForm) {
+                    yerTolaForm.addEventListener('submit', handleFormSubmit);
                 }
 
                 if (findMyLocationBtn) {
                     findMyLocationBtn.addEventListener('click', findMyLocation);
+                }
+
+                // Add keypress event for company search
+                const companySearch = document.getElementById('companySearch');
+                if (companySearch) {
+                    companySearch.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            searchCompany();
+                        }
+                    });
                 }
             }
 
@@ -380,6 +760,10 @@
                 });
                 document.getElementById('cameraPreview').srcObject = null;
                 document.getElementById('saveButton').disabled = true;
+
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('cameraModal'));
+                modal.hide();
             }
 
             function addFileInput() {
@@ -449,9 +833,23 @@
                 const submitBtn = document.getElementById('submit-btn');
                 if (submitBtn.disabled) {
                     event.preventDefault();
+                    alert('Илтимос, камида 4 та расм юкланг!');
                 } else {
+                    // Check company management if needed
+                    const managedBy = document.getElementById('managedBy').value;
+                    if (managedBy === 'Kompaniya') {
+                        const companyId = document.getElementById('companyManagementId').value;
+                        if (!companyId) {
+                            event.preventDefault();
+                            alert('Илтимос, бошқарув компаниясини танланг ёки янгисини яратинг!');
+                            return;
+                        }
+                    }
+
+                    // Form is valid, proceed with submission
                     submitBtn.disabled = true;
-                    submitBtn.innerText = 'Юкланмоқда...';
+                    submitBtn.innerHTML =
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Юкланмоқда...';
                 }
             }
 
@@ -537,22 +935,17 @@
                     'https://cdn.dribbble.com/users/1651691/screenshots/5336717/404_v2.png';
 
                 const contentString = `
-              <div style="width:250px;">
-                  <h5>${aktiv.object_name}</h5>
-                  <img src="${mainImagePath}" alt="Marker Image" style="width:100%;height:auto;"/>
-                  <p><strong>Балансда сақловчи:</strong> ${aktiv.balance_keeper || 'N/A'}</p>
-                  <p><strong>Мўлжал:</strong> ${aktiv.location || 'N/A'}</p>
-                  <p><strong>Ер майдони (кв.м):</strong> ${aktiv.land_area || 'N/A'}</p>
-                  <p><strong>Бино майдони (кв.м):</strong> ${aktiv.building_area || 'N/A'}</p>
-                  <p><strong>Газ:</strong> ${aktiv.gas || 'N/A'}</p>
-                  <p><strong>Сув:</strong> ${aktiv.water || 'N/A'}</p>
-                  <p><strong>Электр:</strong> ${aktiv.electricity || 'N/A'}</p>
-                  <p><strong>Қўшимча маълумот:</strong> ${aktiv.additional_info || 'N/A'}</p>
-                  <p><strong>Қарта:</strong> <a href="${aktiv.geolokatsiya || '#'}" target="_blank">${
-              aktiv.geolokatsiya || 'N/A'
-            }</a></p>
-              </div>
-            `;
+                  <div style="width:250px;">
+                      <h5>${aktiv.object_name || 'Ер тўла'}</h5>
+                      <img src="${mainImagePath}" alt="Marker Image" style="width:100%;height:auto;"/>
+                      <p><strong>Балансда сақловчи:</strong> ${aktiv.balance_keeper || 'N/A'}</p>
+                      <p><strong>Мўлжал:</strong> ${aktiv.location || 'N/A'}</p>
+                      <p><strong>Қўшимча маълумот:</strong> ${aktiv.additional_info || 'N/A'}</p>
+                      <p><strong>Қарта:</strong> <a href="${aktiv.geolokatsiya || '#'}" target="_blank">${
+                  aktiv.geolokatsiya || 'N/A'
+                }</a></p>
+                  </div>
+                `;
 
                 infoWindow.setContent(contentString);
                 infoWindow.open(map, marker);

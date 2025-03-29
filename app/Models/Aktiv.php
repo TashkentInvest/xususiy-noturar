@@ -178,7 +178,9 @@ class Aktiv extends Model
         'oylik_ijara_narxi_yer_tola',
         'faoliyat_turi',
 
-        'does_yer_tola_ijaraga_berish_mumkin'
+        'does_yer_tola_ijaraga_berish_mumkin',
+
+        'company_management_id',
     ];
 
     public function files()
@@ -208,6 +210,6 @@ class Aktiv extends Model
 
     public function company_management()
     {
-        return $this->hasMany(CompanyManagement::class);
+        return $this->belongsTo(CompanyManagement::class);
     }
 }
