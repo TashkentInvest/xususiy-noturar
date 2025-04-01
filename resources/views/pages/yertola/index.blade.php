@@ -349,7 +349,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-muted">Ойлик ижара нархи</td>
+                                                            <td class="text-muted">Ижарага берилган қисмини ойлик ижара қиймати (сўм)</td>
                                                             <td class="fw-medium text-end">
                                                                 @if ($yertola->oylik_ijara_narxi_yer_tola)
                                                                     <span

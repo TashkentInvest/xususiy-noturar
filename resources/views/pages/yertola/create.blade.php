@@ -195,7 +195,7 @@
 
                         <!-- Ижара нархи -->
                         <div class="mb-3 mt-3">
-                            <label class="form-label fw-bold">💰 Ойлик ижара нархи:</label>
+                            <label class="form-label fw-bold">💰 Ижарага берилган қисмини ойлик ижара қиймати (сўм):</label>
                             <input type="number" name="oylik_ijara_narxi_yer_tola"
                                 class="form-control form-control-lg shadow-sm" placeholder="💵 Сум"
                                 value="{{ old('oylik_ijara_narxi_yer_tola') }}">
