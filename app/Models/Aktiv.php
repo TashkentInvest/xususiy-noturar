@@ -181,6 +181,7 @@ class Aktiv extends Model
         'does_yer_tola_ijaraga_berish_mumkin',
 
         'company_management_id',
+        'umumiy_maydoni_yer_tola'
     ];
 
     public function files()

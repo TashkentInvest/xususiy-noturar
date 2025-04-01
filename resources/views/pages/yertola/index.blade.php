@@ -297,6 +297,17 @@
                                                 <table class="table table-bordered table-striped table-sm mb-0">
                                                     <tbody>
                                                         <tr>
+                                                            <td class="text-muted" width="60%">Умумий ер майдони
+                                                            </td>
+                                                            <td class="fw-medium text-end">
+                                                                {{ $yertola->umumiy_maydoni_yer_tola ?? 'Маълумот йўқ' }}
+                                                                м²</td>
+
+                                                        </tr>
+                                                        <tr>
+
+
+
                                                             <td class="text-muted" width="60%">Ижарага берилган қисм
                                                             </td>
                                                             <td class="fw-medium text-end">

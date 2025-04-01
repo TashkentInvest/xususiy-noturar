@@ -48,6 +48,7 @@ class YerTolaController extends Controller
             'faoliyat_turi' => 'nullable|array', // Ensure it's an array
 
             'does_yer_tola_ijaraga_berish_mumkin' => 'nullable',
+            'umumiy_maydoni_yer_tola' => 'nullable',
             'files.*'          => 'required',
 
         ]);
@@ -122,6 +123,8 @@ class YerTolaController extends Controller
             'texnik_qismi_yer_tola' => 'nullable|numeric',
             'oylik_ijara_narxi_yer_tola' => 'nullable|numeric',
             'faoliyat_turi' => 'nullable|array',
+            'umumiy_maydoni_yer_tola' => 'nullable',
+
 
             'does_yer_tola_ijaraga_berish_mumkin' => 'nullable',
 

@@ -18,6 +18,7 @@ class UpdateAktivsTable extends Migration
             $table->boolean('does_exists_yer_tola')->default(false)->after('is_status_yer_tola');
             $table->boolean('does_can_we_use_yer_tola')->default(false)->after('does_exists_yer_tola');
             $table->boolean('does_ijaraga_berilgan_yer_tola')->default(false)->after('does_can_we_use_yer_tola');
+            $table->decimal('umumiy_maydoni_yer_tola', 10, 2)->nullable()->after('does_ijaraga_berilgan_yer_tola');
             $table->decimal('ijaraga_berilgan_qismi_yer_tola', 10, 2)->nullable()->after('does_ijaraga_berilgan_yer_tola');
             $table->decimal('ijaraga_berilmagan_qismi_yer_tola', 10, 2)->nullable()->after('ijaraga_berilgan_qismi_yer_tola');
             $table->decimal('texnik_qismi_yer_tola', 10, 2)->nullable()->after('ijaraga_berilmagan_qismi_yer_tola');
