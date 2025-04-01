@@ -122,7 +122,7 @@
                                         <div class="fw-bold mt-1">
                                             <i
                                                 class="fas fa-{{ isset($yertola->company_management) ? 'building text-primary' : 'user text-info' }} me-1"></i>
-                                            {{ isset($yertola->company_management) ? 'Компания' : 'Шахс' }}
+                                            {{ isset($yertola->company_management) ? 'Бошқарув сервис компанияси' : 'Шахс' }}
                                         </div>
                                     </div>
                                 </div>

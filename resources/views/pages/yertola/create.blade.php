@@ -97,7 +97,7 @@
                     <select name="managed_by" id="managedBy" class="form-select form-control-lg shadow-sm"
                         onchange="toggleManagementFields()">
                         <option value="">Танланг</option>
-                        <option value="Kompaniya" {{ old('managed_by') == 'Kompaniya' ? 'selected' : '' }}>🏢 Компания
+                        <option value="Kompaniya" {{ old('managed_by') == 'Kompaniya' ? 'selected' : '' }}>🏢 Бошқарув сервис компанияси
                         </option>
                         <option value="O'z o'zini boshqaradi"
                             {{ old('managed_by') == "O'z o'zini boshqaradi" ? 'selected' : '' }}>👤 Ўз-ўзини бошқаради
@@ -122,13 +122,13 @@
 
                         <!-- Selected company display -->
                         <div id="selectedCompany" class="alert alert-success mt-2" style="display: none;">
-                            <strong>Танланган компания:</strong> <span id="companyName"></span>
+                            <strong>Танланган бошқарув сервис компанияси:</strong> <span id="companyName"></span>
                             <button type="button" class="btn-close float-end" onclick="clearSelectedCompany()"></button>
                         </div>
 
                         <!-- Button to show modal for creating a new company -->
                         <button type="button" class="btn btn-outline-primary mt-2" onclick="showNewCompanyModal()">
-                            ➕ Янги компания яратиш
+                            ➕ Янги бошқарув сервис компаниясини яратиш
                         </button>
                     </div>
 
