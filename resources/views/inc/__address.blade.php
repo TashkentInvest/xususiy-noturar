@@ -33,7 +33,7 @@
                         <select class="form-control street_id select2" name="street_id" id="street_id" required>
                             <option value="">Мфй ни танланг</option>
                         </select>
-                        <button type="button" class="btn btn-primary ms-2" id="add_street_btn" 
+                        <button type="button" class="btn btn-primary ms-2" id="add_street_btn"
                             title="Мфй қошиш">+</button>
                     </div>
                     <span class="text-danger error-message" id="street_id_error"></span>
@@ -56,7 +56,7 @@
                 <div class="mb-3">
                     <label for="home_number" class="me-2">Уй рақами (Мажбурий эмас)</label>
                     <div class="d-flex align-items-end">
-                        <input class="form-control" name="home_number" type="text" id="home_number" />
+                        <input class="form-control" name="home_number" type="text" id="home_number" required />
                     </div>
                     <span class="text-danger error-message" id="home_number_error"></span>
                 </div>
@@ -72,7 +72,7 @@
             </div>
 
 
-          
+
 
         </div>
     </div>

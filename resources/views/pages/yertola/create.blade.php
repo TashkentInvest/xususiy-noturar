@@ -14,6 +14,10 @@
 
                     @include('inc.__address')
 
+                    <input type="number" name="umumiy_maydoni_yer_tola"
+                    class="form-control form-control-lg shadow-sm mb-2" placeholder="📏 Ертўланинг умумий майдони (м²)"
+                    value="{{ old('ijaraga_berilgan_qismi_yer_tola') }}">
+
                     <div class="row">
                         <!-- Right Column -->
                         <div class="col-lg-12 col-md-12 col-12 mt-3">
@@ -179,9 +183,7 @@
                     </div>
                     <!-- Агар фойдаланиш мумкин бўлса -->
                     <div id="useFields" class="mt-4" style="display: none;">
-                        <input type="number" name="umumiy_maydoni_yer_tola"
-                            class="form-control form-control-lg shadow-sm mb-2" placeholder="📏 Ертўланинг умумий майдони (м²)"
-                            value="{{ old('ijaraga_berilgan_qismi_yer_tola') }}">
+
                         <input type="number" name="ijaraga_berilgan_qismi_yer_tola"
                             class="form-control form-control-lg shadow-sm mb-2"
                             placeholder="📏 Ижарага берилган қисм (м²)"
