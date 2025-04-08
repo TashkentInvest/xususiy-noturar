@@ -14,18 +14,18 @@ class StoreAktivRequest extends FormRequest
     public function rules()
     {
         return [
-            'object_name'      => 'required',
-            'balance_keeper'   => 'required',
-            'location'         => 'required',
-            'land_area'        => 'required|numeric',
+            'object_name'      => 'nullable',
+            'balance_keeper'   => 'nullable',
+            'location'         => 'nullable',
+            'land_area'        => 'nullable',
             'building_area'    => 'nullable',
-            'gas'              => 'required|string',
-            'water'            => 'required|string',
-            'electricity'      => 'required|string',
+            'gas'              => 'required',
+            'water'            => 'required',
+            'electricity'      => 'required',
             'additional_info'  => 'nullable',
-            'geolokatsiya'     => 'required|string',
-            'latitude'         => 'required|numeric',
-            'longitude'        => 'required|numeric',
+            'geolokatsiya'     => 'nullable',
+            'latitude'         => 'nullable',
+            'longitude'        => 'nullable',
             'kadastr_raqami'   => 'nullable',
             'files.*'          => 'required',
             'files' => 'required|array|min:4', // Enforces at least 4 files
@@ -36,11 +36,11 @@ class StoreAktivRequest extends FormRequest
             'apartment_number'          => 'nullable',
 
             'user_id'          => 'nullable',
-            'building_type' => 'nullable|in:yer,kopQavatliUy,AlohidaSavdoDokoni',
+            'building_type' => 'nullable',
 
-            'kadastr_pdf'      => 'nullable|file',
-            'ijara_shartnoma_nusxasi_pdf' => 'nullable|file',
-            'qoshimcha_fayllar_pdf' => 'nullable|file',
+            'kadastr_pdf'      => 'nullable',
+            'ijara_shartnoma_nusxasi_pdf' => 'nullable',
+            'qoshimcha_fayllar_pdf' => 'nullable',
 
             'document_type' => 'nullable',
             'reason_not_active' => 'nullable',
@@ -59,6 +59,9 @@ class StoreAktivRequest extends FormRequest
             'ijara_summa_fakt' => 'nullable',
             'ijaraga_berishga_tayyorligi' => 'nullable',
             'faoliyat_xolati' => 'nullable',
+
+            'faoliyat_turi' => 'nullable', // Ensure it's an array
+
         ];
     }
 }

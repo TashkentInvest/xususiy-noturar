@@ -6,6 +6,7 @@ use App\Exports\AktivsExport;
 use App\Http\Requests\StoreAktivRequest;
 use App\Models\Aktiv;
 use App\Models\District;
+use App\Models\File;
 use App\Models\Regions;
 use App\Models\Street;
 use App\Models\SubStreet;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AktivController extends Controller
 {
@@ -44,7 +46,7 @@ class AktivController extends Controller
 
         // Finally, paginate the results
         $aktivs = $query->orderBy('updated_at', 'desc')
-            ->where('is_status_yer_tola','!=', 1)
+            ->where('is_status_yer_tola', '!=', 1)
             ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
             ->paginate(15)
             ->appends($request->query());
@@ -148,63 +150,217 @@ class AktivController extends Controller
 
         return view('pages.aktiv.create', compact('aktivs', 'regions'));
     }
-    public function store(StoreAktivRequest $request)
+    /**
+     * Store a newly created Aktiv in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        // Start a database transaction
-        DB::beginTransaction();
-
         try {
-            $data = $request->except('files', 'kadastr_pdf', 'ijara_shartnoma_nusxasi_pdf', 'qoshimcha_fayllar_pdf');
-            $data['user_id'] = auth()->id(); // Automatically set the authenticated user's ID
+            // Validate the request data
+            $request->validate([
+                'object_name'      => 'nullable',
+                'balance_keeper'   => 'nullable',
+                'location'         => 'nullable',
+                'land_area'        => 'nullable',
+                'building_area'    => 'nullable',
+                'gas'              => 'nullable',
+                'water'            => 'nullable',
+                'electricity'      => 'nullable',
+                'additional_info'  => 'nullable',
+                'geolokatsiya'     => 'nullable',
+                'latitude'         => 'nullable',
+                'longitude'        => 'nullable',
+                'kadastr_raqami'   => 'nullable',
+                'files.*'          => 'nullable',
+                'files'            => 'nullable', // Enforces at least 4 files
+                'sub_street_id'    => 'nullable',
+                'street_id'        => 'required',
+                'home_number'      => 'nullable',
+                'apartment_number' => 'nullable',
+                'user_id'          => 'nullable',
+                'building_type'    => 'nullable',
+                'kadastr_pdf'      => 'nullable',
+                'ijara_shartnoma_nusxasi_pdf' => 'nullable',
+                'qoshimcha_fayllar_pdf' => 'nullable',
+                'document_type'    => 'nullable',
+                'reason_not_active' => 'nullable',
+                'ready_for_rent'   => 'nullable',
+                'rental_agreement_status' => 'nullable',
+                'unused_duration'  => 'nullable',
+                'provided_assistance' => 'nullable',
+                'start_date'       => 'nullable',
+                'additional_notes' => 'nullable',
+                'working_24_7'     => 'nullable',
+                'owner'            => 'nullable',
+                'stir'             => 'nullable',
+                'object_type'      => 'nullable',
+                'tenant_phone_number' => 'nullable',
+                'ijara_summa_wanted' => 'nullable',
+                'ijara_summa_fakt' => 'nullable',
+                'ijaraga_berishga_tayyorligi' => 'nullable',
+                'faoliyat_xolati'  => 'nullable',
+                'faoliyat_turi'    => 'nullable',
+            ]);
 
-            // Create the Aktiv record
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Extract data excluding files
+            $data = $request->except([
+                'files',
+                'kadastr_pdf',
+                'ijara_shartnoma_nusxasi_pdf',
+                'qoshimcha_fayllar_pdf'
+            ]);
+
+            // Set user_id from authenticated user
+            $data['user_id'] = auth()->id();
+
+            // Convert faoliyat_turi array to JSON if it exists
+            if ($request->has('faoliyat_turi') && is_array($request->faoliyat_turi)) {
+                $data['faoliyat_turi'] = json_encode($request->faoliyat_turi);
+            }
+
+            // Create the Aktiv
             $aktiv = Aktiv::create($data);
 
-            // Handle file uploads
+            // Log success with Aktiv ID for debugging
+            Log::info('Aktiv created with ID: ' . $aktiv->id);
+
+            // Handle file uploads using the newly implemented handleFiles method
             $this->handleFiles($request, $aktiv);
 
             // Commit the transaction
             DB::commit();
 
-            return redirect()->route('aktivs.index')->with('success', 'Aktiv created successfully.');
-        } catch (\Exception $e) {
-            // Rollback the transaction in case of failure
+            // Redirect with success message
+            return redirect()->route('aktivs.index')->with('success', 'Актив муваффақиятли яратилди.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Validation errors
             DB::rollBack();
-            return redirect()->back()->with('error', 'There was an error creating the Aktiv. Please try again.');
+            Log::error('Validation error creating Aktiv: ' . json_encode($e->errors()));
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            // Other exceptions
+            DB::rollBack();
+            Log::error('Error creating Aktiv: ' . $e->getMessage() . ' - Line: ' . $e->getLine() . ' - File: ' . $e->getFile());
+            return redirect()->back()
+                ->with('error', 'Актив яратишда хатолик юз берди. Илтимос, қайта уриниб кўринг.')
+                ->withInput();
         }
     }
 
-    private function handleFiles($request, $aktiv)
+    /**
+     * Handle file uploads for an Aktiv
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Aktiv  $aktiv
+     * @return void
+     */
+    private function handleFiles(Request $request, Aktiv $aktiv)
     {
-        // Process image files
-        if ($request->hasFile('files')) {
-            $filePaths = [];
-            foreach ($request->file('files') as $file) {
-                $filePaths[] = [
-                    'path' => $file->store('assets', 'public'),
-                    'aktiv_id' => $aktiv->id,
-                ];
+        try {
+            // Handle primary image files (required, minimum 4)
+            if ($request->hasFile('files')) {
+                $fileCount = 0;
+
+                foreach ($request->file('files') as $file) {
+                    // Validate file is valid
+                    if (!$file->isValid()) {
+                        Log::warning('Invalid file uploaded for Aktiv ID: ' . $aktiv->id);
+                        continue;
+                    }
+
+                    // Generate a unique filename
+                    $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                    // Define the storage path
+                    $path = 'aktivs/' . $aktiv->id . '/images';
+
+                    // Store the file
+                    $filePath = $file->storeAs('public/' . $path, $filename);
+
+                    if (!$filePath) {
+                        Log::error('Failed to store file for Aktiv ID: ' . $aktiv->id);
+                        continue;
+                    }
+
+                    // Create file record with only the fields present in your schema
+                    File::create([
+                        'aktiv_id' => $aktiv->id,
+                        'path' => $path . '/' . $filename
+                    ]);
+
+                    $fileCount++;
+                }
+
+                Log::info('Successfully uploaded ' . $fileCount . ' files for Aktiv ID: ' . $aktiv->id);
             }
-            // Use batch insert for file paths
-            $aktiv->files()->insert($filePaths);
-        }
 
-        // Process other files
-        if ($request->hasFile('kadastr_pdf')) {
-            $aktiv->kadastr_pdf = $request->file('kadastr_pdf')->store('uploads/aktivs', 'public');
-        }
+            // Handle kadastr PDF file
+            if ($request->hasFile('kadastr_pdf') && $request->file('kadastr_pdf')->isValid()) {
+                $file = $request->file('kadastr_pdf');
+                $filename = 'kadastr_' . Str::uuid() . '.pdf';
+                $path = 'aktivs/' . $aktiv->id . '/documents';
 
-        if ($request->hasFile('ijara_shartnoma_nusxasi_pdf')) {
-            $aktiv->ijara_shartnoma_nusxasi_pdf = $request->file('ijara_shartnoma_nusxasi_pdf')->store('uploads/aktivs', 'public');
-        }
+                $filePath = $file->storeAs('public/' . $path, $filename);
 
-        if ($request->hasFile('qoshimcha_fayllar_pdf')) {
-            $aktiv->qoshimcha_fayllar_pdf = $request->file('qoshimcha_fayllar_pdf')->store('uploads/aktivs', 'public');
-        }
+                if ($filePath) {
+                    $aktiv->update([
+                        'kadastr_pdf' => $path . '/' . $filename
+                    ]);
+                    Log::info('Kadastr PDF uploaded for Aktiv ID: ' . $aktiv->id);
+                } else {
+                    Log::error('Failed to store kadastr PDF for Aktiv ID: ' . $aktiv->id);
+                }
+            }
 
-        // Save the aktiv model after all file paths are set
-        $aktiv->save();
+            // Handle ijara shartnoma PDF file
+            if ($request->hasFile('ijara_shartnoma_nusxasi_pdf') && $request->file('ijara_shartnoma_nusxasi_pdf')->isValid()) {
+                $file = $request->file('ijara_shartnoma_nusxasi_pdf');
+                $filename = 'ijara_shartnoma_' . Str::uuid() . '.pdf';
+                $path = 'aktivs/' . $aktiv->id . '/documents';
+
+                $filePath = $file->storeAs('public/' . $path, $filename);
+
+                if ($filePath) {
+                    $aktiv->update([
+                        'ijara_shartnoma_nusxasi_pdf' => $path . '/' . $filename
+                    ]);
+                    Log::info('Ijara shartnoma PDF uploaded for Aktiv ID: ' . $aktiv->id);
+                } else {
+                    Log::error('Failed to store ijara shartnoma PDF for Aktiv ID: ' . $aktiv->id);
+                }
+            }
+
+            // Handle qoshimcha fayllar PDF file
+            if ($request->hasFile('qoshimcha_fayllar_pdf') && $request->file('qoshimcha_fayllar_pdf')->isValid()) {
+                $file = $request->file('qoshimcha_fayllar_pdf');
+                $filename = 'qoshimcha_fayllar_' . Str::uuid() . '.pdf';
+                $path = 'aktivs/' . $aktiv->id . '/documents';
+
+                $filePath = $file->storeAs('public/' . $path, $filename);
+
+                if ($filePath) {
+                    $aktiv->update([
+                        'qoshimcha_fayllar_pdf' => $path . '/' . $filename
+                    ]);
+                    Log::info('Qoshimcha fayllar PDF uploaded for Aktiv ID: ' . $aktiv->id);
+                } else {
+                    Log::error('Failed to store qoshimcha fayllar PDF for Aktiv ID: ' . $aktiv->id);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Error handling files for Aktiv ID ' . $aktiv->id . ': ' . $e->getMessage());
+            throw $e; // Re-throw to be caught by the parent try-catch
+        }
     }
+
+    // Removed duplicate handleFiles method to avoid redeclaration error
+
     public function show(Aktiv $aktiv)
     {
         // Check if the user can view this Aktiv (for authorization)
@@ -403,6 +559,8 @@ class AktivController extends Controller
             'ijara_summa_fakt' => 'nullable',
             'ijaraga_berishga_tayyorligi' => 'nullable',
             'faoliyat_xolati' => 'nullable',
+            'faoliyat_turi' => 'nullable|array', // Ensure it's an array
+
 
         ]);
 

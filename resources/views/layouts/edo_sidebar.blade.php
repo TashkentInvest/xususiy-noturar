@@ -27,7 +27,7 @@
             <li class="nav-item">
                 <a href="{{ route('aktivs.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="layout"></i>
-                    <span class="link-title">Компаниялар</span>
+                    <span class="link-title">Нотурарлар</span>
                 </a>
             </li>
 
