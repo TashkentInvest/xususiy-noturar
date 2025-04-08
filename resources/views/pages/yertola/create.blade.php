@@ -14,9 +14,6 @@
 
                     @include('inc.__address')
 
-                    <input type="number" name="umumiy_maydoni_yer_tola"
-                    class="form-control form-control-lg shadow-sm mb-2" placeholder="📏 Ертўланинг умумий майдони (м²)"
-                    value="{{ old('ijaraga_berilgan_qismi_yer_tola') }}">
 
                     <div class="row">
                         <!-- Right Column -->
@@ -97,11 +94,17 @@
 
                 <!-- Агар мавжуд бўлса -->
                 <div id="extraFields" class="mb-4 p-3 border rounded bg-light shadow-sm" style="display: none;">
+                    <label class="form-label fw-bold">📏 Ертўланинг умумий майдони (м²):</label>
+
+                    <input type="number" name="umumiy_maydoni_yer_tola" class="form-control form-control-lg shadow-sm mb-2"
+                        placeholder="📏 Ертўланинг умумий майдони (м²)"
+                        value="{{ old('ijaraga_berilgan_qismi_yer_tola') }}">
                     <label class="form-label fw-bold">🔧 Бошқарув шакли:</label>
                     <select name="managed_by" id="managedBy" class="form-select form-control-lg shadow-sm"
                         onchange="toggleManagementFields()">
                         <option value="">Танланг</option>
-                        <option value="Kompaniya" {{ old('managed_by') == 'Kompaniya' ? 'selected' : '' }}>🏢 Бошқарув сервис компанияси
+                        <option value="Kompaniya" {{ old('managed_by') == 'Kompaniya' ? 'selected' : '' }}>🏢 Бошқарув
+                            сервис компанияси
                         </option>
                         <option value="O'z o'zini boshqaradi"
                             {{ old('managed_by') == "O'z o'zini boshqaradi" ? 'selected' : '' }}>👤 Ўз-ўзини бошқаради
@@ -197,7 +200,8 @@
 
                         <!-- Ижара нархи -->
                         <div class="mb-3 mt-3">
-                            <label class="form-label fw-bold">💰 Ижарага берилган қисмини ойлик ижара қиймати (сўм):</label>
+                            <label class="form-label fw-bold">💰 Ижарага берилган қисмини ойлик ижара қиймати
+                                (сўм):</label>
                             <input type="number" name="oylik_ijara_narxi_yer_tola"
                                 class="form-control form-control-lg shadow-sm" placeholder="💵 Сум"
                                 value="{{ old('oylik_ijara_narxi_yer_tola') }}">
