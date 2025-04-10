@@ -24,7 +24,7 @@ class UserController extends Controller
             ->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
                 $query->where('id', '!=', 1);
             })
-            ->paginate(20);
+            ->paginate(200);
     
         return view('pages.user.index', compact('users'));
     }
