@@ -22,44 +22,53 @@ class AktivController extends Controller
 {
     public function index(Request $request)
     {
-        $user_id = $request->input('user_id');
-        $district_id = $request->input('district_id');
         $user = auth()->user();
         $userRole = $user->roles[0]->name ?? '';
-        $userDistrictId = $user->district_id; // Manager's assigned district
-        $districts = District::get();
+        $districts = District::all();
 
-        // Build the query
-        $query = Aktiv::deepFilters();
+        $query = Aktiv::query()->with(['street.district', 'user', 'files']);
 
-        // Apply filters based on the user's role
         if ($userRole === 'Employee') {
-            // If the user is an Employee, show only aktivs where the street matches the user's assigned street
+            // Employees only see aktivs assigned to their streets
             $query->whereHas('street', function ($q) use ($user) {
                 $q->where('user_id', $user->id);
             });
         }
 
-        // Counts for Super Admin (no restrictions)
+        if ($userRole === 'Manager') {
+            // Managers see all aktivs in their own district
+            $query->whereHas('street.district', function ($q) use ($user) {
+                $q->where('id', $user->district_id);
+            });
+        }
+
+        // Optional filters from query string
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        if ($request->filled('district_id')) {
+            $query->whereHas('street.district', function ($q) use ($request) {
+                $q->where('id', $request->district_id);
+            });
+        }
+
+        // Statistics
         $noturarBinoCount = $query->clone()->where('building_type', 'AlohidaSavdoDokoni')->count();
         $turarBinoCount = $query->clone()->where('building_type', 'kopQavatliUy')->count();
 
-        // Finally, paginate the results
         $aktivs = $query->orderBy('updated_at', 'desc')
             ->where('is_status_yer_tola', '!=', 1)
-            ->with(['street.district', 'user', 'files'])  // Adjusted to substreet
             ->paginate(15)
             ->appends($request->query());
 
-        \Log::debug('SQL Query:', [
-            'query' => $query->toSql(),
-            'bindings' => $query->getBindings(),
-            'request_data' => $request->all()
-        ]);
-
-        return view('pages.aktiv.index', compact('aktivs', 'noturarBinoCount', 'turarBinoCount', 'districts'));
+        return view('pages.aktiv.index', compact(
+            'aktivs',
+            'noturarBinoCount',
+            'turarBinoCount',
+            'districts'
+        ));
     }
-
     public function userTumanlarCounts(Request $request)
     {
         $user_id = $request->input('user_id');

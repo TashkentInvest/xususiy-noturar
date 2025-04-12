@@ -10,10 +10,29 @@ use App\Models\Street;
 
 class YerTolaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $user = auth()->user();
+        $userRole = $user->roles[0]->name ?? '';
 
-        $yertolas = Aktiv::with('files')->where('is_status_yer_tola', 1)->get();
+        $query = Aktiv::query()
+            ->with('files')
+            ->where('is_status_yer_tola', 1);
+
+        if ($userRole === 'Employee') {
+            $query->whereHas('street', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+        }
+
+        if ($userRole === 'Manager') {
+            $query->whereHas('street.district', function ($q) use ($user) {
+                $q->where('id', $user->district_id);
+            });
+        }
+
+        $yertolas = $query->get();
+
         return view('pages.yertola.index', compact('yertolas'));
     }
 
