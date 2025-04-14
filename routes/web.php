@@ -34,6 +34,10 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/statistics', [HomeController::class, 'statistics'])->name('statistics.index');
+// Add these lines to your existing routes file
+Route::get('/statistics/second', [App\Http\Controllers\StatisticsController::class, 'index'])->name('statistics.second');
+Route::post('/statistics/filtered-data', [App\Http\Controllers\StatisticsController::class, 'getFilteredData'])->name('statistics.filteredData');
+
 // Web pages
 Route::group(['middleware' => ['auth', 'checkUserRole']], function () {
 
@@ -236,3 +240,4 @@ Route::post('/import-users', [AddNewUsersController::class, 'importUsers'])->nam
 
 Route::get('/aktiv/export/csv', [AktivController::class, 'exportCSV'])->name('aktiv.export.csv');
 Route::get('/yertola/export/csv', [YerTolaController::class, 'exportCSV'])->name('yertola.export.csv');
+

@@ -16,13 +16,21 @@
 
             <li class="nav-item nav-category">Dashboard</li>
 
+            @if (auth()->user()->roles->first()->name == 'Super Admin')
+                <li class="nav-item">
+                    <a href="{{ route('statistics.second') }}" class="nav-link">
+                        <i class="link-icon" data-feather="home"></i>
+                        <span class="link-title">Мониторинг</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="{{ route('statistics.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="home"></i>
-                    <span class="link-title">Статистика</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{ route('statistics.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="home"></i>
+                        <span class="link-title">Статистика</span>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{{ route('aktivs.index') }}" class="nav-link">
