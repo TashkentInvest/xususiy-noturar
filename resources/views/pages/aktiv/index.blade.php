@@ -46,6 +46,15 @@
                 </div>
                 <span class="text-danger error-message" id="street_id_error"></span>
             </div>
+
+            <div class="col-md-3 col-6 mt-2">
+                <select class="form-control form-control-sm" name="updated_status">
+                    <option value="">Янгиланган ҳолати</option>
+                    <option value="updated" {{ request('updated_status') == 'updated' ? 'selected' : '' }}>Янгиланди</option>
+                    <option value="not_updated" {{ request('updated_status') == 'not_updated' ? 'selected' : '' }}>Янгиланмаган</option>
+                </select>
+            </div>
+
             <div class="col-md-2 mt-2 col-6">
                 <button type="submit" name="filter" class="btn btn-primary btn-sm w-100">Филтрлаш</button>
             </div>
@@ -174,6 +183,8 @@
                         <th>Уй</th>
                         <th>24/7</th>
                         <th>Кадастр рақами</th>
+                        <th>Статус</th>
+
                         <th>Ҳаракатлар</th>
                     </tr>
                 </thead>
@@ -200,6 +211,18 @@
                             <td>{{ $aktiv->home_number ?? 'Маълумот йўқ' }}</td>
                             <td>{{ $aktiv->working_24_7 ? 'Ха' : 'Йўқ' }}</td>
                             <td>{{ $aktiv->kadastr_raqami ?? 'Маълумот йўқ' }}</td>
+                            <td>
+                                @if ($aktiv->created_at->eq($aktiv->updated_at))
+                                    <span class="text-warning" title="Янгиланмаган">
+                                        <i data-feather="clock"></i>
+                                    </span>
+                                @else
+                                    <span class="text-success" title="Янгиланди">
+                                        <i data-feather="check-circle"></i>
+                                    </span>
+                                @endif
+                            </td>
+
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     <a href="{{ route('aktivs.show', $aktiv) }}" class="btn btn-outline-secondary btn-sm"

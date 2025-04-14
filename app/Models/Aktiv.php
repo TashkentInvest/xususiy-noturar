@@ -12,44 +12,54 @@ class Aktiv extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public static function deepFilters()
-    {
-        $query = self::query();
-        $request = request();
+    // public static function deepFilters()
+    // {
+    //     $query = self::query();
+    //     $request = request();
+    //     dd($request);
 
-        try {
-            // Generic filters for fillable attributes
-            foreach ((new self())->fillable as $item) {
-                if ($request->filled($item)) {
-                    $operator = $request->input($item . '_operator', 'like');
-                    $value = $request->input($item);
 
-                    if ($operator === 'like') {
-                        $value = "%{$value}%";
-                    }
+    //     try {
+    //         // Generic filters for fillable attributes
+    //         foreach ((new self())->fillable as $item) {
+    //             if ($request->filled($item)) {
+    //                 $operator = $request->input($item . '_operator', 'like');
+    //                 $value = $request->input($item);
 
-                    $query->where($item, $operator, $value);
-                }
-            }
+    //                 if ($operator === 'like') {
+    //                     $value = "%{$value}%";
+    //                 }
 
-            // Custom filter for district_id
-            if ($request->filled('district_id')) {
-                $query->whereHas('street.district', function ($q) use ($request) {
-                    $q->where('districts.id', $request->input('district_id'));
-                });
-            }
+    //                 $query->where($item, $operator, $value);
+    //             }
+    //         }
 
-            if ($request->filled('street_id')) {
-                $query->whereHas('street.district.street', function ($q) use ($request) {
-                    $q->where('streets.id', $request->input('street_id'));
-                });
-            }
-        } catch (\Exception $e) {
-            \Log::error('Error in deepFilters:', ['error' => $e->getMessage()]);
-        }
+    //         // Custom filter for district_id
+    //         if ($request->filled('district_id')) {
+    //             $query->whereHas('street.district', function ($q) use ($request) {
+    //                 $q->where('districts.id', $request->input('district_id'));
+    //             });
+    //         }
 
-        return $query;
-    }
+    //         if ($request->filled('street_id')) {
+    //             $query->whereHas('street.district.street', function ($q) use ($request) {
+    //                 $q->where('streets.id', $request->input('street_id'));
+    //             });
+    //         }
+
+    //         if ($request->filled('updated_status')) {
+    //             if ($request->updated_status === 'updated') {
+    //                 $query->whereColumn('created_at', '<', 'updated_at');
+    //             } elseif ($request->updated_status === 'not_updated') {
+    //                 $query->whereColumn('created_at', '=', 'updated_at');
+    //             }
+    //         }
+    //     } catch (\Exception $e) {
+    //         \Log::error('Error in deepFilters:', ['error' => $e->getMessage()]);
+    //     }
+
+    //     return $query;
+    // }
 
     // public static function deepFilters()
     // {
@@ -122,6 +132,50 @@ class Aktiv extends Model
     // }
 
 
+    public function scopeDeepFilters($query)
+    {
+        $request = request();
+
+        try {
+            foreach ((new self())->getFillable() as $item) {
+                if ($request->filled($item)) {
+                    $operator = $request->input($item . '_operator', 'like');
+                    $value = $request->input($item);
+
+                    if ($operator === 'like') {
+                        $value = "%{$value}%";
+                    }
+
+                    $query->where($item, $operator, $value);
+                }
+            }
+
+            if ($request->filled('district_id')) {
+                $query->whereHas('street.district', function ($q) use ($request) {
+                    $q->where('districts.id', $request->input('district_id'));
+                });
+            }
+
+            if ($request->filled('street_id')) {
+                $query->whereHas('street.district.street', function ($q) use ($request) {
+                    $q->where('streets.id', $request->input('street_id'));
+                });
+            }
+
+            // ✅ Filter by update status
+            if ($request->filled('updated_status')) {
+                if ($request->input('updated_status') === 'updated') {
+                    $query->whereColumn('created_at', '<', 'updated_at');
+                } elseif ($request->input('updated_status') === 'not_updated') {
+                    $query->whereColumn('created_at', '=', 'updated_at');
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error in deepFilters:', ['error' => $e->getMessage()]);
+        }
+
+        return $query;
+    }
 
     protected $fillable = [
         'user_id',

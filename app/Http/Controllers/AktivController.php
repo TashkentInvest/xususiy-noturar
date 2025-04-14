@@ -57,7 +57,8 @@ class AktivController extends Controller
         $noturarBinoCount = $query->clone()->where('building_type', 'AlohidaSavdoDokoni')->count();
         $turarBinoCount = $query->clone()->where('building_type', 'kopQavatliUy')->count();
 
-        $aktivs = $query->orderBy('updated_at', 'desc')
+        $aktivs = $query->deepFilters() // ✅ no error now
+            ->orderBy('updated_at', 'desc')
             ->where('is_status_yer_tola', '!=', 1)
             ->paginate(15)
             ->appends($request->query());
