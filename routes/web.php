@@ -233,3 +233,6 @@ Route::get('/generate/doc', [FileController::class, 'index'])->name('generate_do
 
 
 Route::post('/import-users', [AddNewUsersController::class, 'importUsers'])->name('import.users');
+
+Route::get('/aktiv/export/csv', [AktivController::class, 'exportCSV'])->name('aktiv.export.csv');
+Route::get('/yertola/export/csv', [YerTolaController::class, 'exportCSV'])->name('yertola.export.csv');

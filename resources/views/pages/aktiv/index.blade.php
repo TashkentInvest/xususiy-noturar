@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
+{{--
+    <a href="{{ route('aktiv.export.csv') }}" class="btn btn-success">⬇ Фаолиятлар (CSV)</a>
+
+    <a href="{{ route('yertola.export.csv') }}" class="btn btn-success">⬇ Ер тўлалар (CSV)</a> --}}
+
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="h6 text-muted">Активлар сони: <span class="text-primary">{{ $aktivs->total() ?? '' }}</span></h2>
         <a href="{{ route('aktivs.create') }}" class="btn btn-primary btn-sm d-flex align-items-center">
@@ -29,17 +34,17 @@
                         </option>
                     @endforeach
                 </select>
-                
+
                 <span class="text-danger error-message" id="district_id_error"></span>
             </div>
 
             <div class="col-md-3 col-6">
-                    <div class="d-flex align-items-end">
-                        <select class="form-control select2 street_id w-100" name="street_id" id="street_id">
-                            <option value="">Мфй ни танланг</option>
-                        </select>
-                    </div>
-                    <span class="text-danger error-message" id="street_id_error"></span>
+                <div class="d-flex align-items-end">
+                    <select class="form-control select2 street_id w-100" name="street_id" id="street_id">
+                        <option value="">Мфй ни танланг</option>
+                    </select>
+                </div>
+                <span class="text-danger error-message" id="street_id_error"></span>
             </div>
             <div class="col-md-2 mt-2 col-6">
                 <button type="submit" name="filter" class="btn btn-primary btn-sm w-100">Филтрлаш</button>
@@ -112,9 +117,9 @@
                     }
                 });
 
-             
+
             });
-        </script> 
+        </script>
 
     </form>
 

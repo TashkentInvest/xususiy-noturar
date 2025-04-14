@@ -31,7 +31,7 @@ class YerTolaController extends Controller
             });
         }
 
-        $yertolas = $query->get();
+        $yertolas = $query->paginate(15);
 
         return view('pages.yertola.index', compact('yertolas'));
     }
@@ -171,4 +171,54 @@ class YerTolaController extends Controller
 
         return redirect()->route('yertola.index')->with('success', 'Yer Tola deleted successfully.');
     }
+
+    public function exportCSV()
+    {
+        $user = auth()->user();
+        $districtId = $user->district_id;
+
+        $fileName = 'ер_тўлалар_' . now()->format('Y_m_d_H_i_s') . '.csv';
+
+        $yertolas = Aktiv::where('is_status_yer_tola', 1)
+            ->whereHas('street', fn ($q) => $q->where('district_id', $districtId))
+            ->with('street')
+            ->get();
+
+        $columns = [
+            'Объект номи',
+            'Манзил',
+            'Умумий ер тўла майдони',
+            'Ижарага берилган қисми',
+            'Ижарага берилмаган қисми',
+            'Ойлик ижара нархи',
+            'Фаолият тури',
+            'Ижарага бериш мумкинми',
+        ];
+
+        $callback = function () use ($yertolas, $columns) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, $columns);
+
+            foreach ($yertolas as $item) {
+                fputcsv($handle, [
+                    $item->object_name,
+                    $item->location,
+                    $item->umumiy_maydoni_yer_tola,
+                    $item->ijaraga_berilgan_qismi_yer_tola,
+                    $item->ijaraga_berilmagan_qismi_yer_tola,
+                    $item->oylik_ijara_narxi_yer_tola,
+                    implode(', ', (array)$item->faoliyat_turi),
+                    $item->does_yer_tola_ijaraga_berish_mumkin ? 'Ҳа' : 'Йўқ',
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->streamDownload($callback, $fileName, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ]);
+    }
+
 }

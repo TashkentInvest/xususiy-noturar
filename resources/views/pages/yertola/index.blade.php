@@ -297,7 +297,8 @@
                                                 <table class="table table-bordered table-striped table-sm mb-0">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="text-muted" width="60%">Ертўланинг умумий майдони
+                                                            <td class="text-muted" width="60%">Ертўланинг умумий
+                                                                майдони
                                                             </td>
                                                             <td class="fw-medium text-end">
                                                                 {{ $yertola->umumiy_maydoni_yer_tola ?? 'Маълумот йўқ' }}
@@ -349,7 +350,8 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-muted">Ижарага берилган қисмини ойлик ижара қиймати (сўм)</td>
+                                                            <td class="text-muted">Ижарага берилган қисмини ойлик ижара
+                                                                қиймати (сўм)</td>
                                                             <td class="fw-medium text-end">
                                                                 @if ($yertola->oylik_ijara_narxi_yer_tola)
                                                                     <span
@@ -572,6 +574,12 @@
             </div>
         </div>
     @endforeach
+
+    <div class="d-flex justify-content-center mt-4">
+
+        {{ $yertolas->links() }}
+    </div>
+
 @endsection
 
 @section('styles')
