@@ -23,9 +23,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($yertolas as $yertola)
+                            @foreach ($yertolas as $index => $yertola)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $yertolas->total() - (($yertolas->currentPage() - 1) * $yertolas->perPage() + $index) }}</td>
                                     <td class="text-start">
                                         {{ $yertola->subStreet->district->name_uz ?? 'Маълумот йўқ' }} т.,
                                         {{ $yertola->street->name ?? 'Маълумот йўқ' }} МФЙ,

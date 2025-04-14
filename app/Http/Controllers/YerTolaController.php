@@ -17,6 +17,7 @@ class YerTolaController extends Controller
 
         $query = Aktiv::query()
             ->with('files')
+            ->orderByDesc('id')
             ->where('is_status_yer_tola', 1);
 
         if ($userRole === 'Employee') {
