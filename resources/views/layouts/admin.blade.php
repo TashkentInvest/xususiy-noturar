@@ -134,11 +134,11 @@
                 .typeahead,
                 .tt-query,
                 .tt-hint {
-                   
+
                     padding: 0 !important;
                     /* font-size: 0.875rem; */
-                    
-             
+
+
                 }
             </style>
 

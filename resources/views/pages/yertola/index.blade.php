@@ -16,6 +16,7 @@
                         <thead class="table-primary">
                             <tr>
                                 <th>#</th>
+                                <th>Global id</th>
                                 <th class="text-start" style="min-width: 250px;">📍 Манзил</th>
                                 <th>🏠 Ер тўла</th>
                                 <th>✅ Фойдаланиш</th>
@@ -26,6 +27,7 @@
                             @foreach ($yertolas as $index => $yertola)
                                 <tr>
                                     <td>{{ $yertolas->total() - (($yertolas->currentPage() - 1) * $yertolas->perPage() + $index) }}</td>
+                                    <td>{{$yertola->id}}</td>
                                     <td class="text-start">
                                         {{ $yertola->subStreet->district->name_uz ?? 'Маълумот йўқ' }} т.,
                                         {{ $yertola->street->name ?? 'Маълумот йўқ' }} МФЙ,
