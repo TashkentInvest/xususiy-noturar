@@ -149,7 +149,7 @@
                         button.disabled = false;
                         buttonText.textContent = 'Объектларни Excel форматида юклаб олиш';
                         spinner.classList.add('d-none');
-                    }, 30000);
+                    }, 300000);
                 }
             </script>
 
