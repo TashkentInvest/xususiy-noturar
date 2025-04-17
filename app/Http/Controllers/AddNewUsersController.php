@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AktivsExport;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use Exception;
+use Illuminate\Support\Facades\Request;
 use Spatie\Permission\Models\Permission;
 
 class AddNewUsersController extends Controller
@@ -65,7 +67,6 @@ class AddNewUsersController extends Controller
                     continue;
                 }
             }
-
         } catch (Exception $e) {
             // Handle errors (e.g., file not found or issues reading the file)
             return response()->json(['error' => 'File processing failed: ' . $e->getMessage()]);
@@ -79,8 +80,14 @@ class AddNewUsersController extends Controller
     {
         // Permissions
         $permissions = [
-            "permission.show", "permission.edit", "permission.add", "permission.delete",
-            "roles.show", "roles.edit", "roles.add", "roles.delete"
+            "permission.show",
+            "permission.edit",
+            "permission.add",
+            "permission.delete",
+            "roles.show",
+            "roles.edit",
+            "roles.add",
+            "roles.delete"
         ];
 
         foreach ($permissions as $permission) {
@@ -91,5 +98,23 @@ class AddNewUsersController extends Controller
         Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
         Role::firstOrCreate(['name' => 'Employee', 'guard_name' => 'web']);
         // Add other roles as needed
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        ini_set('memory_limit', '-1');
+        set_time_limit(300);
+
+        $user = auth()->user();
+
+        // Since you just want to download all records regardless of request:
+        $isYerTola = false; // Set this to false by default, or to the value you need
+
+        // If you still want to check the query parameter:
+        // $isYerTola = $request->has('yer_tola');
+
+        $filename = 'aktivlar_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+        return Excel::download(new AktivsExport($user, $isYerTola), $filename);
     }
 }

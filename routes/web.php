@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AddNewUsersController;
-use App\Http\Controllers\AktivController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +10,6 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StreetController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SubStreetController;
 use App\Http\Controllers\Blade\HomeController;
 use App\Http\Controllers\Blade\RoleController;
@@ -22,6 +20,7 @@ use App\Http\Controllers\Blade\DistrictController;
 use App\Http\Controllers\Blade\PermissionController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\YerTolaController;
+use App\Http\Controllers\AktivController;
 
 // Default laravel auth routes
 Auth::routes(['register' => false]);
@@ -59,7 +58,7 @@ Route::group(['middleware' => ['auth', 'checkUserRole']], function () {
 
 
 
-    Route::post('/aktivs/export', [AktivController::class, 'export'])->name('aktivs.export');
+    // Route::post('/aktivs/export', [AktivController::class, 'export'])->name('aktivs.export');
 
 
     Route::get('/kadastr', [AktivController::class, 'kadastr_index'])->name('aktivs.kadastr_index');
@@ -241,3 +240,5 @@ Route::post('/import-users', [AddNewUsersController::class, 'importUsers'])->nam
 Route::get('/aktiv/export/csv', [AktivController::class, 'exportCSV'])->name('aktiv.export.csv');
 Route::get('/yertola/export/csv', [YerTolaController::class, 'exportCSV'])->name('yertola.export.csv');
 
+
+Route::post('/aktivs/export', [AddNewUsersController::class, 'exportToExcel'])->name('aktivs.export');

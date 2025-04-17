@@ -4,6 +4,7 @@
     <div class="mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="text-primary fw-bold">🏠 Ер Тўлалар Рўйхати</h2>
+
             <a href="{{ route('yertola.create') }}" class="btn btn-success">
                 ➕ Янги қўшиш
             </a>

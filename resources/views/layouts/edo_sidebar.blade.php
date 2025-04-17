@@ -105,13 +105,24 @@
                     </div>
                 </li>
             @endif
-            <li class="pc-item">
+            {{-- <li class="pc-item">
                 <form action="{{ route('aktivs.export') }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-primary my-3">Excel</button>
                 </form>
-            </li>
+            </li> --}}
 
+
+            @if (auth()->user()->roles[0]->name == 'Super Admin' || auth()->user()->roles[0]->name == 'Manager')
+                <div class="mb-3">
+                    <form action="{{ route('aktivs.export') }}" class="btn btn-success" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-file-excel"></i> Объектларни Excel форматида юклаб олиш
+                            <i class="fas fa-file-excel"></i> Объектларни Excel форматида юклаб олиш
+                            </a>
+                </div>
+            @endif
 
 
 

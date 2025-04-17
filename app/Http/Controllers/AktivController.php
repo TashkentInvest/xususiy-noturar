@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AktivsExport;
-use App\Http\Requests\StoreAktivRequest;
 use App\Models\Aktiv;
 use App\Models\District;
 use App\Models\File;
@@ -20,6 +19,7 @@ use Illuminate\Support\Str;
 
 class AktivController extends Controller
 {
+
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -886,18 +886,7 @@ class AktivController extends Controller
      * @param string $lng Longitude of the lot
      * @return \Illuminate\Http\Response
      */
-    public function generateQRCode($lat, $lng)
-    {
-        $url = url("/?lat={$lat}&lng={$lng}");
 
-        // Use the SVG format
-        $qrCode = QrCode::format('svg')
-            ->size(200)
-            ->errorCorrection('H')
-            ->generate($url);
-
-        return response($qrCode, 200)->header('Content-Type', 'image/svg+xml');
-    }
 
     public function kadastr_index(Aktiv $aktiv)
     {
@@ -992,151 +981,5 @@ class AktivController extends Controller
         }
 
         return view('pages.aktiv.kadastr_results', ['results' => $results]);
-    }
-
-    /**
-     * Handle the cadastral number submission and fetch data.
-     */
-    // public function kadastr(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'cadastre_numbers' => 'required|string', // Expect multi-line input
-    //     ]);
-
-    //     // Process input into an array
-    //     $cadastreNumbers = array_filter(array_map('trim', explode("\n", $validated['cadastre_numbers'])));
-
-    //     $results = [];
-
-    //     foreach ($cadastreNumbers as $number) {
-    //         // Updated regex to cover more formats, including `/` and extended segments
-    //         if (!preg_match('/^\d{2}:\d{2}:\d{2}:\d{2}(:\d+(:\d+)?|\/\d+)?(:\d+(:\d+)?)?$/', $number)) {
-    //             $results[] = [
-    //                 'cad_number' => $number,
-    //                 'error' => "Invalid format for cadastral number: $number",
-    //             ];
-    //             continue;
-    //         }
-
-    //         try {
-    //             // Make API request
-    //             $response = Http::get("http://otchet.davbaho.uz/api/get_cadastre_second/1", [
-    //                 'num' => $number,
-    //             ]);
-
-    //             if ($response->successful()) {
-    //                 $data = $response->json();
-    //                 // Log::info($data);
-    //                 if (isset($data['documents'])) {
-    //                     Log::info($data['documents']);
-
-    //                     $documents = $data['documents'];
-    //                 } else {
-    //                     Log::warning("No documents found for cadastral number: $number");
-    //                     $documents = [];
-    //                 }
-
-
-    //                 $results[] = [
-    //                     'cad_number' => $data['cad_number'] ?? $number,
-    //                     'region' => $data['region'] ?? 'Unknown',
-    //                     'district' => $data['district'] ?? 'Unknown',
-    //                     'address' => $data['address'] ?? 'Unknown',
-    //                     'land_area' => ($data['land_area'] ?? '0') . ' m²',
-    //                     'bans' => $data['bans'] ?? [],
-    //                     'documents' => $data['documents'] ?? [],
-    //                     'tipText' => $data['tipText'] ?? 'Unknown',
-    //                     'vidText' => $data['vidText'] ?? 'Unknown',
-    //                     'error' => null,
-    //                 ];
-    //             } else {
-    //                 // Handle unsuccessful HTTP responses
-    //                 $results[] = [
-    //                     'cad_number' => $number,
-    //                     'error' => "Failed to fetch data for cadastral number: $number (HTTP {$response->status()})",
-    //                 ];
-    //             }
-    //         } catch (\Exception $e) {
-    //             // Log and handle exceptions
-    //             \Log::error("Error fetching data for cadastral number $number: " . $e->getMessage());
-    //             $results[] = [
-    //                 'cad_number' => $number,
-    //                 'error' => "An error occurred: " . $e->getMessage(),
-    //             ];
-    //         }
-    //     }
-
-    //     return view('pages.aktiv.kadastr_results', ['results' => $results]);
-    // }
-
-
-    public function exportCSV(Request $request)
-    {
-        $user = auth()->user();
-        $districtId = $user->district_id;
-
-        $fileName = 'faoliyatlar_' . now()->format('Y_m_d_H_i_s') . '.xls';
-
-        $aktivs = Aktiv::where('is_status_yer_tola', '!=', 1)
-            ->whereHas('street', fn($q) => $q->where('district_id', $districtId))
-            ->with('street')
-            ->get();
-
-        $headers = [
-            'Content-Type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => "attachment; filename=\"$fileName\"",
-        ];
-
-        $callback = function () use ($aktivs) {
-            echo '<?xml version="1.0" encoding="UTF-8"?>';
-            echo '<?mso-application progid="Excel.Sheet"?>';
-            echo '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-                            xmlns:o="urn:schemas-microsoft-com:office:office"
-                            xmlns:x="urn:schemas-microsoft-com:office:excel"
-                            xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
-                            xmlns:html="http://www.w3.org/TR/REC-html40">';
-
-            echo '<Worksheet ss:Name="Faoliyatlar">';
-            echo '<Table>';
-
-            echo '<Row>';
-            $columns = [
-                'Объект номи',
-                'Объект тури',
-                'Манзил',
-                'Қишлоқ хўжалиги ер майдони',
-                'Бино майдони',
-                'Газ',
-                'Сув',
-                'Электр',
-                'Қўшимча маълумот',
-                'Кадастр рақами',
-            ];
-            foreach ($columns as $col) {
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($col) . '</Data></Cell>';
-            }
-            echo '</Row>';
-
-            foreach ($aktivs as $item) {
-                echo '<Row>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->object_name) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->object_type) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->location) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->land_area) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->building_area) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->gas) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->water) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->electricity) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->additional_info) . '</Data></Cell>';
-                echo '<Cell><Data ss:Type="String">' . htmlspecialchars($item->kadastr_raqami) . '</Data></Cell>';
-                echo '</Row>';
-            }
-
-            echo '</Table>';
-            echo '</Worksheet>';
-            echo '</Workbook>';
-        };
-
-        return response()->stream($callback, 200, $headers);
     }
 }
