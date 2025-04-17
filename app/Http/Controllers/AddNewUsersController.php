@@ -102,19 +102,14 @@ class AddNewUsersController extends Controller
 
     public function exportToExcel(Request $request)
     {
-        ini_set('memory_limit', '-1');
-        set_time_limit(300);
+        ini_set('memory_limit', '-1'); // Remove memory limit
+        set_time_limit(300); // Set maximum execution time to 5 minutes
 
         $user = auth()->user();
 
-        // Since you just want to download all records regardless of request:
-        $isYerTola = false; // Set this to false by default, or to the value you need
+        // We're not using isYerTola flag anymore since we're showing all records
+        $filename = 'barcha_aktivlar_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
-        // If you still want to check the query parameter:
-        // $isYerTola = $request->has('yer_tola');
-
-        $filename = 'aktivlar_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
-
-        return Excel::download(new AktivsExport($user, $isYerTola), $filename);
+        return Excel::download(new AktivsExport($user), $filename);
     }
 }

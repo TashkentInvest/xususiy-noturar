@@ -31,8 +31,11 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
     {
         $userRole = $this->user->roles[0]->name ?? '';
 
-        $query = Aktiv::with(['street.district', 'user', 'files'])
-            ->where('is_status_yer_tola', $this->isYerTola ? 1 : '!=', 1);
+        // Modified to include all records regardless of is_status_yer_tola value
+        $query = Aktiv::with(['street.district', 'user', 'files']);
+
+        // We're not filtering by is_status_yer_tola anymore
+        // to include both regular and yer_tola records
 
         if ($userRole === 'Manager') {
             // Managers see only aktivs in their district
@@ -63,14 +66,14 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
             ->join('streets', 'aktivs.street_id', '=', 'streets.id')
             ->join('districts', 'streets.district_id', '=', 'districts.id')
             ->whereIn('districts.id', $districtIds)
-            ->where('aktivs.is_status_yer_tola', $this->isYerTola ? 1 : '!=', 1)
             ->select(
                 'districts.id',
                 'districts.name_uz',
                 DB::raw('COUNT(aktivs.id) as total_aktivs'),
                 DB::raw('COUNT(CASE WHEN aktivs.building_type = "AlohidaSavdoDokoni" THEN 1 END) as noturar_bino_count'),
                 DB::raw('COUNT(CASE WHEN aktivs.building_type = "kopQavatliUy" THEN 1 END) as turar_bino_count'),
-                DB::raw('COUNT(CASE WHEN aktivs.building_type = "yer" THEN 1 END) as yer_count')
+                DB::raw('COUNT(CASE WHEN aktivs.building_type = "yer" THEN 1 END) as yer_count'),
+                DB::raw('COUNT(CASE WHEN aktivs.is_status_yer_tola = 1 THEN 1 END) as yer_tola_count')
             )
             ->groupBy('districts.id', 'districts.name_uz')
             ->get();
@@ -82,7 +85,8 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
                 'total_aktivs' => $district->total_aktivs,
                 'noturar_bino_count' => $district->noturar_bino_count,
                 'turar_bino_count' => $district->turar_bino_count,
-                'yer_count' => $district->yer_count
+                'yer_count' => $district->yer_count,
+                'yer_tola_count' => $district->yer_tola_count
             ];
         }
 
@@ -100,7 +104,7 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
             'Объект номи' => $aktiv->object_name,
             'Объект тури' => $aktiv->object_type,
             'Балансда сақловчи' => $aktiv->balance_keeper,
-            'Жойлашган ҳудуди' => $aktiv->street->district->name ?? '',
+            'Жойлашган ҳудуди' => $aktiv->street->district->name_uz ?? '',
             'Кўча номи' => $aktiv->street->name ?? '',
             'Манзил' => $aktiv->location,
             'Ер майдони' => $aktiv->land_area,
@@ -120,6 +124,16 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
             'Телефон рақам' => $aktiv->tenant_phone_number,
             'Ижара суммаси (тахминий)' => $aktiv->ijara_summa_wanted,
             'Ижара суммаси (ҳақиқий)' => $aktiv->ijara_summa_fakt,
+            'Ер тўла' => $this->getYerTolaStatus($aktiv->is_status_yer_tola), // Added Yer Tola column
+            'Умумий майдони (Ер тўла)' => $aktiv->umumiy_maydoni_yer_tola,
+            'Мавжудлиги (Ер тўла)' => $this->getYesNoStatus($aktiv->does_exists_yer_tola),
+            'Фойдаланиш мумкинлиги (Ер тўла)' => $this->getYesNoStatus($aktiv->does_can_we_use_yer_tola),
+            'Ижарага берилганлиги (Ер тўла)' => $this->getYesNoStatus($aktiv->does_ijaraga_berilgan_yer_tola),
+            'Ижарага берилган қисми (Ер тўла)' => $aktiv->ijaraga_berilgan_qismi_yer_tola,
+            'Ижарага берилмаган қисми (Ер тўла)' => $aktiv->ijaraga_berilmagan_qismi_yer_tola,
+            'Техник қисми (Ер тўла)' => $aktiv->texnik_qismi_yer_tola,
+            'Ойлик ижара нархи (Ер тўла)' => $aktiv->oylik_ijara_narxi_yer_tola,
+            'Фаолият тури' => $aktiv->faoliyat_turi,
             'Яратилган вақти' => $aktiv->created_at,
             'Охирги янгиланиш' => $aktiv->updated_at,
         ];
@@ -163,6 +177,30 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
     }
 
     /**
+     * Convert yer tola status to Uzbek Cyrillic
+     */
+    protected function getYerTolaStatus($status)
+    {
+        return $status == 1 ? 'Ҳа' : 'Йўқ';
+    }
+
+    /**
+     * Convert boolean or numeric yes/no status to Uzbek Cyrillic
+     */
+    protected function getYesNoStatus($status)
+    {
+        if ($status === null) {
+            return '';
+        }
+
+        if (is_bool($status)) {
+            return $status ? 'Ҳа' : 'Йўқ';
+        }
+
+        return $status == 1 ? 'Ҳа' : 'Йўқ';
+    }
+
+    /**
      * Sheet headings
      */
     public function headings(): array
@@ -192,6 +230,16 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
             'Телефон рақам',
             'Ижара суммаси (тахминий)',
             'Ижара суммаси (ҳақиқий)',
+            'Ер тўла', // New column
+            'Умумий майдони (Ер тўла)',
+            'Мавжудлиги (Ер тўла)',
+            'Фойдаланиш мумкинлиги (Ер тўла)',
+            'Ижарага берилганлиги (Ер тўла)',
+            'Ижарага берилган қисми (Ер тўла)',
+            'Ижарага берилмаган қисми (Ер тўла)',
+            'Техник қисми (Ер тўла)',
+            'Ойлик ижара нархи (Ер тўла)',
+            'Фаолият тури',
             'Яратилган вақти',
             'Охирги янгиланиш',
         ];
@@ -228,6 +276,7 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
                     $sheet->setCellValue('C2', 'Нотурар бинолар');
                     $sheet->setCellValue('D2', 'Турар жой бинолари');
                     $sheet->setCellValue('E2', 'Ер майдонлари');
+                    $sheet->setCellValue('F2', 'Ер тўла'); // Added Yer Tola column to statistics
 
                     // Add data for each district
                     $row = 3;
@@ -237,6 +286,7 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
                         $sheet->setCellValue('C' . $row, $stat['noturar_bino_count']);
                         $sheet->setCellValue('D' . $row, $stat['turar_bino_count']);
                         $sheet->setCellValue('E' . $row, $stat['yer_count']);
+                        $sheet->setCellValue('F' . $row, $stat['yer_tola_count']);
                         $row++;
                     }
 
@@ -261,6 +311,6 @@ class AktivsExport implements FromCollection, WithHeadings, WithMapping, WithCus
      */
     public function title(): string
     {
-        return $this->isYerTola ? 'Ер тўла объектлар рўйхати' : 'Объектлар рўйхати';
+        return 'Барча объектлар рўйхати';
     }
 }

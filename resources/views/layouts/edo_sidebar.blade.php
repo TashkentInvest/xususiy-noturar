@@ -115,17 +115,70 @@
 
             @if (auth()->user()->roles[0]->name == 'Super Admin' || auth()->user()->roles[0]->name == 'Manager')
                 <div class="mb-3">
-                    <form action="{{ route('aktivs.export') }}" class="btn btn-success" method="POST">
+                    <form action="{{ route('aktivs.export') }}" method="POST" id="export-form">
                         @csrf
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-file-excel"></i> Объектларни Excel форматида юклаб олиш
-                            <i class="fas fa-file-excel"></i> Объектларни Excel форматида юклаб олиш
-                            </a>
+                        <button type="submit" class="btn btn-success export-button" onclick="handleExportClick(this)">
+                            <i class="fas fa-file-excel"></i>
+                            <span class="button-text">Объектларни Excel форматида юклаб олиш</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+                    </form>
                 </div>
             @endif
 
+            <script>
+                function handleExportClick(button) {
+                    // Get the form element
+                    const form = document.getElementById('export-form');
+
+                    // Get the button elements
+                    const buttonText = button.querySelector('.button-text');
+                    const spinner = button.querySelector('.spinner-border');
+
+                    // Show loading state
+                    button.disabled = true;
+                    buttonText.textContent = 'Юклаб олинмоқда...';
+                    spinner.classList.remove('d-none');
+
+                    // Submit the form
+                    form.submit();
+
+                    // Reset button after 30 seconds in case download takes too long
+                    setTimeout(function() {
+                        button.disabled = false;
+                        buttonText.textContent = 'Объектларни Excel форматида юклаб олиш';
+                        spinner.classList.add('d-none');
+                    }, 30000);
+                }
+            </script>
 
 
+            <style>
+                .export-button {
+                    transition: all 0.3s ease;
+                    position: relative;
+                    padding: 10px 20px;
+                }
+
+                .export-button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .export-button:active {
+                    transform: translateY(0);
+                }
+
+                .export-button .spinner-border {
+                    margin-left: 8px;
+                }
+
+                .export-button:disabled {
+                    cursor: not-allowed;
+                    opacity: 0.8;
+                }
+            </style>
             {{-- <li class="nav-item nav-category">Main</li>
 
             <li class="nav-item">
